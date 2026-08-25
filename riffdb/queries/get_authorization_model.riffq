@@ -1,0 +1,15 @@
+query GetAuthorizationModel(
+    $store_id: AuthorizationModel.store_id,
+    $model_id: AuthorizationModel.model_id,
+) {
+    one model from AuthorizationModel
+        where store_id == $store_id
+          && model_id == $model_id
+        else NotFound
+
+    return Found {
+        model: model { store_id model_id schema_version serialized_protobuf }
+    }
+    outcomes Found | NotFound
+}
+

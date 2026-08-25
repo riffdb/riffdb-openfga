@@ -1,0 +1,18 @@
+query ListStoresByName(
+    $registry_id: Store.registry_id,
+    $name: Store.name,
+    $limit: Limit = 50,
+    $after: Cursor?,
+) {
+    many stores from Store
+        where registry_id == $registry_id
+          && deleted_at is null
+          && name == $name
+        order by store_id asc
+        take $limit after $after
+
+    return Found {
+        stores: stores { store_id name created_at updated_at revision }
+    }
+    outcomes Found
+}

@@ -1,0 +1,22 @@
+query ReadChangesByObjectAsc(
+    $store_id: TupleChange.store_id,
+    $object_type: TupleChange.object_type,
+    $from: TupleChange.change_id?,
+    $horizon: TupleChange.change_id,
+) {
+    many changes from TupleChange
+        where store_id == $store_id
+          && object_type == $object_type
+          && when $from { change_id > $from }
+          && change_id < $horizon
+        order by change_id asc
+        take 1
+
+    return Found {
+        changes: changes {
+            store_id change_id object_type object_id relation user operation
+            condition_key condition_context inserted_at
+        }
+    }
+    outcomes Found
+}

@@ -1,0 +1,15 @@
+query GetStore(
+    $registry_id: Store.registry_id,
+    $store_id: Store.store_id,
+) {
+    one store from Store
+        where registry_id == $registry_id
+          && store_id == $store_id
+          && deleted_at is null
+        else NotFound
+
+    return Found {
+        store: store { store_id name created_at updated_at revision }
+    }
+    outcomes Found | NotFound
+}

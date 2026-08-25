@@ -8,6 +8,7 @@ package riffdbopenfga
 import (
 	"errors"
 
+	generated "github.com/riffdb/riffdb-openfga/generated/go"
 	riffdb "riffdb.dev/application"
 )
 
@@ -20,9 +21,10 @@ const (
 	// to generate and verify this adapter.
 	RiffDBDriverVersion = "v0.1.0-dev.14"
 
-	// MaxTuplesPerWrite matches the advertised OpenFGA datastore default. It
-	// counts writes and deletes together.
-	MaxTuplesPerWrite = 100
+	// MaxTuplesPerWrite is the adapter's advertised atomic write bound. Eight
+	// full-size condition contexts fit RiffDB's statically proven command-graph
+	// ceiling; OpenFGA batches larger API writes using this value.
+	MaxTuplesPerWrite = 8
 
 	// MaxTypesPerAuthorizationModel matches the advertised OpenFGA datastore
 	// default.
@@ -39,6 +41,7 @@ const (
 type Config struct {
 	Session         *riffdb.Session
 	CommandAttempts uint32
+	CloseSession    bool
 }
 
 // Validate rejects configuration that cannot safely be used by the generated
@@ -51,4 +54,23 @@ func (config Config) Validate() error {
 		return errors.New("riffdb-openfga: command attempts must be between 1 and 10")
 	}
 	return nil
+}
+
+// NewDatastore constructs the adapter over the caller's authenticated RiffDB
+// application session. Close leaves that session open unless CloseSession is
+// explicitly selected.
+func NewDatastore(config Config) (*Datastore, error) {
+	if err := config.Validate(); err != nil {
+		return nil, err
+	}
+	client, err := generated.NewClient(config.Session, config.CommandAttempts)
+	if err != nil {
+		return nil, err
+	}
+	return &Datastore{
+		client:          client,
+		session:         config.Session,
+		commandAttempts: config.CommandAttempts,
+		closeSession:    config.CloseSession,
+	}, nil
 }

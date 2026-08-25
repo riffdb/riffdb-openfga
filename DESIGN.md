@@ -19,7 +19,10 @@ The required domains are:
 | Lifecycle | Readiness and idempotent close behavior |
 
 OpenFGA defaults to 100 tuple mutations per write, 100 types per model, and a
-50-row page. Some direct datastore callers can request a much larger page.
+50-row page. This adapter advertises eight tuple mutations per write so eight
+maximum-size condition contexts remain within RiffDB's statically proven
+16 MiB command-graph bound; OpenFGA already batches using the datastore's
+advertised value. Some direct datastore callers can request a much larger page.
 The adapter must retain a finite internal result bound; the embedded launcher
 will enforce compatible request limits before the datastore boundary.
 
@@ -117,4 +120,3 @@ The mapping layer will distinguish at least not-found, collision, invalid
 write input, transactional conflict, invalid continuation token, cancellation,
 deadline, unavailable, and internal corruption. It preserves `errors.Is`
 behavior expected by OpenFGA while redacting internal RiffDB details.
-

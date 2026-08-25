@@ -1,0 +1,14 @@
+query LatestAuthorizationModel(
+    $store_id: AuthorizationModel.store_id,
+) {
+    many models from AuthorizationModel
+        where store_id == $store_id
+        order by model_id desc
+        take 1
+
+    return Found {
+        models: models { store_id model_id schema_version serialized_protobuf }
+    }
+    outcomes Found
+}
+

@@ -1,0 +1,15 @@
+query GetAssertionSet(
+    $store_id: AssertionSet.store_id,
+    $model_id: AssertionSet.model_id,
+) {
+    one assertions from AssertionSet
+        where store_id == $store_id
+          && model_id == $model_id
+        else NotFound
+
+    return Found {
+        assertions: assertions { store_id model_id serialized_protobuf revision }
+    }
+    outcomes Found | NotFound
+}
+
