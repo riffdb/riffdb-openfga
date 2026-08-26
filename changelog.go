@@ -1,8 +1,9 @@
 package riffdbopenfga
 
 import (
-	"bytes"
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"reflect"
 	"time"
@@ -12,7 +13,6 @@ import (
 	"github.com/openfga/openfga/pkg/storage"
 	"github.com/openfga/openfga/pkg/tuple"
 	generated "github.com/riffdb/riffdb-openfga/generated/go"
-	"google.golang.org/protobuf/types/known/structpb"
 	riffdb "riffdb.dev/application"
 )
 
@@ -79,8 +79,8 @@ func projectedChange(result any) (*openfgav1.TupleChange, string, error) {
 			return nil, "", errors.New("riffdb-openfga: invalid generated changelog condition")
 		}
 		if encoded != nil {
-			contextValue := new(structpb.Struct)
-			if err := unmarshalCanonical(*encoded, contextValue, 524288); err != nil {
+			contextValue, err := decodeConditionContext(*encoded)
+			if err != nil {
 				return nil, "", err
 			}
 			condition.Context = contextValue
@@ -94,67 +94,160 @@ func projectedChange(result any) (*openfgav1.TupleChange, string, error) {
 	return &openfgav1.TupleChange{TupleKey: key, Operation: protoOperation, Timestamp: protoTimestamp(inserted)}, changeID, nil
 }
 
-func horizonULID(value time.Time) (string, error) {
-	entropy := bytes.Repeat([]byte{0xff}, 10)
-	identifier, err := ulid.New(ulid.Timestamp(value), bytes.NewReader(entropy))
+const (
+	changeCursorVersion      = 1
+	maximumChangePageSize    = 500
+	maximumChangeCursorBytes = 22000
+)
+
+type changeCursorInstant struct {
+	Seconds int64  `json:"s"`
+	Nanos   uint32 `json:"n"`
+}
+
+func newChangeCursorInstant(value time.Time) changeCursorInstant {
+	return changeCursorInstant{Seconds: value.Unix(), Nanos: uint32(value.Nanosecond())}
+}
+
+func (value changeCursorInstant) valid() bool {
+	return value.Nanos < 1_000_000_000
+}
+
+func (value changeCursorInstant) riffDB() riffdb.Instant {
+	return riffdb.Instant{Seconds: value.Seconds, Nanos: value.Nanos}
+}
+
+type changeCursor struct {
+	Version       int                  `json:"v"`
+	Cursor        string               `json:"c,omitempty"`
+	Terminal      bool                 `json:"t,omitempty"`
+	Store         string               `json:"s"`
+	ObjectType    string               `json:"o,omitempty"`
+	SortDesc      bool                 `json:"d,omitempty"`
+	HorizonOffset int64                `json:"f"`
+	Horizon       changeCursorInstant  `json:"h"`
+	Start         *changeCursorInstant `json:"a,omitempty"`
+}
+
+func encodeChangeCursor(value changeCursor) (string, error) {
+	encoded, err := json.Marshal(value)
 	if err != nil {
-		return "", storage.ErrInvalidStartTime
+		return "", err
 	}
-	return identifier.String(), nil
+	return base64.RawURLEncoding.EncodeToString(encoded), nil
+}
+
+func decodeChangeCursor(value, store, objectType string, sortDesc bool, horizonOffset time.Duration) (changeCursor, error) {
+	if len(value) > maximumChangeCursorBytes {
+		return changeCursor{}, storage.ErrInvalidContinuationToken
+	}
+	encoded, err := base64.RawURLEncoding.DecodeString(value)
+	if err != nil {
+		return changeCursor{}, storage.ErrInvalidContinuationToken
+	}
+	var cursor changeCursor
+	if json.Unmarshal(encoded, &cursor) != nil ||
+		cursor.Version != changeCursorVersion ||
+		cursor.Store != store ||
+		cursor.ObjectType != objectType ||
+		cursor.SortDesc != sortDesc ||
+		cursor.HorizonOffset != int64(horizonOffset) ||
+		!cursor.Horizon.valid() ||
+		(cursor.Start != nil && !cursor.Start.valid()) ||
+		len(cursor.Cursor) > 16384 ||
+		(cursor.Terminal && cursor.Cursor != "") {
+		return changeCursor{}, storage.ErrInvalidContinuationToken
+	}
+	return cursor, nil
 }
 
 func (datastore *Datastore) ReadChanges(ctx context.Context, store string, filter storage.ReadChangesFilter, options storage.ReadChangesOptions) ([]*openfgav1.TupleChange, string, error) {
 	if filter.HorizonOffset < 0 {
 		return nil, "", storage.ErrInvalidStartTime
 	}
-	fromValue := options.Pagination.From
-	if fromValue != "" {
-		if _, err := ulid.ParseStrict(fromValue); err != nil {
-			return nil, "", storage.ErrInvalidContinuationToken
-		}
+	cursor := changeCursor{
+		Version:       changeCursorVersion,
+		Store:         store,
+		ObjectType:    filter.ObjectType,
+		SortDesc:      options.SortDesc,
+		HorizonOffset: int64(filter.HorizonOffset),
+		Horizon:       newChangeCursorInstant(time.Now().UTC().Add(-filter.HorizonOffset)),
 	}
-	horizon, err := horizonULID(time.Now().UTC().Add(-filter.HorizonOffset))
-	if err != nil {
-		return nil, "", err
+	if options.Pagination.From != "" {
+		identifier, parseErr := ulid.ParseStrict(options.Pagination.From)
+		if parseErr == nil {
+			startTime := time.UnixMilli(int64(identifier.Time())).UTC()
+			if options.SortDesc {
+				if startTime.Before(time.Unix(cursor.Horizon.Seconds, int64(cursor.Horizon.Nanos))) {
+					cursor.Horizon = newChangeCursorInstant(startTime)
+				}
+			} else {
+				start := newChangeCursorInstant(startTime)
+				cursor.Start = &start
+			}
+		} else {
+			var err error
+			cursor, err = decodeChangeCursor(options.Pagination.From, store, filter.ObjectType, options.SortDesc, filter.HorizonOffset)
+			if err != nil {
+				return nil, "", err
+			}
+			if cursor.Terminal {
+				return nil, "", storage.ErrNotFound
+			}
+		}
 	}
 	pageSize := options.Pagination.PageSize
 	if pageSize <= 0 {
 		pageSize = storage.DefaultPageSize
 	}
+	if pageSize > maximumChangePageSize {
+		pageSize = maximumChangePageSize
+	}
 	changes := make([]*openfgav1.TupleChange, 0, pageSize)
 	for len(changes) < pageSize {
-		var from *string
-		if fromValue != "" {
-			from = &fromValue
+		var after *string
+		if cursor.Cursor != "" {
+			after = &cursor.Cursor
 		}
 		var value any
+		var next string
+		horizon := cursor.Horizon.riffDB()
+		var start *riffdb.Instant
+		if cursor.Start != nil {
+			value := cursor.Start.riffDB()
+			start = &value
+		}
 		switch {
 		case filter.ObjectType != "" && options.SortDesc:
-			result, queryErr := datastore.client.ReadChangesByObjectDesc(ctx, generated.ReadChangesByObjectDescParams{StoreId: store, ObjectType: filter.ObjectType, From: from, Horizon: horizon}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesByObjectDesc(ctx, generated.ReadChangesByObjectDescParams{StoreId: store, ObjectType: filter.ObjectType, Horizon: horizon, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
+			next = result.NextCursor
 		case filter.ObjectType != "":
-			result, queryErr := datastore.client.ReadChangesByObjectAsc(ctx, generated.ReadChangesByObjectAscParams{StoreId: store, ObjectType: filter.ObjectType, From: from, Horizon: horizon}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesByObjectAsc(ctx, generated.ReadChangesByObjectAscParams{StoreId: store, ObjectType: filter.ObjectType, Start: start, Horizon: horizon, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
+			next = result.NextCursor
 		case options.SortDesc:
-			result, queryErr := datastore.client.ReadChangesDesc(ctx, generated.ReadChangesDescParams{StoreId: store, From: from, Horizon: horizon}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesDesc(ctx, generated.ReadChangesDescParams{StoreId: store, Horizon: horizon, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
+			next = result.NextCursor
 		default:
-			result, queryErr := datastore.client.ReadChangesAsc(ctx, generated.ReadChangesAscParams{StoreId: store, From: from, Horizon: horizon}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesAsc(ctx, generated.ReadChangesAscParams{StoreId: store, Start: start, Horizon: horizon, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
+			next = result.NextCursor
 		}
-		change, next, err := projectedChange(value)
+		change, _, err := projectedChange(value)
 		if err != nil {
 			return nil, "", err
 		}
@@ -162,10 +255,18 @@ func (datastore *Datastore) ReadChanges(ctx context.Context, store string, filte
 			break
 		}
 		changes = append(changes, change)
-		fromValue = next
+		cursor.Cursor = next
+		cursor.Terminal = next == ""
+		if cursor.Terminal {
+			break
+		}
 	}
 	if len(changes) == 0 {
 		return nil, "", storage.ErrNotFound
 	}
-	return changes, fromValue, nil
+	next, err := encodeChangeCursor(cursor)
+	if err != nil {
+		return nil, "", err
+	}
+	return changes, next, nil
 }

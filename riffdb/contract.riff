@@ -42,66 +42,85 @@ contract RiffDBOpenFGA version 1 {
     field user_relation: string<50>
     field user_kind: string<7>
     field condition_key: string<256>
-    field condition_context: optional<bytes<524288>>
+    field condition_context: optional<bytes<32768>>
     field inserted_at: timestamp
     field active: bool
     field revision: u64
     index all_active (
       store_id, active, object_type, object_id, relation, user
-    )
+    ) text_key(object_type, binary_utf8_v1)
+      text_key(object_id, binary_utf8_v1)
+      text_key(relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index by_object (
       store_id, active, object_type, object_id, relation, user
-    )
+    ) text_key(relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index by_type_relation (
       store_id, active, object_type, relation, object_id, user
-    )
+    ) text_key(object_id, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index by_type_user (
       store_id, active, object_type, user, object_id, relation
-    )
+    ) text_key(object_id, binary_utf8_v1)
+      text_key(relation, binary_utf8_v1)
     index by_object_user (
       store_id, active, object_type, object_id, user, relation
-    )
+    ) text_key(relation, binary_utf8_v1)
     index by_user (
       store_id, active, user, object_type, object_id, relation
-    )
+    ) text_key(object_type, binary_utf8_v1)
+      text_key(object_id, binary_utf8_v1)
+      text_key(relation, binary_utf8_v1)
     index by_relation_user (
       store_id, active, relation, user, object_type, object_id
-    )
+    ) text_key(object_type, binary_utf8_v1)
+      text_key(object_id, binary_utf8_v1)
     index by_condition_object (
       store_id, active, condition_key, object_type, object_id, relation, user
-    )
+    ) text_key(relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index by_condition_type_relation (
       store_id, active, condition_key, object_type, relation, object_id, user
-    )
+    ) text_key(object_id, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index by_condition_type_user (
       store_id, active, condition_key, object_type, user, object_id, relation
-    )
+    ) text_key(object_id, binary_utf8_v1)
+      text_key(relation, binary_utf8_v1)
     index by_condition_type_relation_user (
       store_id, active, condition_key, object_type, relation, user, object_id
-    )
+    ) text_key(object_id, binary_utf8_v1)
     index by_condition_object_user (
       store_id, active, condition_key, object_type, object_id, user, relation
-    )
+    ) text_key(relation, binary_utf8_v1)
     index by_condition_user (
       store_id, active, condition_key, user, object_type, object_id, relation
-    )
+    ) text_key(object_type, binary_utf8_v1)
+      text_key(object_id, binary_utf8_v1)
+      text_key(relation, binary_utf8_v1)
     index by_condition_relation_user (
       store_id, active, condition_key, relation, user, object_type, object_id
-    )
+    ) text_key(object_type, binary_utf8_v1)
+      text_key(object_id, binary_utf8_v1)
     index reverse_by_user (
       store_id, active, object_type, relation, user, object_id
-    )
+    ) text_key(object_id, binary_utf8_v1)
     index userset_by_type (
       store_id, active, object_type, object_id, relation,
       user_kind, user_object_type, user_relation, user
-    )
+    ) text_key(user_object_type, binary_utf8_v1)
+      text_key(user_relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index userset_by_condition (
       store_id, active, condition_key, object_type, object_id, relation,
       user_kind, user_object_type, user_relation, user
-    )
+    ) text_key(user_object_type, binary_utf8_v1)
+      text_key(user_relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
     index reverse_by_condition (
       store_id, active, condition_key, object_type, relation, user, object_id
-    )
+    ) text_key(object_id, binary_utf8_v1)
   }
 
   entity TupleChange {
@@ -112,10 +131,12 @@ contract RiffDBOpenFGA version 1 {
     field user: string<512>
     field operation: TupleOperation
     field condition_key: string<256>
-    field condition_context: optional<bytes<524288>>
+    field condition_context: optional<bytes<32768>>
     field inserted_at: timestamp
-    index by_store_change (store_id, change_id)
-    index by_store_object_change (store_id, object_type, change_id)
+    index by_store_change (store_id, inserted_at, change_id)
+      text_key(change_id, binary_utf8_v1)
+    index by_store_object_change (store_id, object_type, inserted_at, change_id)
+      text_key(change_id, binary_utf8_v1)
   }
 
   entity TupleMutationInput {
@@ -130,7 +151,7 @@ contract RiffDBOpenFGA version 1 {
     field user_kind: string<7>
     field operation: TupleOperation
     field condition_key: string<256>
-    field condition_context: optional<bytes<524288>>
+    field condition_context: optional<bytes<32768>>
     field inserted_at: timestamp
     field expected_active: bool
     field next_active: bool
@@ -245,7 +266,7 @@ contract RiffDBOpenFGA version 1 {
 
   bulk command EnsureTupleStates {
     input request_id: uuid
-    input states: list<TupleState, 1..8>
+    input states: list<TupleState, 1..100> aggregate_bytes <= 900000
     idempotency_key request_id
     for state_input in states {
       create TupleState(
@@ -270,7 +291,7 @@ contract RiffDBOpenFGA version 1 {
 
   bulk command ApplyTupleMutations {
     input request_id: uuid
-    input mutations: list<TupleMutationInput, 1..8>
+    input mutations: list<TupleMutationInput, 1..100> aggregate_bytes <= 900000
     idempotency_key request_id
     for mutation in mutations {
       mutate TupleState(

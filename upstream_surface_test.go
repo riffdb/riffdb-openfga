@@ -49,8 +49,8 @@ func TestPinnedOpenFGADatastoreSurface(t *testing.T) {
 func TestPinnedOpenFGADefaults(t *testing.T) {
 	t.Parallel()
 
-	if MaxTuplesPerWrite < 1 || MaxTuplesPerWrite > storage.DefaultMaxTuplesPerWrite {
-		t.Fatalf("invalid adapter tuple limit: got %d, upstream default %d", MaxTuplesPerWrite, storage.DefaultMaxTuplesPerWrite)
+	if storage.DefaultMaxTuplesPerWrite != MaxTuplesPerWrite {
+		t.Fatalf("tuple limit changed: got %d, want %d", storage.DefaultMaxTuplesPerWrite, MaxTuplesPerWrite)
 	}
 	if storage.DefaultMaxTypesPerAuthorizationModel != MaxTypesPerAuthorizationModel {
 		t.Fatalf("model type limit changed: got %d, want %d", storage.DefaultMaxTypesPerAuthorizationModel, MaxTypesPerAuthorizationModel)

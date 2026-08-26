@@ -10,7 +10,7 @@ require (
 	github.com/openfga/api/proto v0.0.0-20260319214821-f153694bfc20
 	github.com/openfga/openfga v1.18.3
 	google.golang.org/protobuf v1.36.11
-	riffdb.dev/application v0.1.0-dev.14
+	riffdb.dev/application v0.1.0-dev.18
 )
 
 require (

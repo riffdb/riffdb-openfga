@@ -12,7 +12,6 @@ import (
 	"github.com/openfga/openfga/pkg/storage"
 	"github.com/openfga/openfga/pkg/tuple"
 	generated "github.com/riffdb/riffdb-openfga/generated/go"
-	"google.golang.org/protobuf/types/known/structpb"
 	riffdb "riffdb.dev/application"
 )
 
@@ -165,8 +164,8 @@ func projectedTuple(result any) (*openfgav1.Tuple, error) {
 		}
 		condition := &openfgav1.RelationshipCondition{Name: conditionKey}
 		if encoded != nil {
-			contextValue := new(structpb.Struct)
-			if err := unmarshalCanonical(*encoded, contextValue, 524288); err != nil {
+			contextValue, err := decodeConditionContext(*encoded)
+			if err != nil {
 				return nil, err
 			}
 			condition.Context = contextValue

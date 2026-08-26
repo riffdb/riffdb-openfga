@@ -13,7 +13,7 @@ AsyncApplicationTransport, AttemptBudget, CommandBatchOptions,
 CommandBatchProgress, CommandBatchResult, Money, QueryOptions, RiffDate,
 SyncApplicationTransport, Timestamp, TypedCommandResult, TypedQueryResult, WorkflowSuccessorRevision,
 )
-from riffdb_application._binding import decode_variant, encode_record
+from riffdb_application._binding import decode_variant, encode_record, canonical_value_encoded_length, encode_value
 
 def _compact_tag(value: object, tag: str, keys: frozenset[str]) -> dict[str, object]:
     if not isinstance(value, dict) or value.get("$riffdb") != tag or frozenset(value) != keys:
@@ -22,8 +22,8 @@ def _compact_tag(value: object, tag: str, keys: frozenset[str]) -> dict[str, obj
 
 CONTRACT_LINEAGE: Final[str] = "RiffDBOpenFGA"
 CONTRACT_VERSION: Final[int] = 1
-CONTRACT_BUNDLE_HASH: Final[str] = "3c48c706665455229c442c1d580bd0d0147655537681d8c4e3651fef3f8617c1"
-QUERY_MODULE_HASH: Final[str] = "9ae37c0b4ae14c6e29e6b70e0ed0e4e51171dc5c52c1655e8381cd5bcc3824aa"
+CONTRACT_BUNDLE_HASH: Final[str] = "e9afd3a0a61de1d4914e5617eca729dd2826eae5acaa2ab7230567c9337ea416"
+QUERY_MODULE_HASH: Final[str] = "20b3e8f33b299208ae03789b8a45cc0318f83297b012ab7637c292401df9d857"
 
 class TupleOperation(StrEnum):
     WRITE = "Write"
@@ -107,7 +107,7 @@ class TupleMutationInput:
     condition_context: bytes | None
     expected_revision: Annotated[int, "u64"]
 
-GET_ASSERTION_SET_QUERY_PLAN_HASH: Final[str] = "bb60c084acba134c7e0600a64e5710e74f4b2279b3486b63ca87373da501b556"
+GET_ASSERTION_SET_QUERY_PLAN_HASH: Final[str] = "5fab66fd4b0db34b9e4a5d8bbde65fb15730f700bf8d7d80289b3b80c89ef5a0"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetAssertionSetParams:
@@ -132,7 +132,7 @@ class GetAssertionSetNotFound:
 
 GetAssertionSetResult: TypeAlias = GetAssertionSetFound | GetAssertionSetNotFound
 
-GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "671d666579ff022d5b2d3bf284883fe17387fd1b4a76eb2e2d54afd26fd85e4a"
+GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "6a43874b6f0b716e9990ff97b980d1b92c0b61ce9502628d2dd803ce5ff56b86"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetAuthorizationModelParams:
@@ -157,7 +157,7 @@ class GetAuthorizationModelNotFound:
 
 GetAuthorizationModelResult: TypeAlias = GetAuthorizationModelFound | GetAuthorizationModelNotFound
 
-GET_STORE_QUERY_PLAN_HASH: Final[str] = "77c0d5ab39427ebc5ab67b14e97d1615552089e3ccf6b4f695e8d2c0e134d536"
+GET_STORE_QUERY_PLAN_HASH: Final[str] = "2c52fc6964d25fc7d9f953a74296f0f4acad8f7fc8104432d845d7a4c1b061be"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetStoreParams:
@@ -183,7 +183,7 @@ class GetStoreNotFound:
 
 GetStoreResult: TypeAlias = GetStoreFound | GetStoreNotFound
 
-GET_TUPLE_STATE_QUERY_PLAN_HASH: Final[str] = "be56b728169f6b344a272714d3c48841e144f48db00a5dd747c2236c0fbcf8a6"
+GET_TUPLE_STATE_QUERY_PLAN_HASH: Final[str] = "33fa2c7227dec9607d283281c516b6988109fd673438043a2bca0446a4c43d36"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetTupleStateParams:
@@ -221,7 +221,7 @@ class GetTupleStateNotFound:
 
 GetTupleStateResult: TypeAlias = GetTupleStateFound | GetTupleStateNotFound
 
-LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "d1fb1508ac8ee1f8c23868e81802b08327996db2b666052a6a6edab8a01a4563"
+LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "b80f3c4b85fa01e363051ae0187627dc7718ffd2cfe264064e0eddec05313b36"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class LatestAuthorizationModelParams:
@@ -241,7 +241,7 @@ class LatestAuthorizationModelFound:
 
 LatestAuthorizationModelResult: TypeAlias = LatestAuthorizationModelFound
 
-LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "9c08747a3968783280b9a4bd322cd66de32a0b0cfa259fdb09b2ad375597a3a1"
+LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "b5194f3d23c41e1b6ac722dd0d914f7f9f40094087eb64d8857378ca8d34cd61"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListAuthorizationModelsParams:
@@ -262,7 +262,7 @@ class ListAuthorizationModelsFound:
 
 ListAuthorizationModelsResult: TypeAlias = ListAuthorizationModelsFound
 
-LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "5bb3a4ef3d237b0290c1533e4b8e9fb0e636e89f047b9f5390895c7646e39779"
+LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "1be7285dd134445f7b0b60e86928e430e9ab682c119d3697a26afe5e236e226c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresAllParams:
@@ -285,7 +285,7 @@ class ListStoresAllFound:
 
 ListStoresAllResult: TypeAlias = ListStoresAllFound
 
-LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "5ed491d223874ec02e303944c17533aad1e59241ed8afcb983afe1ed956f19da"
+LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "e71f51839e2e0c4b0ee36be82404e7bd1f94a51bab283ae509ec1528edacf0b4"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsParams:
@@ -309,7 +309,7 @@ class ListStoresByIdsFound:
 
 ListStoresByIdsResult: TypeAlias = ListStoresByIdsFound
 
-LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "ccf5c0603ec7757215f43708616fadc3386fd4206178efe1260137a794acffd5"
+LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "80d2fc3a51a9a6d782fe8a45fc0c81beae68e259cf55c7df5d4064f2c1314cd8"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsAndNameParams:
@@ -334,7 +334,7 @@ class ListStoresByIdsAndNameFound:
 
 ListStoresByIdsAndNameResult: TypeAlias = ListStoresByIdsAndNameFound
 
-LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "82b33ec6bdc05a8b5a0ef179cefe55920dfe14bcdf0c73431a3df3711c8881a8"
+LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "d4c3dea110b33b539a1ceac09ea222c6ca3aadbc7c4679384adaf2c0b236c2af"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByNameParams:
@@ -358,7 +358,7 @@ class ListStoresByNameFound:
 
 ListStoresByNameResult: TypeAlias = ListStoresByNameFound
 
-READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "2fe72447ddde379ee8e30182e6e23b7bd2468b2b58c234b28d32ef42c8dcd8a6"
+READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "37bc00f04c8107ba05b2531cea12429a0764af5dd2aae2252be8e820ba13e12c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesParams:
@@ -389,7 +389,7 @@ class ReadAllTuplesFound:
 
 ReadAllTuplesResult: TypeAlias = ReadAllTuplesFound
 
-READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "08adc4eb2bcb25256b7c1720c99bf3e9bcafd5cd24fd9805cfb9585e40856e46"
+READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "19603332adaf456c775af3f13f1f88324d40d93b00d182cf593fa0531720b61b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesWithConditionsParams:
@@ -421,13 +421,14 @@ class ReadAllTuplesWithConditionsFound:
 
 ReadAllTuplesWithConditionsResult: TypeAlias = ReadAllTuplesWithConditionsFound
 
-READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "9094b0a5f6846334be4957e420025472338dba61ac3fc1f578031e4cb5de0dbe"
+READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "79000fd4e789d3e6b613d693bb2b4c0cce7551621798e068cc5da7d107b9ee0e"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesAscParams:
     store_id: str
-    from_: str | None = None
-    horizon: str
+    start: Timestamp | None = None
+    horizon: Timestamp
+    after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesAscFoundChanges:
@@ -449,14 +450,15 @@ class ReadChangesAscFound:
 
 ReadChangesAscResult: TypeAlias = ReadChangesAscFound
 
-READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "3e5ef4d9c8c6baf1fc2d983289f369ed1edd3e161e64ba676330287a64e90800"
+READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "8511477ddf0f17c8491561403d744e90f260d99e8834d8f6f282806269642976"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectAscParams:
     store_id: str
     object_type: str
-    from_: str | None = None
-    horizon: str
+    start: Timestamp | None = None
+    horizon: Timestamp
+    after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectAscFoundChanges:
@@ -478,14 +480,14 @@ class ReadChangesByObjectAscFound:
 
 ReadChangesByObjectAscResult: TypeAlias = ReadChangesByObjectAscFound
 
-READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "18b9264cc6cd73f0451ceec33c57a73bea6ed1d924955215b68113e2e92ab9e6"
+READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "1893cfe81d5ffa80dc693434e87427ab6ee266b757386c18071882c39b8bf18b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectDescParams:
     store_id: str
     object_type: str
-    from_: str | None = None
-    horizon: str
+    horizon: Timestamp
+    after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectDescFoundChanges:
@@ -507,13 +509,13 @@ class ReadChangesByObjectDescFound:
 
 ReadChangesByObjectDescResult: TypeAlias = ReadChangesByObjectDescFound
 
-READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "2f789948b39a2010bdac28ffafaf5adb9cab4eabbc2f2d9f89b508adb69dae79"
+READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "52b2f0f129370ae02fbd77f677c8d196d4077dd2e27a7674ebcf67ae5e9c7d3e"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesDescParams:
     store_id: str
-    from_: str | None = None
-    horizon: str
+    horizon: Timestamp
+    after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesDescFoundChanges:
@@ -535,7 +537,7 @@ class ReadChangesDescFound:
 
 ReadChangesDescResult: TypeAlias = ReadChangesDescFound
 
-READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "5ece6a2eedeadce6ecb05c615a01c817ea73dcb7bc35636f4ead53581ef435c0"
+READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "c3fee007c91b22321cc87c06f570dd0e872a6a70bbecdb20cdefd2715e2199c5"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserParams:
@@ -569,7 +571,7 @@ class ReadStartingWithUserFound:
 
 ReadStartingWithUserResult: TypeAlias = ReadStartingWithUserFound
 
-READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "18db052b82ba2ff8a3c652832a8d79499f2222c8ea0daeca140080ae923a6e81"
+READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "607a1fabb4f279ff10a9c423414b7b70c33b02958717c5e7061b839efcfff778"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserAndObjectsParams:
@@ -604,7 +606,7 @@ class ReadStartingWithUserAndObjectsFound:
 
 ReadStartingWithUserAndObjectsResult: TypeAlias = ReadStartingWithUserAndObjectsFound
 
-READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "48c11402f5cbfea6408016d753df6c81e5cd87ee43dfc19b26b409ce14e60f96"
+READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "e277a0977dc8aae67ca527aa33f69b2f305fc0ec7ae38b35181405315a5c3e4d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserObjectsConditionParams:
@@ -640,7 +642,7 @@ class ReadStartingWithUserObjectsConditionFound:
 
 ReadStartingWithUserObjectsConditionResult: TypeAlias = ReadStartingWithUserObjectsConditionFound
 
-READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "ad5bfd0d960bf21fde7aff7e3932f1e521d31a13aad2c21379bf53f37703776a"
+READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "f3139d21c40ab497cb9c127478a221440a6cd8a2a298e7e8fab1efba0a76aa47"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserWithConditionParams:
@@ -675,7 +677,7 @@ class ReadStartingWithUserWithConditionFound:
 
 ReadStartingWithUserWithConditionResult: TypeAlias = ReadStartingWithUserWithConditionFound
 
-READ_TUPLE_EXACT_QUERY_PLAN_HASH: Final[str] = "faf1e45ba7bbc54fa59371cb32f1ec849768498bb0bd9b475f68cb5b5f19e289"
+READ_TUPLE_EXACT_QUERY_PLAN_HASH: Final[str] = "1cb0c8a94ac9a66782e1bd4438a97337122332579337aef8701c5b2aac90d615"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTupleExactParams:
@@ -713,7 +715,7 @@ class ReadTupleExactNotFound:
 
 ReadTupleExactResult: TypeAlias = ReadTupleExactFound | ReadTupleExactNotFound
 
-READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "56820e40c31b0ee55c1366961903fbc9506fcc94667c29cb0ec180d9e89b6172"
+READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "f6a856fa88b2240e245450bf3af48519104de816d275ceef25ed1135cea88b0e"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTupleExactWithConditionParams:
@@ -752,7 +754,7 @@ class ReadTupleExactWithConditionNotFound:
 
 ReadTupleExactWithConditionResult: TypeAlias = ReadTupleExactWithConditionFound | ReadTupleExactWithConditionNotFound
 
-READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "9c74e33cc0e1b871cf849bd16f6caf1629c5868453719813821da72b8bf38f5c"
+READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "6eee543fdd37167302ab152f154f0938872093f9a57dd69c771f24661a70b980"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectParams:
@@ -785,7 +787,7 @@ class ReadTuplesByObjectFound:
 
 ReadTuplesByObjectResult: TypeAlias = ReadTuplesByObjectFound
 
-READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "36f3ab11439254a729594311cac3fe9e91f2096e1e83618a0d796b2219c70d27"
+READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "9deb195da37f3e6a77e8f93dd3c6a3914689c0d9cb26a70dbbcfff69f676c856"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationParams:
@@ -819,7 +821,7 @@ class ReadTuplesByObjectRelationFound:
 
 ReadTuplesByObjectRelationResult: TypeAlias = ReadTuplesByObjectRelationFound
 
-READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "703d67e091b0fac1b7b426e5224e07afd4ef114b48a2cf732c91bed9390f1d2b"
+READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "57143495fe155e9caa6e18fb32aa075bb5377b8d99ee7b9bdb7b0085252e43dc"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationWithConditionParams:
@@ -854,7 +856,7 @@ class ReadTuplesByObjectRelationWithConditionFound:
 
 ReadTuplesByObjectRelationWithConditionResult: TypeAlias = ReadTuplesByObjectRelationWithConditionFound
 
-READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "2a6c9e605a05d7770cc8346e61f7169a27b27510a48f3708c2c00d3a0de0e2b3"
+READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "dc8eff06a24e0f870202de9bd477af1b6d35a462849c2122f50c94d5dd1cdfe0"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserParams:
@@ -888,7 +890,7 @@ class ReadTuplesByObjectUserFound:
 
 ReadTuplesByObjectUserResult: TypeAlias = ReadTuplesByObjectUserFound
 
-READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "7dd94cf803cd7cd763087287dddb75ea92b73c5dfe6114d3654803537765f506"
+READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "8a796c6e2c1fd7de75685b4548a69f9cd38f90f6f7f946eac4ff6366ab42e5a3"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserWithConditionParams:
@@ -923,7 +925,7 @@ class ReadTuplesByObjectUserWithConditionFound:
 
 ReadTuplesByObjectUserWithConditionResult: TypeAlias = ReadTuplesByObjectUserWithConditionFound
 
-READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "52005b3f0d2aac2ccfed4f2f75c6b12080d6246142f27f59728cfae11752c317"
+READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "82a6830d39d110e289587fdf48ccf199350cd0368913d9ef09b0b595a9a6104f"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectWithConditionParams:
@@ -957,7 +959,7 @@ class ReadTuplesByObjectWithConditionFound:
 
 ReadTuplesByObjectWithConditionResult: TypeAlias = ReadTuplesByObjectWithConditionFound
 
-READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "12ff1d4988de579d58983d4644bdb6f43bdcfe69aea5d033cf4ef88d12bbe558"
+READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "c072d40abfdec0a8c367288aea8ca0df526eee512c7ae08303a8f77416e0e96d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserParams:
@@ -990,7 +992,7 @@ class ReadTuplesByRelationUserFound:
 
 ReadTuplesByRelationUserResult: TypeAlias = ReadTuplesByRelationUserFound
 
-READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "0c5bc9b68881ac24187b08f19f89515da9f98eeaeb6d6d692783aaa8f4748be5"
+READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "6df0570c132cea2c5c5c6f0bb2b321d0f2cd05c44f630a4aca4e33f251b36ad6"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserWithConditionParams:
@@ -1024,7 +1026,7 @@ class ReadTuplesByRelationUserWithConditionFound:
 
 ReadTuplesByRelationUserWithConditionResult: TypeAlias = ReadTuplesByRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "58d9e482eaa793963ed24f15b45eeba05e9dec55f44157888bc043917b61155d"
+READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "c3228a7ebab648b3ed14e753cf01a0c9218b03e019b4adf8a8a48d5bb2be72b8"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeParams:
@@ -1056,7 +1058,7 @@ class ReadTuplesByTypeFound:
 
 ReadTuplesByTypeResult: TypeAlias = ReadTuplesByTypeFound
 
-READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "0a3938d912c7fece367fa35246ad4e0dc8c1f359ab570943e0931a4a839eb792"
+READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "3f884997152397a801e940ab04a7018a6ae0daca2812a5f1a4c13ecd68c81735"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationParams:
@@ -1089,7 +1091,7 @@ class ReadTuplesByTypeRelationFound:
 
 ReadTuplesByTypeRelationResult: TypeAlias = ReadTuplesByTypeRelationFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "9af0225cc1f1d60fa83999b6ae5bdc2424fe2e89adec8ef4f4bdf8362dae5469"
+READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "4b859b18278ec23ffa4ca65dd57066ffcc004518ab4cf4caa0d9dbd85fddc1ee"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserParams:
@@ -1123,7 +1125,7 @@ class ReadTuplesByTypeRelationUserFound:
 
 ReadTuplesByTypeRelationUserResult: TypeAlias = ReadTuplesByTypeRelationUserFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "14fb1fd42b01538f395dee4b5d26b1937b54c5389e47a9f7a00401b06199cfb1"
+READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "6049c2cfdd83b2bd0317468948b8de9e059ef19ddab4fb4f7606f7233823cd60"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserWithConditionParams:
@@ -1158,7 +1160,7 @@ class ReadTuplesByTypeRelationUserWithConditionFound:
 
 ReadTuplesByTypeRelationUserWithConditionResult: TypeAlias = ReadTuplesByTypeRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "eb1d7a4f89db449f30084ebb5d7ee6d275d7a0b11ebf80eb5f26d71d884969df"
+READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "bd388bef6db9dbe3706569867f46b22612ab63f5b4d13e1710b8628741173e3d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationWithConditionParams:
@@ -1192,7 +1194,7 @@ class ReadTuplesByTypeRelationWithConditionFound:
 
 ReadTuplesByTypeRelationWithConditionResult: TypeAlias = ReadTuplesByTypeRelationWithConditionFound
 
-READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "831b1062ab3f9635a8af155324a8c7e2e7425ffb800acb4cd2a4d9596cb0da3b"
+READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "cca135c2ba8568a5919aa5cc6bbf06533be7ad434585d93da6429f49920a2816"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserParams:
@@ -1225,7 +1227,7 @@ class ReadTuplesByTypeUserFound:
 
 ReadTuplesByTypeUserResult: TypeAlias = ReadTuplesByTypeUserFound
 
-READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "666be73a7402c18825ac90a801b2ced20ea0aeacdc4e75a45f58d75548265865"
+READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "b7950f9638f9849cdd7151e8c4312d52d5737b97c352403f432f4e2dd7a28121"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserWithConditionParams:
@@ -1259,7 +1261,7 @@ class ReadTuplesByTypeUserWithConditionFound:
 
 ReadTuplesByTypeUserWithConditionResult: TypeAlias = ReadTuplesByTypeUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "b897aa597e4b2d27777c4c15fab26faf31e5f0dd392e5a7c54e573b5db2e9baf"
+READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "74a7fcf1473d234678cbf9cc76ca140f04925f62605927ab3b10f26363eaf562"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeWithConditionParams:
@@ -1292,7 +1294,7 @@ class ReadTuplesByTypeWithConditionFound:
 
 ReadTuplesByTypeWithConditionResult: TypeAlias = ReadTuplesByTypeWithConditionFound
 
-READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "5ff823eb49828c8e75ea5d614b9f70de8f41814687f015aceb095cdd4c2ed0f5"
+READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "e3bb4c9fd3ceb1b734e0e3356ad0eaa1c6eaca95bed5fb135e2671875fa0f90b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserParams:
@@ -1324,7 +1326,7 @@ class ReadTuplesByUserFound:
 
 ReadTuplesByUserResult: TypeAlias = ReadTuplesByUserFound
 
-READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "0ec17804a14b6bdaf826f93bc423bd2277495d99716cc050f0eb6d10d4fc9167"
+READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "272e7929a120d9cc5056983b1f09975e073be5e6156e1376b8021381a9af526e"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserWithConditionParams:
@@ -1357,7 +1359,7 @@ class ReadTuplesByUserWithConditionFound:
 
 ReadTuplesByUserWithConditionResult: TypeAlias = ReadTuplesByUserWithConditionFound
 
-READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "83380ac8a0a1f360e917c461233d6c7f02babb5bc833ab974479e1559ace0de1"
+READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "380afe76e8d3c9e3281ab7af0082fb4ae0c37bc047ac8fa89ad488a9d3012695"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindParams:
@@ -1392,7 +1394,7 @@ class ReadUsersetByKindFound:
 
 ReadUsersetByKindResult: TypeAlias = ReadUsersetByKindFound
 
-READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH: Final[str] = "788db557c9da3ab3909f1b7639f923566f3da04584db48724f94e2fee2dcc5ff"
+READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH: Final[str] = "7c59f1f2af6e6958e1b3032b7459824861ddd5f438df20196cb7c92fb508ac2a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindAndTypeParams:
@@ -1428,7 +1430,7 @@ class ReadUsersetByKindAndTypeFound:
 
 ReadUsersetByKindAndTypeResult: TypeAlias = ReadUsersetByKindAndTypeFound
 
-READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "92ee42eb2baf1e56d5878e49c8fd420ff774f1e697b90cf145ddfc6c21637905"
+READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "59de5019b4843ffb687e2cd26b1c045facfcd0f5b752c816a5ee96eff317100c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindAndTypeWithConditionParams:
@@ -1465,7 +1467,7 @@ class ReadUsersetByKindAndTypeWithConditionFound:
 
 ReadUsersetByKindAndTypeWithConditionResult: TypeAlias = ReadUsersetByKindAndTypeWithConditionFound
 
-READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "bcb94b1ac249b16c426edd68306a50a9656d394d83b319af088ef36e3644ff6c"
+READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "63afc5f08bd9432a09aee5f53b9fbf97939e01a95c1782a09d09e09a2654c01b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindTypeRelationParams:
@@ -1502,7 +1504,7 @@ class ReadUsersetByKindTypeRelationFound:
 
 ReadUsersetByKindTypeRelationResult: TypeAlias = ReadUsersetByKindTypeRelationFound
 
-READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "1a9cacb838a4d06dc444d6e9a61f09ec17d1d7fb2df79c0f13e23546437828a7"
+READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e44ba4fa3c603ca8e2c7a249fae0bcc55fadfd5cd058ee6a32ba527f3b7c464a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindTypeRelationWithConditionParams:
@@ -1540,7 +1542,7 @@ class ReadUsersetByKindTypeRelationWithConditionFound:
 
 ReadUsersetByKindTypeRelationWithConditionResult: TypeAlias = ReadUsersetByKindTypeRelationWithConditionFound
 
-READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "c7f5d1e9f1fb4a8f4a6c6290efe77b69544a5e2182fc018159ddb3583f55e637"
+READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "283589c3f636f25a01f2e983542f80e51462c08342cbd36c67dab153d6ccc3a2"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindWithConditionParams:
@@ -1581,7 +1583,7 @@ class ApplyTupleMutationsInput:
     mutations: tuple[TupleMutationInput, ...]
     request_id: UUID
 
-APPLY_TUPLE_MUTATIONS_PLAN_HASH: Final[str] = "47a370dc10541c5dbff70f7b3046701849fa759c41e4b2f24fad9ade0b3d4c63"
+APPLY_TUPLE_MUTATIONS_PLAN_HASH: Final[str] = "dd424f283072ac1bb0dcac9dffa9efce5947dec26e554ad8bc1985cf828b6e52"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ApplyTupleMutationsTupleStateChanged:
     outcome: Literal["TupleStateChanged"] = field(default="TupleStateChanged", init=False)
@@ -1680,7 +1682,7 @@ class EnsureTupleStatesInput:
     states: tuple[TupleState, ...]
     request_id: UUID
 
-ENSURE_TUPLE_STATES_PLAN_HASH: Final[str] = "8f80ef5c6275948c98e956b96eee4652b5d2f3e8364bef32fafabff534167a99"
+ENSURE_TUPLE_STATES_PLAN_HASH: Final[str] = "7604e029c1caf2c56af847161fbaed3394f27242a16c7c8f2c39145125e9076e"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class EnsureTupleStatesTupleStatesEnsured:
     outcome: Literal["TupleStatesEnsured"] = field(default="TupleStatesEnsured", init=False)
@@ -1803,11 +1805,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_authorization_models(self, parameters: ListAuthorizationModelsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListAuthorizationModelsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListAuthorizationModels", plan_hash=LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListAuthorizationModelsFound,
@@ -1815,11 +1824,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_all(self, parameters: ListStoresAllParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresAllResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresAll", plan_hash=LIST_STORES_ALL_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresAllFound,
@@ -1827,11 +1843,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_by_ids(self, parameters: ListStoresByIdsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresByIds", plan_hash=LIST_STORES_BY_IDS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresByIdsFound,
@@ -1839,11 +1862,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_by_ids_and_name(self, parameters: ListStoresByIdsAndNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresByIdsAndName", plan_hash=LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresByIdsAndNameFound,
@@ -1851,11 +1881,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_by_name(self, parameters: ListStoresByNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByNameResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresByName", plan_hash=LIST_STORES_BY_NAME_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresByNameFound,
@@ -1863,11 +1900,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_all_tuples(self, parameters: ReadAllTuplesParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadAllTuples", plan_hash=READ_ALL_TUPLES_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadAllTuplesFound,
@@ -1875,11 +1919,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_all_tuples_with_conditions(self, parameters: ReadAllTuplesWithConditionsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesWithConditionsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadAllTuplesWithConditions", plan_hash=READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadAllTuplesWithConditionsFound,
@@ -1887,11 +1938,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_asc(self, parameters: ReadChangesAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesAscResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesAsc", plan_hash=READ_CHANGES_ASC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesAscFound,
@@ -1899,11 +1957,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_by_object_asc(self, parameters: ReadChangesByObjectAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectAscResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesByObjectAsc", plan_hash=READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesByObjectAscFound,
@@ -1911,11 +1976,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_by_object_desc(self, parameters: ReadChangesByObjectDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectDescResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesByObjectDesc", plan_hash=READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesByObjectDescFound,
@@ -1923,11 +1995,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_desc(self, parameters: ReadChangesDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesDescResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesDesc", plan_hash=READ_CHANGES_DESC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesDescFound,
@@ -1935,11 +2014,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user(self, parameters: ReadStartingWithUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUser", plan_hash=READ_STARTING_WITH_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserFound,
@@ -1947,11 +2033,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user_and_objects(self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUserAndObjects", plan_hash=READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserAndObjectsFound,
@@ -1959,11 +2052,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUserObjectsCondition", plan_hash=READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserObjectsConditionFound,
@@ -1971,11 +2071,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUserWithCondition", plan_hash=READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserWithConditionFound,
@@ -2009,11 +2116,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object(self, parameters: ReadTuplesByObjectParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObject", plan_hash=READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectFound,
@@ -2021,11 +2135,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_relation(self, parameters: ReadTuplesByObjectRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectRelation", plan_hash=READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectRelationFound,
@@ -2033,11 +2154,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_relation_with_condition(self, parameters: ReadTuplesByObjectRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectRelationWithCondition", plan_hash=READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectRelationWithConditionFound,
@@ -2045,11 +2173,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_user(self, parameters: ReadTuplesByObjectUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectUser", plan_hash=READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectUserFound,
@@ -2057,11 +2192,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_user_with_condition(self, parameters: ReadTuplesByObjectUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectUserWithCondition", plan_hash=READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectUserWithConditionFound,
@@ -2069,11 +2211,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_with_condition(self, parameters: ReadTuplesByObjectWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectWithCondition", plan_hash=READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectWithConditionFound,
@@ -2081,11 +2230,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_relation_user(self, parameters: ReadTuplesByRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByRelationUser", plan_hash=READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByRelationUserFound,
@@ -2093,11 +2249,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_relation_user_with_condition(self, parameters: ReadTuplesByRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByRelationUserWithCondition", plan_hash=READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByRelationUserWithConditionFound,
@@ -2105,11 +2268,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type(self, parameters: ReadTuplesByTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByType", plan_hash=READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeFound,
@@ -2117,11 +2287,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation(self, parameters: ReadTuplesByTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelation", plan_hash=READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationFound,
@@ -2129,11 +2306,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation_user(self, parameters: ReadTuplesByTypeRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelationUser", plan_hash=READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationUserFound,
@@ -2141,11 +2325,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation_user_with_condition(self, parameters: ReadTuplesByTypeRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelationUserWithCondition", plan_hash=READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationUserWithConditionFound,
@@ -2153,11 +2344,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation_with_condition(self, parameters: ReadTuplesByTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelationWithCondition", plan_hash=READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationWithConditionFound,
@@ -2165,11 +2363,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_user(self, parameters: ReadTuplesByTypeUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeUser", plan_hash=READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeUserFound,
@@ -2177,11 +2382,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_user_with_condition(self, parameters: ReadTuplesByTypeUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeUserWithCondition", plan_hash=READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeUserWithConditionFound,
@@ -2189,11 +2401,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_with_condition(self, parameters: ReadTuplesByTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeWithCondition", plan_hash=READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeWithConditionFound,
@@ -2201,11 +2420,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_user(self, parameters: ReadTuplesByUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByUser", plan_hash=READ_TUPLES_BY_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByUserFound,
@@ -2213,11 +2439,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_user_with_condition(self, parameters: ReadTuplesByUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByUserWithCondition", plan_hash=READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByUserWithConditionFound,
@@ -2225,11 +2458,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind(self, parameters: ReadUsersetByKindParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKind", plan_hash=READ_USERSET_BY_KIND_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindFound,
@@ -2237,11 +2477,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_and_type(self, parameters: ReadUsersetByKindAndTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindAndType", plan_hash=READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindAndTypeFound,
@@ -2249,11 +2496,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_and_type_with_condition(self, parameters: ReadUsersetByKindAndTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindAndTypeWithCondition", plan_hash=READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindAndTypeWithConditionFound,
@@ -2261,11 +2515,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_type_relation(self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindTypeRelation", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindTypeRelationFound,
@@ -2273,11 +2534,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_type_relation_with_condition(self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindTypeRelationWithCondition", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindTypeRelationWithConditionFound,
@@ -2285,11 +2553,18 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_with_condition(self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindWithCondition", plan_hash=READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindWithConditionFound,
@@ -2297,8 +2572,11 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def apply_tuple_mutations(self, input: ApplyTupleMutationsInput) -> TypedCommandResult[ApplyTupleMutationsOutcome]:
-        if not 1 <= len(input.mutations) <= 8:
+        if not 1 <= len(input.mutations) <= 100:
             raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+        aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
+        if aggregate_element_bytes > 900000:
+            raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
         raw = self._transport._execute_command(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             command_name="ApplyTupleMutations", plan_hash=APPLY_TUPLE_MUTATIONS_PLAN_HASH,
@@ -2317,8 +2595,11 @@ class RiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[ApplyTupleMutationsOutcome]:
         for input in inputs:
-            if not 1 <= len(input.mutations) <= 8:
+            if not 1 <= len(input.mutations) <= 100:
                 raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+            aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
+            if aggregate_element_bytes > 900000:
+                raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
         return self._transport._command_batch(inputs, options, self.apply_tuple_mutations, progress)
 
     def create_assertion_set(self, input: CreateAssertionSetInput) -> TypedCommandResult[CreateAssertionSetOutcome]:
@@ -2395,8 +2676,11 @@ class RiffDBOpenFGAClient:
         return self._transport._command_batch(inputs, options, self.ensure_tuple_partition, progress)
 
     def ensure_tuple_states(self, input: EnsureTupleStatesInput) -> TypedCommandResult[EnsureTupleStatesOutcome]:
-        if not 1 <= len(input.states) <= 8:
+        if not 1 <= len(input.states) <= 100:
             raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
+        aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
+        if aggregate_element_bytes > 900000:
+            raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
         raw = self._transport._execute_command(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             command_name="EnsureTupleStates", plan_hash=ENSURE_TUPLE_STATES_PLAN_HASH,
@@ -2413,8 +2697,11 @@ class RiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[EnsureTupleStatesOutcome]:
         for input in inputs:
-            if not 1 <= len(input.states) <= 8:
+            if not 1 <= len(input.states) <= 100:
                 raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
+            aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
+            if aggregate_element_bytes > 900000:
+                raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
         return self._transport._command_batch(inputs, options, self.ensure_tuple_states, progress)
 
     def update_assertion_set(self, input: UpdateAssertionSetInput) -> TypedCommandResult[UpdateAssertionSetOutcome]:
@@ -2524,11 +2811,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_authorization_models(self, parameters: ListAuthorizationModelsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListAuthorizationModelsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListAuthorizationModels", plan_hash=LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListAuthorizationModelsFound,
@@ -2536,11 +2830,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_all(self, parameters: ListStoresAllParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresAllResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresAll", plan_hash=LIST_STORES_ALL_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresAllFound,
@@ -2548,11 +2849,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_by_ids(self, parameters: ListStoresByIdsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresByIds", plan_hash=LIST_STORES_BY_IDS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresByIdsFound,
@@ -2560,11 +2868,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_by_ids_and_name(self, parameters: ListStoresByIdsAndNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresByIdsAndName", plan_hash=LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresByIdsAndNameFound,
@@ -2572,11 +2887,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_by_name(self, parameters: ListStoresByNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByNameResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ListStoresByName", plan_hash=LIST_STORES_BY_NAME_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ListStoresByNameFound,
@@ -2584,11 +2906,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_all_tuples(self, parameters: ReadAllTuplesParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadAllTuples", plan_hash=READ_ALL_TUPLES_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadAllTuplesFound,
@@ -2596,11 +2925,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_all_tuples_with_conditions(self, parameters: ReadAllTuplesWithConditionsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesWithConditionsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadAllTuplesWithConditions", plan_hash=READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadAllTuplesWithConditionsFound,
@@ -2608,11 +2944,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_asc(self, parameters: ReadChangesAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesAscResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesAsc", plan_hash=READ_CHANGES_ASC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesAscFound,
@@ -2620,11 +2963,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_by_object_asc(self, parameters: ReadChangesByObjectAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectAscResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesByObjectAsc", plan_hash=READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesByObjectAscFound,
@@ -2632,11 +2982,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_by_object_desc(self, parameters: ReadChangesByObjectDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectDescResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesByObjectDesc", plan_hash=READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesByObjectDescFound,
@@ -2644,11 +3001,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_desc(self, parameters: ReadChangesDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesDescResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadChangesDesc", plan_hash=READ_CHANGES_DESC_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadChangesDescFound,
@@ -2656,11 +3020,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user(self, parameters: ReadStartingWithUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUser", plan_hash=READ_STARTING_WITH_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserFound,
@@ -2668,11 +3039,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user_and_objects(self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUserAndObjects", plan_hash=READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserAndObjectsFound,
@@ -2680,11 +3058,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUserObjectsCondition", plan_hash=READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserObjectsConditionFound,
@@ -2692,11 +3077,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadStartingWithUserWithCondition", plan_hash=READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadStartingWithUserWithConditionFound,
@@ -2730,11 +3122,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object(self, parameters: ReadTuplesByObjectParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObject", plan_hash=READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectFound,
@@ -2742,11 +3141,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_relation(self, parameters: ReadTuplesByObjectRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectRelation", plan_hash=READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectRelationFound,
@@ -2754,11 +3160,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_relation_with_condition(self, parameters: ReadTuplesByObjectRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectRelationWithCondition", plan_hash=READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectRelationWithConditionFound,
@@ -2766,11 +3179,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_user(self, parameters: ReadTuplesByObjectUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectUser", plan_hash=READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectUserFound,
@@ -2778,11 +3198,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_user_with_condition(self, parameters: ReadTuplesByObjectUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectUserWithCondition", plan_hash=READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectUserWithConditionFound,
@@ -2790,11 +3217,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_with_condition(self, parameters: ReadTuplesByObjectWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByObjectWithCondition", plan_hash=READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByObjectWithConditionFound,
@@ -2802,11 +3236,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_relation_user(self, parameters: ReadTuplesByRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByRelationUser", plan_hash=READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByRelationUserFound,
@@ -2814,11 +3255,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_relation_user_with_condition(self, parameters: ReadTuplesByRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByRelationUserWithCondition", plan_hash=READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByRelationUserWithConditionFound,
@@ -2826,11 +3274,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type(self, parameters: ReadTuplesByTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByType", plan_hash=READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeFound,
@@ -2838,11 +3293,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation(self, parameters: ReadTuplesByTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelation", plan_hash=READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationFound,
@@ -2850,11 +3312,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation_user(self, parameters: ReadTuplesByTypeRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelationUser", plan_hash=READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationUserFound,
@@ -2862,11 +3331,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation_user_with_condition(self, parameters: ReadTuplesByTypeRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelationUserWithCondition", plan_hash=READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationUserWithConditionFound,
@@ -2874,11 +3350,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation_with_condition(self, parameters: ReadTuplesByTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeRelationWithCondition", plan_hash=READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeRelationWithConditionFound,
@@ -2886,11 +3369,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_user(self, parameters: ReadTuplesByTypeUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeUser", plan_hash=READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeUserFound,
@@ -2898,11 +3388,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_user_with_condition(self, parameters: ReadTuplesByTypeUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeUserWithCondition", plan_hash=READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeUserWithConditionFound,
@@ -2910,11 +3407,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_with_condition(self, parameters: ReadTuplesByTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByTypeWithCondition", plan_hash=READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByTypeWithConditionFound,
@@ -2922,11 +3426,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_user(self, parameters: ReadTuplesByUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByUser", plan_hash=READ_TUPLES_BY_USER_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByUserFound,
@@ -2934,11 +3445,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_user_with_condition(self, parameters: ReadTuplesByUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadTuplesByUserWithCondition", plan_hash=READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadTuplesByUserWithConditionFound,
@@ -2946,11 +3464,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind(self, parameters: ReadUsersetByKindParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKind", plan_hash=READ_USERSET_BY_KIND_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindFound,
@@ -2958,11 +3483,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_and_type(self, parameters: ReadUsersetByKindAndTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindAndType", plan_hash=READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindAndTypeFound,
@@ -2970,11 +3502,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_and_type_with_condition(self, parameters: ReadUsersetByKindAndTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindAndTypeWithCondition", plan_hash=READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindAndTypeWithConditionFound,
@@ -2982,11 +3521,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_type_relation(self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindTypeRelation", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindTypeRelationFound,
@@ -2994,11 +3540,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_type_relation_with_condition(self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindTypeRelationWithCondition", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindTypeRelationWithConditionFound,
@@ -3006,11 +3559,18 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_with_condition(self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindWithConditionResult]:
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+        encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
             query_name="ReadUsersetByKindWithCondition", plan_hash=READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH,
-            parameters=encode_record(parameters), options=options,
+            parameters=encoded_parameters, options=options,
         )
         outcomes = {
             "Found": ReadUsersetByKindWithConditionFound,
@@ -3018,8 +3578,11 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def apply_tuple_mutations(self, input: ApplyTupleMutationsInput) -> TypedCommandResult[ApplyTupleMutationsOutcome]:
-        if not 1 <= len(input.mutations) <= 8:
+        if not 1 <= len(input.mutations) <= 100:
             raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+        aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
+        if aggregate_element_bytes > 900000:
+            raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
         raw = await self._transport._execute_command(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             command_name="ApplyTupleMutations", plan_hash=APPLY_TUPLE_MUTATIONS_PLAN_HASH,
@@ -3038,8 +3601,11 @@ class AsyncRiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[ApplyTupleMutationsOutcome]:
         for input in inputs:
-            if not 1 <= len(input.mutations) <= 8:
+            if not 1 <= len(input.mutations) <= 100:
                 raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+            aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
+            if aggregate_element_bytes > 900000:
+                raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
         return await self._transport._command_batch(inputs, options, self.apply_tuple_mutations, progress)
 
     async def create_assertion_set(self, input: CreateAssertionSetInput) -> TypedCommandResult[CreateAssertionSetOutcome]:
@@ -3116,8 +3682,11 @@ class AsyncRiffDBOpenFGAClient:
         return await self._transport._command_batch(inputs, options, self.ensure_tuple_partition, progress)
 
     async def ensure_tuple_states(self, input: EnsureTupleStatesInput) -> TypedCommandResult[EnsureTupleStatesOutcome]:
-        if not 1 <= len(input.states) <= 8:
+        if not 1 <= len(input.states) <= 100:
             raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
+        aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
+        if aggregate_element_bytes > 900000:
+            raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
         raw = await self._transport._execute_command(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             command_name="EnsureTupleStates", plan_hash=ENSURE_TUPLE_STATES_PLAN_HASH,
@@ -3134,8 +3703,11 @@ class AsyncRiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[EnsureTupleStatesOutcome]:
         for input in inputs:
-            if not 1 <= len(input.states) <= 8:
+            if not 1 <= len(input.states) <= 100:
                 raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
+            aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
+            if aggregate_element_bytes > 900000:
+                raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
         return await self._transport._command_batch(inputs, options, self.ensure_tuple_states, progress)
 
     async def update_assertion_set(self, input: UpdateAssertionSetInput) -> TypedCommandResult[UpdateAssertionSetOutcome]:

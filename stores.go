@@ -93,75 +93,86 @@ func (datastore *Datastore) ListStores(ctx context.Context, options storage.List
 	if pageSize > 500 {
 		pageSize = 500
 	}
-	limit := uint32(pageSize)
-	var after *string
-	if options.Pagination.From != "" {
-		after = &options.Pagination.From
-	}
+	// RiffDB continuation cursors bind every query input, including the take
+	// limit. OpenFGA permits callers to change page size while continuing a
+	// listing, so walk a fixed one-row internal page and expose only its cursor.
+	limit := uint32(1)
+	afterValue := options.Pagination.From
 	type storeRow struct {
 		id, name             string
 		createdAt, updatedAt riffdb.Instant
 	}
 	rows := make([]storeRow, 0, pageSize)
-	var next string
 	appendRows := func(values []struct {
 		StoreId   string
 		Name      string
 		CreatedAt riffdb.Instant
 		UpdatedAt riffdb.Instant
 		Revision  uint64
-	}) { for _, value := range values {
-		rows = append(rows, storeRow{id: value.StoreId, name: value.Name, createdAt: value.CreatedAt, updatedAt: value.UpdatedAt})
-	} }
-	switch {
-	case len(options.IDs) > 0 && options.Name != "":
-		result, err := datastore.client.ListStoresByIdsAndName(ctx, generated.ListStoresByIdsAndNameParams{RegistryId: registryID, Ids: options.IDs, Name: options.Name, Limit: &limit, After: after}, generated.QueryOptions{})
-		if err != nil {
-			return nil, "", mapError(ctx, err)
+	}) {
+		for _, value := range values {
+			rows = append(rows, storeRow{id: value.StoreId, name: value.Name, createdAt: value.CreatedAt, updatedAt: value.UpdatedAt})
 		}
-		found, ok := result.Value.(generated.ListStoresByIdsAndNameFound)
-		if !ok {
-			return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
+	}
+	for len(rows) < pageSize {
+		var after *string
+		if afterValue != "" {
+			after = &afterValue
 		}
-		appendRows(found.Stores)
-		next = result.NextCursor
-	case len(options.IDs) > 0:
-		result, err := datastore.client.ListStoresByIds(ctx, generated.ListStoresByIdsParams{RegistryId: registryID, Ids: options.IDs, Limit: &limit, After: after}, generated.QueryOptions{})
-		if err != nil {
-			return nil, "", mapError(ctx, err)
+		previousLength := len(rows)
+		switch {
+		case len(options.IDs) > 0 && options.Name != "":
+			result, err := datastore.client.ListStoresByIdsAndName(ctx, generated.ListStoresByIdsAndNameParams{RegistryId: registryID, Ids: options.IDs, Name: options.Name, Limit: &limit, After: after}, generated.QueryOptions{})
+			if err != nil {
+				return nil, "", mapError(ctx, err)
+			}
+			found, ok := result.Value.(generated.ListStoresByIdsAndNameFound)
+			if !ok {
+				return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
+			}
+			appendRows(found.Stores)
+			afterValue = result.NextCursor
+		case len(options.IDs) > 0:
+			result, err := datastore.client.ListStoresByIds(ctx, generated.ListStoresByIdsParams{RegistryId: registryID, Ids: options.IDs, Limit: &limit, After: after}, generated.QueryOptions{})
+			if err != nil {
+				return nil, "", mapError(ctx, err)
+			}
+			found, ok := result.Value.(generated.ListStoresByIdsFound)
+			if !ok {
+				return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
+			}
+			appendRows(found.Stores)
+			afterValue = result.NextCursor
+		case options.Name != "":
+			result, err := datastore.client.ListStoresByName(ctx, generated.ListStoresByNameParams{RegistryId: registryID, Name: options.Name, Limit: &limit, After: after}, generated.QueryOptions{})
+			if err != nil {
+				return nil, "", mapError(ctx, err)
+			}
+			found, ok := result.Value.(generated.ListStoresByNameFound)
+			if !ok {
+				return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
+			}
+			appendRows(found.Stores)
+			afterValue = result.NextCursor
+		default:
+			result, err := datastore.client.ListStoresAll(ctx, generated.ListStoresAllParams{RegistryId: registryID, Limit: &limit, After: after}, generated.QueryOptions{})
+			if err != nil {
+				return nil, "", mapError(ctx, err)
+			}
+			found, ok := result.Value.(generated.ListStoresAllFound)
+			if !ok {
+				return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
+			}
+			appendRows(found.Stores)
+			afterValue = result.NextCursor
 		}
-		found, ok := result.Value.(generated.ListStoresByIdsFound)
-		if !ok {
-			return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
+		if len(rows) == previousLength || afterValue == "" {
+			break
 		}
-		appendRows(found.Stores)
-		next = result.NextCursor
-	case options.Name != "":
-		result, err := datastore.client.ListStoresByName(ctx, generated.ListStoresByNameParams{RegistryId: registryID, Name: options.Name, Limit: &limit, After: after}, generated.QueryOptions{})
-		if err != nil {
-			return nil, "", mapError(ctx, err)
-		}
-		found, ok := result.Value.(generated.ListStoresByNameFound)
-		if !ok {
-			return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
-		}
-		appendRows(found.Stores)
-		next = result.NextCursor
-	default:
-		result, err := datastore.client.ListStoresAll(ctx, generated.ListStoresAllParams{RegistryId: registryID, Limit: &limit, After: after}, generated.QueryOptions{})
-		if err != nil {
-			return nil, "", mapError(ctx, err)
-		}
-		found, ok := result.Value.(generated.ListStoresAllFound)
-		if !ok {
-			return nil, "", errors.New("riffdb-openfga: unknown ListStores outcome")
-		}
-		appendRows(found.Stores)
-		next = result.NextCursor
 	}
 	stores := make([]*openfgav1.Store, 0, len(rows))
 	for _, row := range rows {
 		stores = append(stores, storeProto(row.id, row.name, row.createdAt, row.updatedAt))
 	}
-	return stores, next, nil
+	return stores, afterValue, nil
 }

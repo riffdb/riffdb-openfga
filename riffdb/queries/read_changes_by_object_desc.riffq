@@ -1,16 +1,15 @@
 query ReadChangesByObjectDesc(
     $store_id: TupleChange.store_id,
     $object_type: TupleChange.object_type,
-    $from: TupleChange.change_id?,
-    $horizon: TupleChange.change_id,
+    $horizon: TupleChange.inserted_at,
+    $after: Cursor?,
 ) {
     many changes from TupleChange
         where store_id == $store_id
           && object_type == $object_type
-          && when $from { change_id < $from }
-          && change_id < $horizon
-        order by change_id desc
-        take 1
+          && inserted_at < $horizon
+        order by inserted_at desc, change_id desc
+        take 1 after $after
 
     return Found {
         changes: changes {

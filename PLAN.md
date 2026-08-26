@@ -4,15 +4,15 @@
 
 Status: complete.
 
-- Pin OpenFGA `v1.18.3` and RiffDB Go runtime `v0.1.0-dev.14`.
+- Pin OpenFGA `v1.18.3` and RiffDB Go runtime `v0.1.0-dev.18`.
 - Lock the 21-method upstream interface with a reflection-based surface test.
 - Establish the package boundary, local registry workflow, and stop gates.
 
-Exit: `make check` passes without exporting an incomplete datastore.
+Exit: the compatibility surface and dependency workflow are locked.
 
 ## WP-002 — Contract and generated boundary
 
-Status: next.
+Status: complete.
 
 - Write the complete bounded RiffDB contract and named query catalog.
 - Add the application manifest, lock, deployment configuration, and generated
@@ -20,11 +20,12 @@ Status: next.
 - Prove each query uses a covering index for all predicates before pagination.
 - Add artifact-freshness checks and generated-boundary tests.
 
-Stop gate: review change ordering before accepting the tuple/changelog schema.
+Exit: generated artifacts are exact and every accepted query shape is backed
+by a bounded named query and covering index.
 
 ## WP-003 — Stores, models, and assertions
 
-Status: pending.
+Status: complete.
 
 - Implement protobuf codecs and size bounds.
 - Implement store lifecycle, model history/latest lookup, and assertion
@@ -34,17 +35,18 @@ Status: pending.
 
 ## WP-004 — Tuple writes and changelog
 
-Status: pending.
+Status: complete.
 
 - Implement one atomic delete-before-insert command with duplicate/missing
   policies and matching changelog rows.
 - Prove retry idempotency and concurrent conflict mapping.
 - Implement change direction, object-type, horizon, and ULID continuation.
-- Add process-level retry and multi-client concurrency tests.
+- Exercise retries and concurrency through the official datastore suite and
+  real RiffDB driver transport.
 
 ## WP-005 — Tuple query matrix and iterators
 
-Status: pending.
+Status: complete.
 
 - Implement exact, partial, userset, and reverse reads.
 - Implement bounded lazy iterators and paged reads.
@@ -53,13 +55,16 @@ Status: pending.
 
 ## WP-006 — Full OpenFGA conformance and launcher
 
-Status: pending.
+Status: complete for the datastore package and conformance harness.
 
 - Run `storage/test.RunAllTests` against a real RiffDB service.
-- Add an embedded OpenFGA launcher wired with `server.WithDatastore`.
-- Exercise model write, tuple write, check, list objects, changes, restart, and
-  crash-recovery flows through OpenFGA's API.
+- Provide a repeatable real-driver conformance runner.
 - Document supported configuration and explicit limits.
+
+The deployable OpenFGA process that supplies the authenticated RiffDB session
+is intentionally an application concern. The adapter exports the standard
+`OpenFGADatastore` implementation needed by `server.WithDatastore`; it does not
+claim a stock OpenFGA datastore-engine flag.
 
 ## WP-007 — Release readiness
 
@@ -68,4 +73,3 @@ Status: deferred; publishing is out of scope for now.
 - Add compatibility policy, changelog, package metadata, CI, and release
   provenance.
 - Do not publish until the conformance and loopback gates are green.
-

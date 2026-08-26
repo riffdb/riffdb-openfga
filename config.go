@@ -1,8 +1,5 @@
-// Package riffdbopenfga implements OpenFGA's datastore interface with a
+// Package riffdbopenfga implements OpenFGA's datastore interface over a
 // compiled RiffDB application.
-//
-// The repository is currently in bootstrap: configuration validation is
-// available, but no incomplete datastore implementation is exported.
 package riffdbopenfga
 
 import (
@@ -19,12 +16,11 @@ const (
 
 	// RiffDBDriverVersion is the immutable development driver publication used
 	// to generate and verify this adapter.
-	RiffDBDriverVersion = "v0.1.0-dev.14"
+	RiffDBDriverVersion = "v0.1.0-dev.18"
 
-	// MaxTuplesPerWrite is the adapter's advertised atomic write bound. Eight
-	// full-size condition contexts fit RiffDB's statically proven command-graph
-	// ceiling; OpenFGA batches larger API writes using this value.
-	MaxTuplesPerWrite = 8
+	// MaxTuplesPerWrite matches OpenFGA's default atomic write bound. The
+	// compiled profile separately proves a bounded aggregate byte budget.
+	MaxTuplesPerWrite = 100
 
 	// MaxTypesPerAuthorizationModel matches the advertised OpenFGA datastore
 	// default.
@@ -35,9 +31,7 @@ const (
 	DefaultPageSize = 50
 )
 
-// Config is the input to the eventual datastore constructor. Keeping the
-// caller-owned session explicit prevents the adapter from duplicating RiffDB
-// transport, credential, retry, or application-identity behavior.
+// Config controls a datastore backed by an authenticated RiffDB session.
 type Config struct {
 	Session         *riffdb.Session
 	CommandAttempts uint32

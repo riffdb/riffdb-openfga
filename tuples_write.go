@@ -17,6 +17,32 @@ import (
 	riffdb "riffdb.dev/application"
 )
 
+const maximumConditionContextBytes = 32768
+
+var emptyConditionContextEncoding = []byte{0}
+
+func encodeConditionContext(value *structpb.Struct) ([]byte, error) {
+	encoded, err := marshalProto(value, maximumConditionContextBytes)
+	if err != nil {
+		return nil, err
+	}
+	if len(encoded) == 0 {
+		return append([]byte(nil), emptyConditionContextEncoding...), nil
+	}
+	return encoded, nil
+}
+
+func decodeConditionContext(encoded []byte) (*structpb.Struct, error) {
+	value := new(structpb.Struct)
+	if len(encoded) == len(emptyConditionContextEncoding) && encoded[0] == emptyConditionContextEncoding[0] {
+		return value, nil
+	}
+	if err := unmarshalCanonical(encoded, value, maximumConditionContextBytes); err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+
 type persistedTupleState struct {
 	store, objectType, objectID, relation, user          string
 	userObjectType, userObjectID, userRelation, userKind string
@@ -77,10 +103,11 @@ func encodeCondition(condition *openfgav1.RelationshipCondition) (string, *[]byt
 	if condition == nil {
 		return "", nil, nil
 	}
-	if condition.GetContext() == nil {
-		return condition.GetName(), nil, nil
+	contextValue := condition.GetContext()
+	if contextValue == nil {
+		contextValue = new(structpb.Struct)
 	}
-	encoded, err := marshalProto(condition.GetContext(), 524288)
+	encoded, err := encodeConditionContext(contextValue)
 	if err != nil {
 		return "", nil, err
 	}
@@ -93,8 +120,8 @@ func stateCondition(value persistedTupleState) (*openfgav1.RelationshipCondition
 	}
 	condition := &openfgav1.RelationshipCondition{Name: value.conditionKey}
 	if value.conditionContext != nil {
-		contextValue := new(structpb.Struct)
-		if err := unmarshalCanonical(*value.conditionContext, contextValue, 524288); err != nil {
+		contextValue, err := decodeConditionContext(*value.conditionContext)
+		if err != nil {
 			return nil, err
 		}
 		condition.Context = contextValue

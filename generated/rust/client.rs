@@ -5,11 +5,11 @@ use riffdb_client_rust::{ApplicationCardinality, ApplicationClientError, Applica
 pub use riffdb_client_rust::QueryOptions;
 use riffdb_client_rust::v1::value::Kind as WireKind;
 
-pub const QUERY_MODULE_HASH: [u8; 32] = [0x9a, 0xe3, 0x7c, 0x0b, 0x4a, 0xe1, 0x4c, 0x6e, 0x29, 0xe6, 0xb7, 0x0e, 0x0e, 0xd0, 0xe4, 0xe5, 0x11, 0x71, 0xdc, 0x5c, 0x52, 0xc1, 0x65, 0x5e, 0x83, 0x81, 0xcd, 0x5b, 0xcc, 0x38, 0x24, 0xaa];
+pub const QUERY_MODULE_HASH: [u8; 32] = [0x20, 0xb3, 0xe8, 0xf3, 0x3b, 0x29, 0x92, 0x08, 0xae, 0x03, 0x78, 0x9b, 0x8a, 0x45, 0xcc, 0x03, 0x18, 0xf8, 0x32, 0x97, 0xb0, 0x12, 0xab, 0x76, 0x37, 0xc2, 0x92, 0x40, 0x1d, 0xf9, 0xd8, 0x57];
 pub const CONTRACT_LINEAGE: &str = "RiffDBOpenFGA";
 pub const CONTRACT_VERSION: u64 = 1;
 
-pub const CONTRACT_BUNDLE_HASH: [u8; 32] = [0x3c, 0x48, 0xc7, 0x06, 0x66, 0x54, 0x55, 0x22, 0x9c, 0x44, 0x2c, 0x1d, 0x58, 0x0b, 0xd0, 0xd0, 0x14, 0x76, 0x55, 0x53, 0x76, 0x81, 0xd8, 0xc4, 0xe3, 0x65, 0x1f, 0xef, 0x3f, 0x86, 0x17, 0xc1];
+pub const CONTRACT_BUNDLE_HASH: [u8; 32] = [0xe9, 0xaf, 0xd3, 0xa0, 0xa6, 0x1d, 0xe1, 0xd4, 0x91, 0x4e, 0x56, 0x17, 0xec, 0xa7, 0x29, 0xdd, 0x28, 0x26, 0xea, 0xe5, 0xac, 0xaa, 0x2a, 0xb7, 0x23, 0x05, 0x67, 0xc9, 0x33, 0x7e, 0xa4, 0x16];
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct DecimalValue {
@@ -57,7 +57,7 @@ pub enum GetAssertionSetResult {
     NotFound(Box<GetAssertionSetNotFound>),
 }
 
-pub const GET_ASSERTION_SET_QUERY_PLAN_HASH: [u8; 32] = [0xbb, 0x60, 0xc0, 0x84, 0xac, 0xba, 0x13, 0x4c, 0x7e, 0x06, 0x00, 0xa6, 0x4e, 0x57, 0x10, 0xe7, 0x4f, 0x4b, 0x22, 0x79, 0xb3, 0x48, 0x6b, 0x63, 0xca, 0x87, 0x37, 0x3d, 0xa5, 0x01, 0xb5, 0x56];
+pub const GET_ASSERTION_SET_QUERY_PLAN_HASH: [u8; 32] = [0x5f, 0xab, 0x66, 0xfd, 0x4b, 0x0d, 0xb3, 0x4b, 0x9e, 0x4a, 0x5d, 0x8b, 0xbd, 0xe6, 0x5f, 0xb1, 0x57, 0x30, 0xf7, 0x00, 0xbf, 0x8d, 0x7d, 0x80, 0x28, 0x9b, 0x3b, 0x80, 0xc8, 0x9e, 0xf5, 0xa0];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetAssertionSetQuery(pub GetAssertionSetParams);
 impl GeneratedQuery for GetAssertionSetQuery {
@@ -141,7 +141,7 @@ pub enum GetAuthorizationModelResult {
     NotFound(Box<GetAuthorizationModelNotFound>),
 }
 
-pub const GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0x67, 0x1d, 0x66, 0x65, 0x79, 0xff, 0x02, 0x2d, 0x5b, 0x2d, 0x3b, 0xf2, 0x84, 0x88, 0x3f, 0xe1, 0x73, 0x87, 0xfd, 0x1b, 0x4a, 0x76, 0xeb, 0x2e, 0x2d, 0x54, 0xaf, 0xd2, 0x6f, 0xd8, 0x5e, 0x4a];
+pub const GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0x6a, 0x43, 0x87, 0x4b, 0x6f, 0x0b, 0x71, 0x6e, 0x99, 0x90, 0xff, 0x97, 0xb9, 0x80, 0xd1, 0xb9, 0x2c, 0x0b, 0x61, 0xce, 0x95, 0x02, 0x62, 0x8d, 0x2d, 0xd8, 0x03, 0xce, 0x5f, 0xf5, 0x6b, 0x86];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetAuthorizationModelQuery(pub GetAuthorizationModelParams);
 impl GeneratedQuery for GetAuthorizationModelQuery {
@@ -226,7 +226,7 @@ pub enum GetStoreResult {
     NotFound(Box<GetStoreNotFound>),
 }
 
-pub const GET_STORE_QUERY_PLAN_HASH: [u8; 32] = [0x77, 0xc0, 0xd5, 0xab, 0x39, 0x42, 0x7e, 0xbc, 0x5a, 0xb6, 0x7b, 0x14, 0xe9, 0x7d, 0x16, 0x15, 0x55, 0x20, 0x89, 0xe3, 0xcc, 0xf6, 0xb4, 0xf6, 0x95, 0xe8, 0xd2, 0xc0, 0xe1, 0x34, 0xd5, 0x36];
+pub const GET_STORE_QUERY_PLAN_HASH: [u8; 32] = [0x2c, 0x52, 0xfc, 0x69, 0x64, 0xd2, 0x5f, 0xc7, 0xd9, 0xf9, 0x53, 0xa7, 0x42, 0x96, 0xf0, 0xf4, 0xac, 0xad, 0x8f, 0x7f, 0xc8, 0x10, 0x44, 0x32, 0xd8, 0x45, 0xd7, 0xa4, 0xc1, 0xb0, 0x61, 0xbe];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetStoreQuery(pub GetStoreParams);
 impl GeneratedQuery for GetStoreQuery {
@@ -324,7 +324,7 @@ pub enum GetTupleStateResult {
     NotFound(Box<GetTupleStateNotFound>),
 }
 
-pub const GET_TUPLE_STATE_QUERY_PLAN_HASH: [u8; 32] = [0xbe, 0x56, 0xb7, 0x28, 0x16, 0x9f, 0x6b, 0x34, 0x4a, 0x27, 0x27, 0x14, 0xd3, 0xc4, 0x88, 0x41, 0xe1, 0x44, 0xf4, 0x8d, 0xb0, 0x0a, 0x5d, 0xd7, 0x47, 0xc2, 0x23, 0x6c, 0x0f, 0xbc, 0xf8, 0xa6];
+pub const GET_TUPLE_STATE_QUERY_PLAN_HASH: [u8; 32] = [0x33, 0xfa, 0x2c, 0x72, 0x27, 0xde, 0xc9, 0x60, 0x7d, 0x28, 0x32, 0x81, 0xc5, 0x16, 0xb6, 0x98, 0x81, 0x09, 0xfd, 0x67, 0x34, 0x38, 0x04, 0x3a, 0x2b, 0xca, 0x04, 0x46, 0xa4, 0xc4, 0x3d, 0x36];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetTupleStateQuery(pub GetTupleStateParams);
 impl GeneratedQuery for GetTupleStateQuery {
@@ -415,7 +415,7 @@ pub enum LatestAuthorizationModelResult {
     Found(Box<LatestAuthorizationModelFound>),
 }
 
-pub const LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0xd1, 0xfb, 0x15, 0x08, 0xac, 0x8e, 0xe1, 0xf8, 0xc2, 0x38, 0x68, 0xe8, 0x18, 0x02, 0xb0, 0x83, 0x27, 0x99, 0x6d, 0xb2, 0xb6, 0x66, 0x05, 0x2a, 0x6a, 0x6e, 0xda, 0xb8, 0xa0, 0x1a, 0x45, 0x63];
+pub const LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0xb8, 0x0f, 0x3c, 0x4b, 0x85, 0xfa, 0x01, 0xe3, 0x63, 0x05, 0x1a, 0xe0, 0x18, 0x76, 0x27, 0xdc, 0x77, 0x18, 0xff, 0xd2, 0xcf, 0xe2, 0x64, 0x06, 0x4e, 0x0e, 0xdd, 0xec, 0x05, 0x31, 0x3b, 0x36];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct LatestAuthorizationModelQuery(pub LatestAuthorizationModelParams);
 impl GeneratedQuery for LatestAuthorizationModelQuery {
@@ -487,7 +487,7 @@ pub enum ListAuthorizationModelsResult {
     Found(Box<ListAuthorizationModelsFound>),
 }
 
-pub const LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: [u8; 32] = [0x9c, 0x08, 0x74, 0x7a, 0x39, 0x68, 0x78, 0x32, 0x80, 0xb9, 0xa4, 0xbd, 0x32, 0x2c, 0xd6, 0x6d, 0xe3, 0x2a, 0x0b, 0x0c, 0xfa, 0x25, 0x9f, 0xdb, 0x09, 0xb2, 0xad, 0x37, 0x55, 0x97, 0xa3, 0xa1];
+pub const LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: [u8; 32] = [0xb5, 0x19, 0x4f, 0x3d, 0x23, 0xc4, 0x1e, 0x1b, 0x6a, 0xc7, 0x22, 0xdd, 0x0d, 0x91, 0x4f, 0x7f, 0x9f, 0x40, 0x09, 0x40, 0x87, 0xeb, 0x64, 0xd8, 0x85, 0x73, 0x78, 0xca, 0x8d, 0x34, 0xcd, 0x61];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListAuthorizationModelsQuery(pub ListAuthorizationModelsParams);
 impl GeneratedQuery for ListAuthorizationModelsQuery {
@@ -495,8 +495,9 @@ impl GeneratedQuery for ListAuthorizationModelsQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -562,7 +563,7 @@ pub enum ListStoresAllResult {
     Found(Box<ListStoresAllFound>),
 }
 
-pub const LIST_STORES_ALL_QUERY_PLAN_HASH: [u8; 32] = [0x5b, 0xb3, 0xa4, 0xef, 0x3d, 0x23, 0x7b, 0x02, 0x90, 0xc1, 0x53, 0x3e, 0x4b, 0x8e, 0x9f, 0xb0, 0xe6, 0x36, 0xe8, 0x9f, 0x04, 0x7b, 0x9f, 0x53, 0x90, 0x89, 0x5c, 0x76, 0x46, 0xe3, 0x97, 0x79];
+pub const LIST_STORES_ALL_QUERY_PLAN_HASH: [u8; 32] = [0x1b, 0xe7, 0x28, 0x5d, 0xd1, 0x34, 0x44, 0x5f, 0x7b, 0x0b, 0x60, 0xe8, 0x69, 0x28, 0xe4, 0x30, 0xe9, 0xab, 0x68, 0x2c, 0x11, 0x9d, 0x36, 0x97, 0xa2, 0x6a, 0xfe, 0x5e, 0x23, 0x6e, 0x22, 0x6c];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresAllQuery(pub ListStoresAllParams);
 impl GeneratedQuery for ListStoresAllQuery {
@@ -570,9 +571,10 @@ impl GeneratedQuery for ListStoresAllQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("registry_id".to_owned(), ApplicationValue::Uuid(ApplicationUuid::from_text(self.0.registry_id)?));
         parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -640,7 +642,7 @@ pub enum ListStoresByIdsResult {
     Found(Box<ListStoresByIdsFound>),
 }
 
-pub const LIST_STORES_BY_IDS_QUERY_PLAN_HASH: [u8; 32] = [0x5e, 0xd4, 0x91, 0xd2, 0x23, 0x87, 0x4e, 0xc0, 0x2e, 0x30, 0x39, 0x44, 0xc1, 0x75, 0x33, 0xaa, 0xd1, 0xe5, 0x92, 0x41, 0xed, 0x8a, 0xfc, 0xb9, 0x83, 0xaf, 0xe1, 0xed, 0x95, 0x6f, 0x19, 0xda];
+pub const LIST_STORES_BY_IDS_QUERY_PLAN_HASH: [u8; 32] = [0xe7, 0x1f, 0x51, 0x83, 0x9e, 0x2e, 0x0c, 0x4b, 0x0e, 0xe3, 0x6b, 0xe8, 0x24, 0x04, 0xe7, 0xbd, 0x1f, 0x94, 0xa5, 0x1b, 0xab, 0x28, 0x3a, 0xe5, 0x09, 0xec, 0x15, 0x28, 0xed, 0xac, 0xf0, 0xb4];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresByIdsQuery(pub ListStoresByIdsParams);
 impl GeneratedQuery for ListStoresByIdsQuery {
@@ -648,10 +650,11 @@ impl GeneratedQuery for ListStoresByIdsQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("registry_id".to_owned(), ApplicationValue::Uuid(ApplicationUuid::from_text(self.0.registry_id)?));
         parameters.insert("ids".to_owned(), ApplicationValue::List(self.0.ids.into_iter().map(ApplicationValue::String).collect()));
         parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -720,7 +723,7 @@ pub enum ListStoresByIdsAndNameResult {
     Found(Box<ListStoresByIdsAndNameFound>),
 }
 
-pub const LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: [u8; 32] = [0xcc, 0xf5, 0xc0, 0x60, 0x3e, 0xc7, 0x75, 0x72, 0x15, 0xf4, 0x37, 0x08, 0x61, 0x6f, 0xad, 0xc3, 0x38, 0x6f, 0xd4, 0x20, 0x61, 0x78, 0xef, 0xe1, 0x26, 0x01, 0x37, 0xa7, 0x94, 0xac, 0xff, 0xd5];
+pub const LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: [u8; 32] = [0x80, 0xd2, 0xfc, 0x3a, 0x51, 0xa9, 0xa6, 0xd7, 0x82, 0xfe, 0x8a, 0x45, 0xfc, 0x0c, 0x81, 0xbe, 0xae, 0x68, 0xe2, 0x59, 0xcf, 0x55, 0xc7, 0xdf, 0x5d, 0x40, 0x64, 0xf2, 0xc1, 0x31, 0x4c, 0xd8];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresByIdsAndNameQuery(pub ListStoresByIdsAndNameParams);
 impl GeneratedQuery for ListStoresByIdsAndNameQuery {
@@ -728,11 +731,12 @@ impl GeneratedQuery for ListStoresByIdsAndNameQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("registry_id".to_owned(), ApplicationValue::Uuid(ApplicationUuid::from_text(self.0.registry_id)?));
         parameters.insert("ids".to_owned(), ApplicationValue::List(self.0.ids.into_iter().map(ApplicationValue::String).collect()));
         parameters.insert("name".to_owned(), ApplicationValue::String(self.0.name));
         parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -800,7 +804,7 @@ pub enum ListStoresByNameResult {
     Found(Box<ListStoresByNameFound>),
 }
 
-pub const LIST_STORES_BY_NAME_QUERY_PLAN_HASH: [u8; 32] = [0x82, 0xb3, 0x3e, 0xc6, 0xbd, 0xc0, 0x5a, 0x8b, 0x5a, 0x0e, 0xf1, 0x79, 0xce, 0xfe, 0x55, 0x92, 0x0d, 0xfe, 0x14, 0xbc, 0xdf, 0x0c, 0x73, 0x43, 0x1a, 0x3d, 0xf3, 0x71, 0x1c, 0x88, 0x81, 0xa8];
+pub const LIST_STORES_BY_NAME_QUERY_PLAN_HASH: [u8; 32] = [0xd4, 0xc3, 0xde, 0xa1, 0x10, 0xb3, 0x3b, 0x53, 0x9a, 0x1c, 0xea, 0xc0, 0x9e, 0xa2, 0x22, 0xc6, 0xca, 0x3a, 0xad, 0xbc, 0x7c, 0x46, 0x79, 0x38, 0x4a, 0xda, 0xf2, 0xc0, 0xb2, 0x36, 0xc2, 0xaf];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresByNameQuery(pub ListStoresByNameParams);
 impl GeneratedQuery for ListStoresByNameQuery {
@@ -808,10 +812,11 @@ impl GeneratedQuery for ListStoresByNameQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("registry_id".to_owned(), ApplicationValue::Uuid(ApplicationUuid::from_text(self.0.registry_id)?));
         parameters.insert("name".to_owned(), ApplicationValue::String(self.0.name));
         parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -886,7 +891,7 @@ pub enum ReadAllTuplesResult {
     Found(Box<ReadAllTuplesFound>),
 }
 
-pub const READ_ALL_TUPLES_QUERY_PLAN_HASH: [u8; 32] = [0x2f, 0xe7, 0x24, 0x47, 0xdd, 0xde, 0x37, 0x9e, 0xe8, 0xe3, 0x01, 0x82, 0xe6, 0xe2, 0x3b, 0x7b, 0xd2, 0x46, 0x8b, 0x2b, 0x58, 0xc2, 0x34, 0xb2, 0x8d, 0x32, 0xef, 0x42, 0xc8, 0xdc, 0xd8, 0xa6];
+pub const READ_ALL_TUPLES_QUERY_PLAN_HASH: [u8; 32] = [0x37, 0xbc, 0x00, 0xf0, 0x4c, 0x81, 0x07, 0xba, 0x05, 0xb2, 0x53, 0x1c, 0xea, 0x12, 0x42, 0x9a, 0x07, 0x64, 0xaf, 0x5d, 0xd2, 0xaa, 0xe2, 0x25, 0x2b, 0xe8, 0xe8, 0x20, 0xba, 0x13, 0xe1, 0x2c];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadAllTuplesQuery(pub ReadAllTuplesParams);
 impl GeneratedQuery for ReadAllTuplesQuery {
@@ -894,8 +899,9 @@ impl GeneratedQuery for ReadAllTuplesQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -980,7 +986,7 @@ pub enum ReadAllTuplesWithConditionsResult {
     Found(Box<ReadAllTuplesWithConditionsFound>),
 }
 
-pub const READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: [u8; 32] = [0x08, 0xad, 0xc4, 0xeb, 0x2b, 0xcb, 0x25, 0x25, 0x6b, 0x7c, 0x17, 0x20, 0xc9, 0x9b, 0xf3, 0xe9, 0xbc, 0xaf, 0xd5, 0xcd, 0x24, 0xfd, 0x98, 0x05, 0xcf, 0xb9, 0x58, 0x5e, 0x40, 0x85, 0x6e, 0x46];
+pub const READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: [u8; 32] = [0x19, 0x60, 0x33, 0x32, 0xad, 0xaf, 0x45, 0x6c, 0x77, 0x5a, 0xf3, 0xf1, 0x3f, 0x1f, 0x88, 0x32, 0x4d, 0x40, 0xd9, 0x3b, 0x00, 0xd1, 0x82, 0xcf, 0x59, 0x3f, 0xa0, 0x53, 0x17, 0x20, 0xb6, 0x1b];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadAllTuplesWithConditionsQuery(pub ReadAllTuplesWithConditionsParams);
 impl GeneratedQuery for ReadAllTuplesWithConditionsQuery {
@@ -988,9 +994,10 @@ impl GeneratedQuery for ReadAllTuplesWithConditionsQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1043,8 +1050,9 @@ fn decode_read_all_tuples_with_conditions_found_tuples_record(mut record: Applic
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesAscParams {
     pub store_id: String,
-    pub from: Option<String>,
-    pub horizon: String,
+    pub start: Option<TimestampValue>,
+    pub horizon: TimestampValue,
+    pub after: Option<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1071,7 +1079,7 @@ pub enum ReadChangesAscResult {
     Found(Box<ReadChangesAscFound>),
 }
 
-pub const READ_CHANGES_ASC_QUERY_PLAN_HASH: [u8; 32] = [0x90, 0x94, 0xb0, 0xa5, 0xf6, 0x84, 0x63, 0x34, 0xbe, 0x49, 0x57, 0xe4, 0x20, 0x02, 0x54, 0x72, 0x33, 0x8d, 0xba, 0x61, 0xac, 0x3f, 0xc1, 0xf5, 0x78, 0x03, 0x1e, 0x4c, 0xb5, 0xde, 0x0d, 0xbe];
+pub const READ_CHANGES_ASC_QUERY_PLAN_HASH: [u8; 32] = [0x79, 0x00, 0x0f, 0xd4, 0xe7, 0x89, 0xd3, 0xe6, 0xb6, 0x13, 0xd6, 0x93, 0xbb, 0x2b, 0x4c, 0x0c, 0xce, 0x75, 0x51, 0x62, 0x17, 0x98, 0xe0, 0x68, 0xcc, 0x5d, 0xa7, 0xd1, 0x07, 0xb9, 0xee, 0x0e];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesAscQuery(pub ReadChangesAscParams);
 impl GeneratedQuery for ReadChangesAscQuery {
@@ -1079,9 +1087,11 @@ impl GeneratedQuery for ReadChangesAscQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
-        parameters.insert("from".to_owned(), match self.0.from { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
-        parameters.insert("horizon".to_owned(), ApplicationValue::String(self.0.horizon));
+        parameters.insert("start".to_owned(), match self.0.start { Some(value) => ApplicationValue::Timestamp { seconds: value.seconds, nanos: value.nanos }, None => ApplicationValue::Null });
+        parameters.insert("horizon".to_owned(), ApplicationValue::Timestamp { seconds: self.0.horizon.seconds, nanos: self.0.horizon.nanos });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1131,8 +1141,9 @@ fn decode_read_changes_asc_found_changes_record(mut record: ApplicationRecord) -
 pub struct ReadChangesByObjectAscParams {
     pub store_id: String,
     pub object_type: String,
-    pub from: Option<String>,
-    pub horizon: String,
+    pub start: Option<TimestampValue>,
+    pub horizon: TimestampValue,
+    pub after: Option<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1159,7 +1170,7 @@ pub enum ReadChangesByObjectAscResult {
     Found(Box<ReadChangesByObjectAscFound>),
 }
 
-pub const READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: [u8; 32] = [0x3e, 0x5e, 0xf4, 0xd9, 0xc8, 0xc6, 0xba, 0xf1, 0xfc, 0x2d, 0x98, 0x32, 0x89, 0xf3, 0x69, 0xed, 0x1e, 0xdd, 0x3e, 0x16, 0x1e, 0x64, 0xba, 0x67, 0x63, 0x30, 0x28, 0x7a, 0x64, 0xe9, 0x08, 0x00];
+pub const READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: [u8; 32] = [0x85, 0x11, 0x47, 0x7d, 0xdf, 0x0f, 0x17, 0xc8, 0x49, 0x15, 0x61, 0x40, 0x3d, 0x74, 0x4e, 0x90, 0xf2, 0x60, 0xd9, 0x9e, 0x88, 0x34, 0xd8, 0xf6, 0xf2, 0x82, 0x80, 0x62, 0x69, 0x64, 0x29, 0x76];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesByObjectAscQuery(pub ReadChangesByObjectAscParams);
 impl GeneratedQuery for ReadChangesByObjectAscQuery {
@@ -1167,10 +1178,12 @@ impl GeneratedQuery for ReadChangesByObjectAscQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
-        parameters.insert("from".to_owned(), match self.0.from { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
-        parameters.insert("horizon".to_owned(), ApplicationValue::String(self.0.horizon));
+        parameters.insert("start".to_owned(), match self.0.start { Some(value) => ApplicationValue::Timestamp { seconds: value.seconds, nanos: value.nanos }, None => ApplicationValue::Null });
+        parameters.insert("horizon".to_owned(), ApplicationValue::Timestamp { seconds: self.0.horizon.seconds, nanos: self.0.horizon.nanos });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1220,8 +1233,8 @@ fn decode_read_changes_by_object_asc_found_changes_record(mut record: Applicatio
 pub struct ReadChangesByObjectDescParams {
     pub store_id: String,
     pub object_type: String,
-    pub from: Option<String>,
-    pub horizon: String,
+    pub horizon: TimestampValue,
+    pub after: Option<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1248,7 +1261,7 @@ pub enum ReadChangesByObjectDescResult {
     Found(Box<ReadChangesByObjectDescFound>),
 }
 
-pub const READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: [u8; 32] = [0x18, 0xb9, 0x26, 0x4c, 0xc6, 0xcd, 0x73, 0xf0, 0x45, 0x1c, 0xee, 0xc3, 0x3c, 0x57, 0xa7, 0x3b, 0xea, 0x6e, 0xd1, 0xd9, 0x24, 0x95, 0x52, 0x15, 0xb6, 0x81, 0x13, 0xe2, 0xe9, 0x2a, 0xb9, 0xe6];
+pub const READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: [u8; 32] = [0x18, 0x93, 0xcf, 0xe8, 0x1d, 0x5f, 0xfa, 0x80, 0xdc, 0x69, 0x34, 0x34, 0xe8, 0x74, 0x27, 0xab, 0x6e, 0xe2, 0x66, 0xb7, 0x57, 0x38, 0x6c, 0x18, 0x07, 0x18, 0x82, 0xc3, 0x9b, 0x8b, 0xf1, 0x8b];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesByObjectDescQuery(pub ReadChangesByObjectDescParams);
 impl GeneratedQuery for ReadChangesByObjectDescQuery {
@@ -1256,10 +1269,11 @@ impl GeneratedQuery for ReadChangesByObjectDescQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
-        parameters.insert("from".to_owned(), match self.0.from { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
-        parameters.insert("horizon".to_owned(), ApplicationValue::String(self.0.horizon));
+        parameters.insert("horizon".to_owned(), ApplicationValue::Timestamp { seconds: self.0.horizon.seconds, nanos: self.0.horizon.nanos });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1308,8 +1322,8 @@ fn decode_read_changes_by_object_desc_found_changes_record(mut record: Applicati
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesDescParams {
     pub store_id: String,
-    pub from: Option<String>,
-    pub horizon: String,
+    pub horizon: TimestampValue,
+    pub after: Option<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -1336,7 +1350,7 @@ pub enum ReadChangesDescResult {
     Found(Box<ReadChangesDescFound>),
 }
 
-pub const READ_CHANGES_DESC_QUERY_PLAN_HASH: [u8; 32] = [0x2f, 0x78, 0x99, 0x48, 0xb3, 0x9a, 0x20, 0x10, 0xbd, 0xac, 0x28, 0xff, 0xaf, 0xaf, 0x5a, 0xdb, 0x9c, 0xab, 0x4e, 0xab, 0xbc, 0x2f, 0x2d, 0x9f, 0x89, 0xb5, 0x08, 0xad, 0xb6, 0x9d, 0xae, 0x79];
+pub const READ_CHANGES_DESC_QUERY_PLAN_HASH: [u8; 32] = [0x52, 0xb2, 0xf0, 0xf1, 0x29, 0x37, 0x0a, 0xe0, 0x2f, 0xbd, 0x77, 0xf6, 0x77, 0xc8, 0xd1, 0x96, 0xd4, 0x07, 0x7d, 0xd2, 0xe2, 0x7a, 0x76, 0x74, 0xeb, 0xcf, 0x67, 0xae, 0x5e, 0x9c, 0x7d, 0x3e];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesDescQuery(pub ReadChangesDescParams);
 impl GeneratedQuery for ReadChangesDescQuery {
@@ -1344,9 +1358,10 @@ impl GeneratedQuery for ReadChangesDescQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
-        parameters.insert("from".to_owned(), match self.0.from { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
-        parameters.insert("horizon".to_owned(), ApplicationValue::String(self.0.horizon));
+        parameters.insert("horizon".to_owned(), ApplicationValue::Timestamp { seconds: self.0.horizon.seconds, nanos: self.0.horizon.nanos });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1429,7 +1444,7 @@ pub enum ReadStartingWithUserResult {
     Found(Box<ReadStartingWithUserFound>),
 }
 
-pub const READ_STARTING_WITH_USER_QUERY_PLAN_HASH: [u8; 32] = [0x5e, 0xce, 0x6a, 0x2e, 0xed, 0xea, 0xdc, 0xe6, 0xec, 0xb0, 0x5c, 0x61, 0x5a, 0x01, 0xc8, 0x17, 0xea, 0x73, 0xdc, 0xb7, 0xbc, 0x35, 0x63, 0x6f, 0x4e, 0xad, 0x53, 0x58, 0x1e, 0xf4, 0x35, 0xc0];
+pub const READ_STARTING_WITH_USER_QUERY_PLAN_HASH: [u8; 32] = [0xc3, 0xfe, 0xe0, 0x07, 0xc9, 0x1b, 0x22, 0x32, 0x1c, 0xc8, 0x7c, 0x06, 0xf5, 0x70, 0xdd, 0x0e, 0x87, 0x2a, 0x6a, 0x70, 0xbb, 0xec, 0xdb, 0x20, 0xcd, 0xef, 0xd2, 0x71, 0x5e, 0x21, 0x99, 0xc5];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadStartingWithUserQuery(pub ReadStartingWithUserParams);
 impl GeneratedQuery for ReadStartingWithUserQuery {
@@ -1437,11 +1452,12 @@ impl GeneratedQuery for ReadStartingWithUserQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1529,7 +1545,7 @@ pub enum ReadStartingWithUserAndObjectsResult {
     Found(Box<ReadStartingWithUserAndObjectsFound>),
 }
 
-pub const READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: [u8; 32] = [0x18, 0xdb, 0x05, 0x2b, 0x82, 0xba, 0x2f, 0xf8, 0xa3, 0xc6, 0x52, 0x83, 0x2a, 0x8d, 0x79, 0x49, 0x9f, 0x22, 0x22, 0xc8, 0xea, 0x0d, 0xae, 0xca, 0x14, 0x00, 0x80, 0xae, 0x92, 0x3a, 0x6e, 0x81];
+pub const READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: [u8; 32] = [0x60, 0x7a, 0x1f, 0xab, 0xb4, 0xf2, 0x79, 0xff, 0x10, 0xa9, 0xc4, 0x23, 0x41, 0x4b, 0x7b, 0x70, 0xc3, 0x3b, 0x02, 0x95, 0x87, 0x17, 0xc5, 0xe7, 0x06, 0x1b, 0x83, 0x9e, 0xfc, 0xff, 0xf7, 0x78];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadStartingWithUserAndObjectsQuery(pub ReadStartingWithUserAndObjectsParams);
 impl GeneratedQuery for ReadStartingWithUserAndObjectsQuery {
@@ -1537,12 +1553,13 @@ impl GeneratedQuery for ReadStartingWithUserAndObjectsQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("object_ids".to_owned(), ApplicationValue::List(self.0.object_ids.into_iter().map(ApplicationValue::String).collect()));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1631,7 +1648,7 @@ pub enum ReadStartingWithUserObjectsConditionResult {
     Found(Box<ReadStartingWithUserObjectsConditionFound>),
 }
 
-pub const READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x48, 0xc1, 0x14, 0x02, 0xf5, 0xcb, 0xfe, 0xa6, 0x40, 0x80, 0x16, 0xd7, 0x53, 0xdf, 0x6c, 0x81, 0xe5, 0xcd, 0x87, 0xee, 0x43, 0xdf, 0xc1, 0x9b, 0x26, 0xb4, 0x09, 0xce, 0x14, 0xe6, 0x0f, 0x96];
+pub const READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xe2, 0x77, 0xa0, 0x97, 0x7d, 0xc8, 0xaa, 0xe6, 0x7c, 0xa5, 0x27, 0xaa, 0x33, 0xf6, 0x9b, 0x2f, 0x30, 0x5f, 0xc0, 0xec, 0x7a, 0xe3, 0x8b, 0x35, 0x18, 0x14, 0x05, 0x31, 0x5a, 0x5c, 0x3e, 0x4d];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadStartingWithUserObjectsConditionQuery(pub ReadStartingWithUserObjectsConditionParams);
 impl GeneratedQuery for ReadStartingWithUserObjectsConditionQuery {
@@ -1639,13 +1656,14 @@ impl GeneratedQuery for ReadStartingWithUserObjectsConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("object_ids".to_owned(), ApplicationValue::List(self.0.object_ids.into_iter().map(ApplicationValue::String).collect()));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1733,7 +1751,7 @@ pub enum ReadStartingWithUserWithConditionResult {
     Found(Box<ReadStartingWithUserWithConditionFound>),
 }
 
-pub const READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xad, 0x5b, 0xfd, 0x0d, 0x96, 0x0b, 0xf2, 0x1f, 0xde, 0x7a, 0xff, 0x7e, 0x39, 0x32, 0xf1, 0xe5, 0x21, 0xd3, 0x1a, 0x13, 0xaa, 0xd2, 0xc2, 0x13, 0x79, 0xbf, 0x53, 0xf3, 0x77, 0x03, 0x77, 0x6a];
+pub const READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xf3, 0x13, 0x9d, 0x21, 0xc4, 0x0a, 0xb4, 0x97, 0xcb, 0x9c, 0x12, 0x74, 0x78, 0xa2, 0x21, 0x44, 0x0a, 0x6c, 0xd8, 0xa2, 0xa2, 0x98, 0xe7, 0xe8, 0xfa, 0xb1, 0xef, 0xba, 0x0a, 0x76, 0xaa, 0x47];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadStartingWithUserWithConditionQuery(pub ReadStartingWithUserWithConditionParams);
 impl GeneratedQuery for ReadStartingWithUserWithConditionQuery {
@@ -1741,12 +1759,13 @@ impl GeneratedQuery for ReadStartingWithUserWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -1838,7 +1857,7 @@ pub enum ReadTupleExactResult {
     NotFound(Box<ReadTupleExactNotFound>),
 }
 
-pub const READ_TUPLE_EXACT_QUERY_PLAN_HASH: [u8; 32] = [0xfa, 0xf1, 0xe4, 0x5b, 0xa7, 0xbb, 0xc5, 0x4f, 0xa5, 0x93, 0x71, 0xcb, 0x32, 0xf1, 0xec, 0x84, 0x97, 0x68, 0x49, 0x8b, 0xb0, 0xbd, 0x9b, 0x47, 0x5f, 0x68, 0xcb, 0x5b, 0x5f, 0x19, 0xe2, 0x89];
+pub const READ_TUPLE_EXACT_QUERY_PLAN_HASH: [u8; 32] = [0x1c, 0xb0, 0xc8, 0xa9, 0x4a, 0xc9, 0xa6, 0x67, 0x82, 0xe1, 0xbd, 0x44, 0x38, 0xa9, 0x73, 0x37, 0x12, 0x23, 0x32, 0x57, 0x93, 0x37, 0xae, 0xf8, 0x70, 0x1c, 0x5b, 0x2a, 0xac, 0x90, 0xd6, 0x15];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTupleExactQuery(pub ReadTupleExactParams);
 impl GeneratedQuery for ReadTupleExactQuery {
@@ -1949,7 +1968,7 @@ pub enum ReadTupleExactWithConditionResult {
     NotFound(Box<ReadTupleExactWithConditionNotFound>),
 }
 
-pub const READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x56, 0x82, 0x0e, 0x40, 0xc3, 0x1b, 0x0e, 0xe5, 0x5c, 0x13, 0x66, 0x96, 0x19, 0x03, 0xfb, 0xc9, 0x50, 0x6f, 0xcc, 0x94, 0x66, 0x7c, 0x29, 0xcb, 0x0e, 0xc1, 0x80, 0xd9, 0xe8, 0x9b, 0x61, 0x72];
+pub const READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xf6, 0xa8, 0x56, 0xfa, 0x88, 0xb2, 0x24, 0x0e, 0x24, 0x54, 0x50, 0xbf, 0x3a, 0xf4, 0x85, 0x19, 0x10, 0x4d, 0xe8, 0x16, 0xd2, 0x75, 0xce, 0xef, 0x25, 0xed, 0x11, 0x35, 0xce, 0xa8, 0x8b, 0x0e];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTupleExactWithConditionQuery(pub ReadTupleExactWithConditionParams);
 impl GeneratedQuery for ReadTupleExactWithConditionQuery {
@@ -2054,7 +2073,7 @@ pub enum ReadTuplesByObjectResult {
     Found(Box<ReadTuplesByObjectFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: [u8; 32] = [0x9c, 0x74, 0xe3, 0x3c, 0xc0, 0xe1, 0xb8, 0x71, 0xcf, 0x84, 0x9b, 0xd1, 0x6f, 0x6c, 0xaf, 0x16, 0x29, 0xc5, 0x86, 0x84, 0x53, 0x71, 0x98, 0x13, 0x82, 0x1d, 0xa7, 0x2b, 0x8b, 0xf3, 0x8f, 0x5c];
+pub const READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: [u8; 32] = [0x6e, 0xee, 0x54, 0x3f, 0xdd, 0x37, 0x16, 0x73, 0x02, 0xab, 0x15, 0x2f, 0x15, 0x4f, 0x09, 0x38, 0x87, 0x20, 0x93, 0xf9, 0xa5, 0x7d, 0xd6, 0x9c, 0x77, 0x1f, 0x24, 0x66, 0x1a, 0x70, 0xb9, 0x80];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectQuery(pub ReadTuplesByObjectParams);
 impl GeneratedQuery for ReadTuplesByObjectQuery {
@@ -2062,10 +2081,11 @@ impl GeneratedQuery for ReadTuplesByObjectQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2152,7 +2172,7 @@ pub enum ReadTuplesByObjectRelationResult {
     Found(Box<ReadTuplesByObjectRelationFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x36, 0xf3, 0xab, 0x11, 0x43, 0x92, 0x54, 0xa7, 0x29, 0x59, 0x43, 0x11, 0xca, 0xc3, 0xfe, 0x9e, 0x91, 0xf2, 0x09, 0x6e, 0x1e, 0x83, 0x61, 0x8a, 0x0d, 0x79, 0x6b, 0x22, 0x19, 0xc7, 0x0d, 0x27];
+pub const READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x9d, 0xeb, 0x19, 0x5d, 0xa3, 0x7f, 0x3e, 0x6a, 0x77, 0xe8, 0xf9, 0x3d, 0xd3, 0xc6, 0xa3, 0x91, 0x46, 0x89, 0xc0, 0xd9, 0xcb, 0x26, 0xa7, 0x0d, 0xbb, 0xcf, 0xff, 0x69, 0xf6, 0x76, 0xc8, 0x56];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectRelationQuery(pub ReadTuplesByObjectRelationParams);
 impl GeneratedQuery for ReadTuplesByObjectRelationQuery {
@@ -2160,11 +2180,12 @@ impl GeneratedQuery for ReadTuplesByObjectRelationQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2252,7 +2273,7 @@ pub enum ReadTuplesByObjectRelationWithConditionResult {
     Found(Box<ReadTuplesByObjectRelationWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x70, 0x3d, 0x67, 0xe0, 0x91, 0xb0, 0xfa, 0xc1, 0xb7, 0xb4, 0x26, 0xe5, 0x22, 0x4e, 0x07, 0xaf, 0xd4, 0xef, 0x11, 0x4b, 0x48, 0xa2, 0xcf, 0x73, 0x2c, 0x91, 0xbe, 0xd9, 0x39, 0x0f, 0x1d, 0x2b];
+pub const READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x57, 0x14, 0x34, 0x95, 0xfe, 0x15, 0x5e, 0x9c, 0xaa, 0x6e, 0x18, 0xfb, 0x32, 0xaa, 0x07, 0x5b, 0xb5, 0x37, 0x7b, 0x8d, 0x99, 0xee, 0x7b, 0x9b, 0xdb, 0x7b, 0x00, 0x85, 0x25, 0x2e, 0x43, 0xdc];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectRelationWithConditionQuery(pub ReadTuplesByObjectRelationWithConditionParams);
 impl GeneratedQuery for ReadTuplesByObjectRelationWithConditionQuery {
@@ -2260,12 +2281,13 @@ impl GeneratedQuery for ReadTuplesByObjectRelationWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2352,7 +2374,7 @@ pub enum ReadTuplesByObjectUserResult {
     Found(Box<ReadTuplesByObjectUserFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: [u8; 32] = [0x2a, 0x6c, 0x9e, 0x60, 0x5a, 0x05, 0xd7, 0x77, 0x0c, 0xc8, 0x34, 0x6e, 0x61, 0xf7, 0x16, 0x9a, 0x27, 0xb2, 0x75, 0x10, 0xa4, 0x8f, 0x37, 0x08, 0xc2, 0xc0, 0x0d, 0x3a, 0x0d, 0xe0, 0xe2, 0xb3];
+pub const READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: [u8; 32] = [0xdc, 0x8e, 0xff, 0x06, 0xa2, 0x4e, 0x0f, 0x87, 0x02, 0x02, 0xde, 0x9b, 0xd4, 0x77, 0xaf, 0x1b, 0x6d, 0x35, 0xa4, 0x62, 0x84, 0x9c, 0x21, 0x22, 0xf5, 0x0c, 0x94, 0xd5, 0xdd, 0x1c, 0xdf, 0xe0];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectUserQuery(pub ReadTuplesByObjectUserParams);
 impl GeneratedQuery for ReadTuplesByObjectUserQuery {
@@ -2360,11 +2382,12 @@ impl GeneratedQuery for ReadTuplesByObjectUserQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2452,7 +2475,7 @@ pub enum ReadTuplesByObjectUserWithConditionResult {
     Found(Box<ReadTuplesByObjectUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x7d, 0xd9, 0x4c, 0xf8, 0x03, 0xcd, 0x7c, 0xd7, 0x63, 0x08, 0x72, 0x87, 0xdd, 0xdb, 0x75, 0xea, 0x92, 0xb7, 0x3c, 0x5d, 0xfe, 0x61, 0x14, 0xd3, 0x65, 0x48, 0x03, 0x53, 0x77, 0x65, 0xf5, 0x06];
+pub const READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x8a, 0x79, 0x6c, 0x6e, 0x2c, 0x1f, 0xd7, 0xde, 0x75, 0x68, 0x5b, 0x45, 0x48, 0xa6, 0x9f, 0x9c, 0xd3, 0x8f, 0x90, 0xf6, 0xf7, 0xf9, 0x46, 0xea, 0xc4, 0xff, 0x63, 0x66, 0xab, 0x42, 0xe5, 0xa3];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectUserWithConditionQuery(pub ReadTuplesByObjectUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByObjectUserWithConditionQuery {
@@ -2460,12 +2483,13 @@ impl GeneratedQuery for ReadTuplesByObjectUserWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2552,7 +2576,7 @@ pub enum ReadTuplesByObjectWithConditionResult {
     Found(Box<ReadTuplesByObjectWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x52, 0x00, 0x5b, 0x3f, 0x0d, 0x2a, 0xac, 0x2c, 0xcf, 0xed, 0x4f, 0x2f, 0x75, 0xc6, 0xb1, 0x20, 0x80, 0xd6, 0x24, 0x61, 0x42, 0xf2, 0x7f, 0x59, 0x72, 0x8c, 0xfa, 0xe1, 0x17, 0x52, 0xc3, 0x17];
+pub const READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x82, 0xa6, 0x83, 0x0d, 0x39, 0xd1, 0x10, 0xe2, 0x89, 0x58, 0x7f, 0xdf, 0x48, 0xcc, 0xf1, 0x99, 0x35, 0x0c, 0xd0, 0x36, 0x89, 0x13, 0xd9, 0xef, 0x09, 0xb0, 0xb5, 0x95, 0xa9, 0xa6, 0x10, 0x4f];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectWithConditionQuery(pub ReadTuplesByObjectWithConditionParams);
 impl GeneratedQuery for ReadTuplesByObjectWithConditionQuery {
@@ -2560,11 +2584,12 @@ impl GeneratedQuery for ReadTuplesByObjectWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2650,7 +2675,7 @@ pub enum ReadTuplesByRelationUserResult {
     Found(Box<ReadTuplesByRelationUserFound>),
 }
 
-pub const READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0x12, 0xff, 0x1d, 0x49, 0x88, 0xde, 0x57, 0x9d, 0x58, 0x98, 0x3d, 0x46, 0x44, 0xbd, 0xb6, 0xf4, 0x3b, 0xdc, 0xfe, 0x69, 0xae, 0xa5, 0xd0, 0x33, 0xcf, 0x4e, 0xf8, 0x8d, 0x12, 0xbb, 0xe5, 0x58];
+pub const READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0xc0, 0x72, 0xd4, 0x0a, 0xbf, 0xde, 0xc0, 0xa8, 0xc3, 0x67, 0x28, 0x8a, 0xea, 0x8c, 0xa0, 0xdf, 0x52, 0x6e, 0xee, 0x51, 0x2c, 0x7a, 0xe0, 0x83, 0x03, 0xa8, 0xf7, 0x74, 0x16, 0xe0, 0xe9, 0x6d];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByRelationUserQuery(pub ReadTuplesByRelationUserParams);
 impl GeneratedQuery for ReadTuplesByRelationUserQuery {
@@ -2658,10 +2683,11 @@ impl GeneratedQuery for ReadTuplesByRelationUserQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2748,7 +2774,7 @@ pub enum ReadTuplesByRelationUserWithConditionResult {
     Found(Box<ReadTuplesByRelationUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x0c, 0x5b, 0xc9, 0xb6, 0x88, 0x81, 0xac, 0x24, 0x18, 0x7b, 0x08, 0xf1, 0x9f, 0x89, 0x51, 0x5d, 0xa9, 0xf9, 0x8e, 0xea, 0xeb, 0x6d, 0x6d, 0x69, 0x27, 0x83, 0xaa, 0xa8, 0xf4, 0x74, 0x8b, 0xe5];
+pub const READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x6d, 0xf0, 0x57, 0x0c, 0x13, 0x2c, 0xea, 0x2c, 0x5c, 0x5c, 0x6f, 0x0b, 0xb2, 0xb3, 0x21, 0xd0, 0xf2, 0xcd, 0x05, 0xc4, 0x4f, 0x63, 0x0a, 0x4a, 0xca, 0x4e, 0x33, 0xf2, 0x51, 0xb3, 0x6a, 0xd6];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByRelationUserWithConditionQuery(pub ReadTuplesByRelationUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByRelationUserWithConditionQuery {
@@ -2756,11 +2782,12 @@ impl GeneratedQuery for ReadTuplesByRelationUserWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2845,7 +2872,7 @@ pub enum ReadTuplesByTypeResult {
     Found(Box<ReadTuplesByTypeFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: [u8; 32] = [0x58, 0xd9, 0xe4, 0x82, 0xea, 0xa7, 0x93, 0x96, 0x3e, 0xd2, 0x4f, 0x15, 0xb4, 0x5e, 0xeb, 0xa0, 0x5e, 0x9d, 0xec, 0x55, 0xf4, 0x41, 0x57, 0x88, 0x8b, 0xc0, 0x43, 0x91, 0x7b, 0x61, 0x15, 0x5d];
+pub const READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: [u8; 32] = [0xc3, 0x22, 0x8a, 0x7e, 0xba, 0xb6, 0x48, 0xb3, 0xed, 0x14, 0xe7, 0x53, 0xcf, 0x01, 0xa0, 0xc9, 0x21, 0x8b, 0x03, 0xe0, 0x19, 0xb4, 0xad, 0xf8, 0xa8, 0xa4, 0x8d, 0x5b, 0xb2, 0xbe, 0x72, 0xb8];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeQuery(pub ReadTuplesByTypeParams);
 impl GeneratedQuery for ReadTuplesByTypeQuery {
@@ -2853,9 +2880,10 @@ impl GeneratedQuery for ReadTuplesByTypeQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -2941,7 +2969,7 @@ pub enum ReadTuplesByTypeRelationResult {
     Found(Box<ReadTuplesByTypeRelationFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x0a, 0x39, 0x38, 0xd9, 0x12, 0xc7, 0xfe, 0xce, 0x36, 0x7f, 0xa3, 0x52, 0x46, 0xad, 0x4e, 0x0d, 0xc8, 0xc1, 0xf3, 0x59, 0xab, 0x57, 0x09, 0x43, 0xe0, 0x93, 0x1a, 0x4a, 0x83, 0x9e, 0xb7, 0x92];
+pub const READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x3f, 0x88, 0x49, 0x97, 0x15, 0x23, 0x97, 0xa8, 0x01, 0xe9, 0x40, 0xab, 0x04, 0xa7, 0x01, 0x8a, 0x6a, 0xe0, 0xda, 0xca, 0x28, 0x12, 0xa5, 0xf1, 0xa4, 0xc1, 0x3e, 0xcd, 0x68, 0xc8, 0x17, 0x35];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationQuery(pub ReadTuplesByTypeRelationParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationQuery {
@@ -2949,10 +2977,11 @@ impl GeneratedQuery for ReadTuplesByTypeRelationQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3039,7 +3068,7 @@ pub enum ReadTuplesByTypeRelationUserResult {
     Found(Box<ReadTuplesByTypeRelationUserFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0x9a, 0xf0, 0x22, 0x5c, 0xc1, 0xf1, 0xd6, 0x0f, 0xa8, 0x39, 0x99, 0xb6, 0xae, 0x5b, 0xdc, 0x24, 0x24, 0xfe, 0x2e, 0x89, 0xad, 0xec, 0x8e, 0xf4, 0xf4, 0xbd, 0xf8, 0x36, 0x2d, 0xae, 0x54, 0x69];
+pub const READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0x4b, 0x85, 0x9b, 0x18, 0x27, 0x8e, 0xc2, 0x3f, 0xfa, 0x4c, 0xa6, 0x5d, 0xd5, 0x70, 0x66, 0xff, 0xcc, 0x00, 0x45, 0x18, 0xab, 0x4c, 0xf4, 0xca, 0xa0, 0xd9, 0xdb, 0xd8, 0x5f, 0xdd, 0xc1, 0xee];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationUserQuery(pub ReadTuplesByTypeRelationUserParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationUserQuery {
@@ -3047,11 +3076,12 @@ impl GeneratedQuery for ReadTuplesByTypeRelationUserQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3139,7 +3169,7 @@ pub enum ReadTuplesByTypeRelationUserWithConditionResult {
     Found(Box<ReadTuplesByTypeRelationUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x14, 0xfb, 0x1f, 0xd4, 0x2b, 0x01, 0x53, 0x8f, 0x39, 0x5d, 0xee, 0x4b, 0x5d, 0x26, 0xb1, 0x93, 0x7b, 0x54, 0xc5, 0x38, 0x9e, 0x47, 0xa9, 0xf7, 0xa0, 0x04, 0x01, 0xb0, 0x61, 0x99, 0xcf, 0xb1];
+pub const READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x60, 0x49, 0xc2, 0xcf, 0xdd, 0x83, 0xb2, 0xbd, 0x03, 0x17, 0x46, 0x89, 0x48, 0xb8, 0xde, 0x9e, 0x05, 0x9e, 0xf1, 0x9d, 0xda, 0xb4, 0xfb, 0x4f, 0x76, 0x06, 0xf7, 0x23, 0x38, 0x23, 0xcd, 0x60];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationUserWithConditionQuery(pub ReadTuplesByTypeRelationUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationUserWithConditionQuery {
@@ -3147,12 +3177,13 @@ impl GeneratedQuery for ReadTuplesByTypeRelationUserWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3239,7 +3270,7 @@ pub enum ReadTuplesByTypeRelationWithConditionResult {
     Found(Box<ReadTuplesByTypeRelationWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xeb, 0x1d, 0x7a, 0x4f, 0x89, 0xdb, 0x44, 0x9f, 0x30, 0x08, 0x4e, 0xbb, 0x5d, 0x7e, 0xe6, 0xd2, 0x75, 0xd7, 0xa0, 0xb1, 0x1e, 0xbf, 0x80, 0xeb, 0x5f, 0x26, 0xd7, 0x1d, 0x88, 0x49, 0x69, 0xdf];
+pub const READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xbd, 0x38, 0x8b, 0xef, 0x6d, 0xb9, 0xdb, 0xe3, 0x70, 0x65, 0x69, 0x86, 0x7f, 0x46, 0xb2, 0x26, 0x12, 0xab, 0x63, 0xf5, 0xb4, 0xd1, 0x3e, 0x17, 0x10, 0xb8, 0x62, 0x87, 0x41, 0x17, 0x3e, 0x3d];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationWithConditionQuery(pub ReadTuplesByTypeRelationWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationWithConditionQuery {
@@ -3247,11 +3278,12 @@ impl GeneratedQuery for ReadTuplesByTypeRelationWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3337,7 +3369,7 @@ pub enum ReadTuplesByTypeUserResult {
     Found(Box<ReadTuplesByTypeUserFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: [u8; 32] = [0x83, 0x1b, 0x10, 0x62, 0xab, 0x3f, 0x96, 0x35, 0xa8, 0xaf, 0x15, 0x53, 0x24, 0xa8, 0xc7, 0xe2, 0xe7, 0x42, 0x5f, 0xfb, 0x80, 0x0a, 0xcb, 0x4c, 0xd2, 0xa4, 0xd9, 0x59, 0x6c, 0xb0, 0xda, 0x3b];
+pub const READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: [u8; 32] = [0xcc, 0xa1, 0x35, 0xc2, 0xba, 0x85, 0x68, 0xa5, 0x91, 0x9a, 0xa5, 0xcc, 0x6b, 0xbf, 0x06, 0x53, 0x3b, 0xe7, 0xad, 0x43, 0x45, 0x85, 0xd9, 0x3d, 0xa6, 0x42, 0x9f, 0x49, 0x92, 0x0a, 0x28, 0x16];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeUserQuery(pub ReadTuplesByTypeUserParams);
 impl GeneratedQuery for ReadTuplesByTypeUserQuery {
@@ -3345,10 +3377,11 @@ impl GeneratedQuery for ReadTuplesByTypeUserQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3435,7 +3468,7 @@ pub enum ReadTuplesByTypeUserWithConditionResult {
     Found(Box<ReadTuplesByTypeUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x66, 0x6b, 0xe7, 0x3a, 0x74, 0x02, 0xc1, 0x88, 0x25, 0xac, 0x90, 0xa8, 0x01, 0xb2, 0xce, 0xd2, 0x0e, 0xa0, 0xae, 0xac, 0xdc, 0x4e, 0x75, 0xa4, 0x5f, 0x58, 0xd7, 0x55, 0x48, 0x26, 0x58, 0x65];
+pub const READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xb7, 0x95, 0x0f, 0x96, 0x38, 0xf9, 0x84, 0x9c, 0xdd, 0x71, 0x51, 0xe8, 0xc4, 0x31, 0x2d, 0x52, 0xd5, 0x73, 0x7b, 0x97, 0xc3, 0x52, 0x40, 0x3f, 0x43, 0x2f, 0x4e, 0x2d, 0xd7, 0xa2, 0x81, 0x21];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeUserWithConditionQuery(pub ReadTuplesByTypeUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeUserWithConditionQuery {
@@ -3443,11 +3476,12 @@ impl GeneratedQuery for ReadTuplesByTypeUserWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3533,7 +3567,7 @@ pub enum ReadTuplesByTypeWithConditionResult {
     Found(Box<ReadTuplesByTypeWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xb8, 0x97, 0xaa, 0x59, 0x7e, 0x4b, 0x2d, 0x27, 0x77, 0x7c, 0x4c, 0x15, 0xfa, 0xb2, 0x6f, 0xaf, 0x31, 0xe5, 0xf0, 0xdd, 0x39, 0x2e, 0x5a, 0x7c, 0x54, 0xe5, 0x73, 0xb5, 0xdb, 0x2e, 0x9b, 0xaf];
+pub const READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x74, 0xa7, 0xfc, 0xf1, 0x47, 0x3d, 0x23, 0x46, 0x78, 0xcb, 0xf9, 0xcc, 0x76, 0xca, 0x14, 0x0f, 0x04, 0x92, 0x5f, 0x62, 0x60, 0x59, 0x27, 0xab, 0x3b, 0x10, 0xf2, 0x63, 0x63, 0xea, 0xf5, 0x62];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeWithConditionQuery(pub ReadTuplesByTypeWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeWithConditionQuery {
@@ -3541,10 +3575,11 @@ impl GeneratedQuery for ReadTuplesByTypeWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3629,7 +3664,7 @@ pub enum ReadTuplesByUserResult {
     Found(Box<ReadTuplesByUserFound>),
 }
 
-pub const READ_TUPLES_BY_USER_QUERY_PLAN_HASH: [u8; 32] = [0x5f, 0xf8, 0x23, 0xeb, 0x49, 0x82, 0x8c, 0x8e, 0x75, 0xea, 0x5d, 0x61, 0x4b, 0x9f, 0x70, 0xde, 0x8f, 0x41, 0x81, 0x46, 0x87, 0xf0, 0x15, 0xac, 0xeb, 0x09, 0x5c, 0xdd, 0x4c, 0x2e, 0xd0, 0xf5];
+pub const READ_TUPLES_BY_USER_QUERY_PLAN_HASH: [u8; 32] = [0xe3, 0xbb, 0x4c, 0x9f, 0xd3, 0xce, 0xb1, 0xb7, 0x34, 0xe0, 0xe3, 0x35, 0x6a, 0xd0, 0xea, 0xa1, 0xc6, 0xea, 0xca, 0x95, 0xbe, 0xd5, 0xfb, 0x13, 0x5e, 0x26, 0x71, 0x87, 0x5f, 0xa0, 0xf9, 0x0b];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByUserQuery(pub ReadTuplesByUserParams);
 impl GeneratedQuery for ReadTuplesByUserQuery {
@@ -3637,9 +3672,10 @@ impl GeneratedQuery for ReadTuplesByUserQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3725,7 +3761,7 @@ pub enum ReadTuplesByUserWithConditionResult {
     Found(Box<ReadTuplesByUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x0e, 0xc1, 0x78, 0x04, 0xa1, 0x4b, 0x6b, 0xda, 0xf8, 0x26, 0xf9, 0x3b, 0xc4, 0x23, 0xbd, 0x22, 0x77, 0x49, 0x5d, 0x99, 0x71, 0x6c, 0xc0, 0x50, 0xf0, 0xeb, 0x6d, 0x10, 0xd4, 0xfc, 0x91, 0x67];
+pub const READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x27, 0x2e, 0x79, 0x29, 0xa1, 0x20, 0xd9, 0xcc, 0x50, 0x56, 0x98, 0x3b, 0x1f, 0x09, 0x97, 0x5e, 0x07, 0x3b, 0xe5, 0xe6, 0x15, 0x6e, 0x13, 0x76, 0xb8, 0x02, 0x13, 0x81, 0xa9, 0xaf, 0x52, 0x6e];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByUserWithConditionQuery(pub ReadTuplesByUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByUserWithConditionQuery {
@@ -3733,10 +3769,11 @@ impl GeneratedQuery for ReadTuplesByUserWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3824,7 +3861,7 @@ pub enum ReadUsersetByKindResult {
     Found(Box<ReadUsersetByKindFound>),
 }
 
-pub const READ_USERSET_BY_KIND_QUERY_PLAN_HASH: [u8; 32] = [0x83, 0x38, 0x0a, 0xc8, 0xa0, 0xa1, 0xf3, 0x60, 0xe9, 0x17, 0xc4, 0x61, 0x23, 0x3d, 0x6c, 0x7f, 0x02, 0xba, 0xbb, 0x5b, 0xc8, 0x33, 0xab, 0x97, 0x44, 0x79, 0xe1, 0x55, 0x9a, 0xce, 0x0d, 0xe1];
+pub const READ_USERSET_BY_KIND_QUERY_PLAN_HASH: [u8; 32] = [0x38, 0x0a, 0xfe, 0x76, 0xe8, 0xd3, 0xc9, 0xe3, 0x28, 0x1a, 0xb7, 0xaf, 0x00, 0x82, 0xfb, 0x4a, 0xe0, 0xc3, 0x7b, 0xc0, 0x47, 0xac, 0x8f, 0xa8, 0x9a, 0xd4, 0x88, 0xa9, 0xd3, 0x01, 0x26, 0x95];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadUsersetByKindQuery(pub ReadUsersetByKindParams);
 impl GeneratedQuery for ReadUsersetByKindQuery {
@@ -3832,12 +3869,13 @@ impl GeneratedQuery for ReadUsersetByKindQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -3926,7 +3964,7 @@ pub enum ReadUsersetByKindAndTypeResult {
     Found(Box<ReadUsersetByKindAndTypeFound>),
 }
 
-pub const READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH: [u8; 32] = [0x78, 0x8d, 0xb5, 0x57, 0xc9, 0xda, 0x3a, 0xb3, 0x90, 0x9f, 0x1b, 0x76, 0x39, 0xf9, 0x23, 0x56, 0x6f, 0x3d, 0xa0, 0x45, 0x84, 0xdb, 0x48, 0x72, 0x4f, 0x94, 0xe2, 0xfe, 0xe2, 0xdc, 0xc5, 0xff];
+pub const READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH: [u8; 32] = [0x7c, 0x59, 0xf1, 0xf2, 0xaf, 0x6e, 0x69, 0x58, 0xe1, 0xb3, 0x03, 0x2b, 0x74, 0x59, 0x82, 0x48, 0x61, 0xdd, 0xd5, 0xf4, 0x38, 0xdf, 0x20, 0x19, 0x6c, 0xb7, 0xc9, 0x2f, 0xb5, 0x08, 0xac, 0x2a];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadUsersetByKindAndTypeQuery(pub ReadUsersetByKindAndTypeParams);
 impl GeneratedQuery for ReadUsersetByKindAndTypeQuery {
@@ -3934,13 +3972,14 @@ impl GeneratedQuery for ReadUsersetByKindAndTypeQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
         parameters.insert("user_object_type".to_owned(), ApplicationValue::String(self.0.user_object_type));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -4030,7 +4069,7 @@ pub enum ReadUsersetByKindAndTypeWithConditionResult {
     Found(Box<ReadUsersetByKindAndTypeWithConditionFound>),
 }
 
-pub const READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x92, 0xee, 0x42, 0xeb, 0x2b, 0xaf, 0x1e, 0x56, 0xd5, 0x87, 0x8e, 0x49, 0xc8, 0xfd, 0x42, 0x0f, 0xf7, 0x74, 0xf1, 0xe6, 0x97, 0xb9, 0x0c, 0xf1, 0x45, 0xdd, 0xfc, 0x6c, 0x21, 0x63, 0x79, 0x05];
+pub const READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x59, 0xde, 0x50, 0x19, 0xb4, 0x84, 0x3f, 0xfb, 0x68, 0x7e, 0x2c, 0xd2, 0x6b, 0x1c, 0x04, 0x5f, 0xac, 0xfc, 0xd0, 0xf5, 0xb7, 0x52, 0xc8, 0x16, 0xa5, 0xee, 0x96, 0xef, 0xf3, 0x17, 0x10, 0x0c];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadUsersetByKindAndTypeWithConditionQuery(pub ReadUsersetByKindAndTypeWithConditionParams);
 impl GeneratedQuery for ReadUsersetByKindAndTypeWithConditionQuery {
@@ -4038,6 +4077,7 @@ impl GeneratedQuery for ReadUsersetByKindAndTypeWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
@@ -4045,7 +4085,7 @@ impl GeneratedQuery for ReadUsersetByKindAndTypeWithConditionQuery {
         parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
         parameters.insert("user_object_type".to_owned(), ApplicationValue::String(self.0.user_object_type));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -4135,7 +4175,7 @@ pub enum ReadUsersetByKindTypeRelationResult {
     Found(Box<ReadUsersetByKindTypeRelationFound>),
 }
 
-pub const READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0xbc, 0xb9, 0x4b, 0x1a, 0xc2, 0x49, 0xb1, 0x6c, 0x42, 0x6e, 0xdd, 0x68, 0x30, 0x6a, 0x50, 0xa9, 0x65, 0x6d, 0x39, 0x4d, 0x83, 0xb3, 0x19, 0xaf, 0x08, 0x8e, 0xf3, 0x6e, 0x36, 0x44, 0xff, 0x6c];
+pub const READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x63, 0xaf, 0xc5, 0xf0, 0x8b, 0xd9, 0x43, 0x2a, 0x09, 0xae, 0xe5, 0xf5, 0x3b, 0x9f, 0xbf, 0x97, 0x93, 0x9e, 0x01, 0xa9, 0x5c, 0x17, 0x82, 0xa0, 0x9d, 0x09, 0xe0, 0x9a, 0x26, 0x54, 0xc0, 0x1b];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadUsersetByKindTypeRelationQuery(pub ReadUsersetByKindTypeRelationParams);
 impl GeneratedQuery for ReadUsersetByKindTypeRelationQuery {
@@ -4143,6 +4183,7 @@ impl GeneratedQuery for ReadUsersetByKindTypeRelationQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
@@ -4150,7 +4191,7 @@ impl GeneratedQuery for ReadUsersetByKindTypeRelationQuery {
         parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
         parameters.insert("user_object_type".to_owned(), ApplicationValue::String(self.0.user_object_type));
         parameters.insert("user_relation".to_owned(), ApplicationValue::String(self.0.user_relation));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -4241,7 +4282,7 @@ pub enum ReadUsersetByKindTypeRelationWithConditionResult {
     Found(Box<ReadUsersetByKindTypeRelationWithConditionFound>),
 }
 
-pub const READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x1a, 0x9c, 0xac, 0xb8, 0x38, 0xa4, 0xd0, 0x6d, 0xc4, 0x44, 0xd6, 0xe9, 0xa6, 0x1f, 0x09, 0xec, 0x17, 0xd1, 0xd7, 0xfb, 0x2d, 0xf7, 0x9c, 0x0f, 0x13, 0xe2, 0x35, 0x46, 0x43, 0x78, 0x28, 0xa7];
+pub const READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xe4, 0x4b, 0xa4, 0xfa, 0x3c, 0x60, 0x3c, 0xa8, 0xe2, 0xc7, 0xa2, 0x49, 0xfa, 0xe0, 0xbc, 0xc5, 0x5f, 0xad, 0xfd, 0x5c, 0xd0, 0x58, 0xee, 0x6a, 0x32, 0xba, 0x52, 0x7f, 0x3b, 0x7c, 0x46, 0x4a];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadUsersetByKindTypeRelationWithConditionQuery(pub ReadUsersetByKindTypeRelationWithConditionParams);
 impl GeneratedQuery for ReadUsersetByKindTypeRelationWithConditionQuery {
@@ -4249,6 +4290,7 @@ impl GeneratedQuery for ReadUsersetByKindTypeRelationWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
@@ -4257,7 +4299,7 @@ impl GeneratedQuery for ReadUsersetByKindTypeRelationWithConditionQuery {
         parameters.insert("user_object_type".to_owned(), ApplicationValue::String(self.0.user_object_type));
         parameters.insert("user_relation".to_owned(), ApplicationValue::String(self.0.user_relation));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -4346,7 +4388,7 @@ pub enum ReadUsersetByKindWithConditionResult {
     Found(Box<ReadUsersetByKindWithConditionFound>),
 }
 
-pub const READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xc7, 0xf5, 0xd1, 0xe9, 0xf1, 0xfb, 0x4a, 0x8f, 0x4a, 0x6c, 0x62, 0x90, 0xef, 0xe7, 0x7b, 0x69, 0x54, 0x4a, 0x5e, 0x21, 0x82, 0xfc, 0x01, 0x81, 0x59, 0xdd, 0xb3, 0x58, 0x3f, 0x55, 0xe6, 0x37];
+pub const READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x28, 0x35, 0x89, 0xc3, 0xf6, 0x36, 0xf2, 0x5a, 0x01, 0xf2, 0xe9, 0x83, 0x54, 0x2f, 0x80, 0xe5, 0x14, 0x62, 0xc0, 0x83, 0x42, 0xcb, 0xd3, 0x6c, 0x67, 0xda, 0xb1, 0x53, 0xd6, 0xcc, 0xc3, 0xa2];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadUsersetByKindWithConditionQuery(pub ReadUsersetByKindWithConditionParams);
 impl GeneratedQuery for ReadUsersetByKindWithConditionQuery {
@@ -4354,13 +4396,14 @@ impl GeneratedQuery for ReadUsersetByKindWithConditionQuery {
 
     fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
         let mut parameters = BTreeMap::new();
+        let generated_cursor = self.0.after;
         parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
         parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
         parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
         parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
         parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
         parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
-        parameters.insert("after".to_owned(), match self.0.after { Some(value) => ApplicationValue::String(value), None => ApplicationValue::Null });
+        let options = options.with_generated_cursor(generated_cursor)?;
         NamedQuery::new(
             ApplicationContract::Exact {
                 lineage: CONTRACT_LINEAGE.to_owned(),
@@ -4713,7 +4756,7 @@ pub struct ApplyTupleMutationsInput {
     pub request_id: String,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ApplyTupleMutationsOutcome {
     TupleStateChanged,
@@ -4725,13 +4768,19 @@ pub enum ApplyTupleMutationsOutcome {
     TupleChangeAlreadyExists,
 }
 
-const APPLY_TUPLE_MUTATIONS_PLAN_HASH: [u8; 32] = [0x47, 0xa3, 0x70, 0xdc, 0x10, 0x54, 0x1c, 0x5d, 0xbf, 0xf7, 0x0f, 0x7b, 0x30, 0x46, 0x70, 0x18, 0x49, 0xfa, 0x75, 0x9c, 0x41, 0xe4, 0xb2, 0xf2, 0x4f, 0xad, 0x9a, 0xde, 0x0b, 0x3d, 0x4c, 0x63];
+const APPLY_TUPLE_MUTATIONS_PLAN_HASH: [u8; 32] = [0xdd, 0x42, 0x4f, 0x28, 0x30, 0x72, 0xac, 0x1b, 0xb0, 0xdc, 0xac, 0x9d, 0xff, 0xa9, 0xef, 0xce, 0x59, 0x47, 0xde, 0xc2, 0x6e, 0x55, 0x4a, 0xd8, 0xbc, 0x19, 0x85, 0xcf, 0x82, 0x8b, 0x6e, 0x52];
 impl GeneratedCommand for ApplyTupleMutationsInput {
     type Outcome = ApplyTupleMutationsOutcome;
 
     fn idempotent_command(&self) -> Result<IdempotentCommand, GeneratedCommandError> {
 
-        if self.mutations.is_empty() || self.mutations.len() > 8 { return Err(GeneratedCommandError::InvalidInputShape); }
+        if self.mutations.is_empty() || self.mutations.len() > 100 { return Err(GeneratedCommandError::InvalidInputShape); }
+        let mut aggregate_element_bytes = 0usize;
+        for value in &self.mutations {
+            let encoded = encode_tuple_mutation_input_entity(value)?;
+            aggregate_element_bytes = aggregate_element_bytes.checked_add(wire_canonical_value_encoded_len(&encoded)?).ok_or(GeneratedCommandError::InvalidInputShape)?;
+            if aggregate_element_bytes > 900000 { return Err(GeneratedCommandError::InvalidInputShape); }
+        }
         let fields = vec![
             wire_named_field("mutations", v1::Value { kind: Some(WireKind::ListValue(v1::ValueList { values: (self.mutations).iter().map(encode_tuple_mutation_input_entity).collect::<Result<Vec<_>, GeneratedCommandError>>()? })) }),
             wire_named_field("request_id", wire_uuid(&self.request_id)?),
@@ -4769,7 +4818,7 @@ pub struct CreateAssertionSetInput {
     pub serialized_protobuf: Vec<u8>,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum CreateAssertionSetOutcome {
     AssertionSetCreated,
@@ -4820,7 +4869,7 @@ pub struct CreateStoreInput {
     pub registry_id: String,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum CreateStoreOutcome {
     StoreCreated {
@@ -4879,7 +4928,7 @@ pub struct DeleteStoreInput {
     pub expected_revision: u64,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum DeleteStoreOutcome {
     StoreChanged,
@@ -4931,7 +4980,7 @@ pub struct EnsureTuplePartitionInput {
     pub request_id: String,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum EnsureTuplePartitionOutcome {
     TuplePartitionEnsured,
@@ -4978,7 +5027,7 @@ pub struct EnsureTupleStatesInput {
     pub request_id: String,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum EnsureTupleStatesOutcome {
     TupleStatesEnsured,
@@ -4986,13 +5035,19 @@ pub enum EnsureTupleStatesOutcome {
     TupleStateAlreadyExists,
 }
 
-const ENSURE_TUPLE_STATES_PLAN_HASH: [u8; 32] = [0x8f, 0x80, 0xef, 0x5c, 0x62, 0x75, 0x94, 0x8c, 0x98, 0xe9, 0x56, 0xb9, 0x6e, 0xee, 0x46, 0x52, 0xb5, 0xd2, 0xf3, 0xe8, 0x36, 0x4b, 0xef, 0x32, 0xfa, 0xfa, 0xbf, 0xf5, 0x34, 0x16, 0x7a, 0x99];
+const ENSURE_TUPLE_STATES_PLAN_HASH: [u8; 32] = [0x76, 0x04, 0xe0, 0x29, 0xc1, 0xca, 0xf2, 0xc5, 0x6a, 0xf8, 0x47, 0x16, 0x1f, 0xba, 0xed, 0x33, 0x94, 0xf2, 0x72, 0x42, 0xa1, 0x6c, 0x7c, 0x8f, 0x2c, 0x39, 0x14, 0x51, 0x25, 0xe9, 0x07, 0x6e];
 impl GeneratedCommand for EnsureTupleStatesInput {
     type Outcome = EnsureTupleStatesOutcome;
 
     fn idempotent_command(&self) -> Result<IdempotentCommand, GeneratedCommandError> {
 
-        if self.states.is_empty() || self.states.len() > 8 { return Err(GeneratedCommandError::InvalidInputShape); }
+        if self.states.is_empty() || self.states.len() > 100 { return Err(GeneratedCommandError::InvalidInputShape); }
+        let mut aggregate_element_bytes = 0usize;
+        for value in &self.states {
+            let encoded = encode_tuple_state_entity(value)?;
+            aggregate_element_bytes = aggregate_element_bytes.checked_add(wire_canonical_value_encoded_len(&encoded)?).ok_or(GeneratedCommandError::InvalidInputShape)?;
+            if aggregate_element_bytes > 900000 { return Err(GeneratedCommandError::InvalidInputShape); }
+        }
         let fields = vec![
             wire_named_field("states", v1::Value { kind: Some(WireKind::ListValue(v1::ValueList { values: (self.states).iter().map(encode_tuple_state_entity).collect::<Result<Vec<_>, GeneratedCommandError>>()? })) }),
             wire_named_field("request_id", wire_uuid(&self.request_id)?),
@@ -5029,7 +5084,7 @@ pub struct UpdateAssertionSetInput {
     pub serialized_protobuf: Vec<u8>,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum UpdateAssertionSetOutcome {
     AssertionSetChanged,
@@ -5085,7 +5140,7 @@ pub struct WriteAuthorizationModelInput {
     pub serialized_protobuf: Vec<u8>,
 }
 
-#[allow(clippy::large_enum_variant)]
+#[allow(clippy::enum_variant_names, clippy::large_enum_variant)]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum WriteAuthorizationModelOutcome {
     ModelWritten,
@@ -5974,4 +6029,26 @@ fn decode_wire_money(value: v1::Value, expected_currency: &str) -> Result<MoneyV
     let amount = value.amount.ok_or(GeneratedCommandError::InvalidOutcomeShape)?;
     if value.currency != expected_currency || amount.scale != 2 || amount.precision != Some(38) { return Err(GeneratedCommandError::InvalidOutcomeShape); }
     Ok(MoneyValue { currency: value.currency, amount: DecimalValue { coefficient_twos_complement: amount.coefficient_twos_complement, scale: amount.scale, precision: amount.precision } })
+}
+fn wire_canonical_value_encoded_len(value: &v1::Value) -> Result<usize, GeneratedCommandError> {
+    let checked_add = |left: usize, right: usize| left.checked_add(right).ok_or(GeneratedCommandError::InvalidInputShape);
+    match value.kind.as_ref().ok_or(GeneratedCommandError::InvalidInputShape)? {
+        WireKind::NullValue(_) => Ok(2),
+        WireKind::BoolValue(_) => Ok(3),
+        WireKind::I64Value(_) | WireKind::U64Value(_) => Ok(10),
+        WireKind::DecimalValue(_) => Ok(20),
+        WireKind::MoneyValue(_) => Ok(23),
+        WireKind::StringValue(value) => checked_add(6, value.len()),
+        WireKind::BytesValue(value) => checked_add(6, value.len()),
+        WireKind::TimestampValue(_) => Ok(14),
+        WireKind::DateValue(_) => Ok(6),
+        WireKind::UuidValue(value) if value.len() == 16 => Ok(18),
+        WireKind::UuidValue(_) => Err(GeneratedCommandError::InvalidInputShape),
+        WireKind::EnumValue(_) => Ok(10),
+        WireKind::VectorValue(value) => checked_add(6, value.components.len().checked_mul(4).ok_or(GeneratedCommandError::InvalidInputShape)?),
+        WireKind::ListValue(value) => value.values.iter().try_fold(6usize, |total, item| checked_add(total, wire_canonical_value_encoded_len(item)?)),
+        WireKind::RecordValue(value) => value.fields.iter().try_fold(6usize, |total, field| {
+            checked_add(checked_add(total, 4)?, wire_canonical_value_encoded_len(field.value.as_ref().ok_or(GeneratedCommandError::InvalidInputShape)?)?)
+        }),
+    }
 }

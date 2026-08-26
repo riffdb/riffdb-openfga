@@ -8,10 +8,10 @@ import (
 	riffdb "riffdb.dev/application"
 )
 
-const QueryModuleHash = "9ae37c0b4ae14c6e29e6b70e0ed0e4e51171dc5c52c1655e8381cd5bcc3824aa"
+const QueryModuleHash = "20b3e8f33b299208ae03789b8a45cc0318f83297b012ab7637c292401df9d857"
 const ContractLineage = "RiffDBOpenFGA"
 const ContractVersion uint64 = 1
-const ContractBundleHash = "3c48c706665455229c442c1d580bd0d0147655537681d8c4e3651fef3f8617c1"
+const ContractBundleHash = "e9afd3a0a61de1d4914e5617eca729dd2826eae5acaa2ab7230567c9337ea416"
 
 type QueryOptions = riffdb.Options
 type QueryIdentity struct { ContractLineage string; ContractVersion uint64; ContractBundleHash string; ModuleHash string; QueryName string; PlanHash string }
@@ -283,8 +283,9 @@ func (ReadAllTuplesWithConditionsFound) isReadAllTuplesWithConditionsResult() {}
 
 type ReadChangesAscParams struct {
 	StoreId string
-	From *string
-	Horizon string
+	Start *riffdb.Instant
+	Horizon riffdb.Instant
+	After *string
 }
 
 type ReadChangesAscResult interface { isReadChangesAscResult() }
@@ -297,8 +298,9 @@ func (ReadChangesAscFound) isReadChangesAscResult() {}
 type ReadChangesByObjectAscParams struct {
 	StoreId string
 	ObjectType string
-	From *string
-	Horizon string
+	Start *riffdb.Instant
+	Horizon riffdb.Instant
+	After *string
 }
 
 type ReadChangesByObjectAscResult interface { isReadChangesByObjectAscResult() }
@@ -311,8 +313,8 @@ func (ReadChangesByObjectAscFound) isReadChangesByObjectAscResult() {}
 type ReadChangesByObjectDescParams struct {
 	StoreId string
 	ObjectType string
-	From *string
-	Horizon string
+	Horizon riffdb.Instant
+	After *string
 }
 
 type ReadChangesByObjectDescResult interface { isReadChangesByObjectDescResult() }
@@ -324,8 +326,8 @@ func (ReadChangesByObjectDescFound) isReadChangesByObjectDescResult() {}
 
 type ReadChangesDescParams struct {
 	StoreId string
-	From *string
-	Horizon string
+	Horizon riffdb.Instant
+	After *string
 }
 
 type ReadChangesDescResult interface { isReadChangesDescResult() }
@@ -1114,7 +1116,7 @@ raw, err = requiredField(fields, "condition_context"); if err != nil { return re
 raw, err = requiredField(fields, "expected_revision"); if err != nil { return result, err }; result.ExpectedRevision, err = riffdb.U64Value(raw); if err != nil { return result, err }
 return result, nil }
 
-const GetAssertionSetQueryPlanHash = "bb60c084acba134c7e0600a64e5710e74f4b2279b3486b63ca87373da501b556"
+const GetAssertionSetQueryPlanHash = "5fab66fd4b0db34b9e4a5d8bbde65fb15730f700bf8d7d80289b3b80c89ef5a0"
 var GetAssertionSetOperation = riffdb.Operation{Name: "riffdb_openfga_get_assertion_set", InputSchemaHash: "71e18d753cc455f4fc6bee9971b33a77b230c49cf1e57f42650393b97470a1a1"}
 func decodeGetAssertionSetResult(value riffdb.Value) (GetAssertionSetResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := GetAssertionSetFound{Outcome: outcome}
@@ -1128,7 +1130,7 @@ input["store_id"] = riffdb.String(parameters.StoreId)
 input["model_id"] = riffdb.String(parameters.ModelId)
 response, err := client.session.Invoke(ctx, GetAssertionSetOperation, input, options); if err != nil { return QueryResult[GetAssertionSetResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[GetAssertionSetResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeGetAssertionSetResult(response.Value); if err != nil { return QueryResult[GetAssertionSetResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "GetAssertionSet", PlanHash: GetAssertionSetQueryPlanHash}; return QueryResult[GetAssertionSetResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const GetAuthorizationModelQueryPlanHash = "671d666579ff022d5b2d3bf284883fe17387fd1b4a76eb2e2d54afd26fd85e4a"
+const GetAuthorizationModelQueryPlanHash = "6a43874b6f0b716e9990ff97b980d1b92c0b61ce9502628d2dd803ce5ff56b86"
 var GetAuthorizationModelOperation = riffdb.Operation{Name: "riffdb_openfga_get_authorization_model", InputSchemaHash: "71e18d753cc455f4fc6bee9971b33a77b230c49cf1e57f42650393b97470a1a1"}
 func decodeGetAuthorizationModelResult(value riffdb.Value) (GetAuthorizationModelResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := GetAuthorizationModelFound{Outcome: outcome}
@@ -1142,7 +1144,7 @@ input["store_id"] = riffdb.String(parameters.StoreId)
 input["model_id"] = riffdb.String(parameters.ModelId)
 response, err := client.session.Invoke(ctx, GetAuthorizationModelOperation, input, options); if err != nil { return QueryResult[GetAuthorizationModelResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[GetAuthorizationModelResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeGetAuthorizationModelResult(response.Value); if err != nil { return QueryResult[GetAuthorizationModelResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "GetAuthorizationModel", PlanHash: GetAuthorizationModelQueryPlanHash}; return QueryResult[GetAuthorizationModelResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const GetStoreQueryPlanHash = "77c0d5ab39427ebc5ab67b14e97d1615552089e3ccf6b4f695e8d2c0e134d536"
+const GetStoreQueryPlanHash = "2c52fc6964d25fc7d9f953a74296f0f4acad8f7fc8104432d845d7a4c1b061be"
 var GetStoreOperation = riffdb.Operation{Name: "riffdb_openfga_get_store", InputSchemaHash: "74357651a7ee281a07bcd4f719d2ba9c7769fe081891d156122055e7b19e1f60"}
 func decodeGetStoreResult(value riffdb.Value) (GetStoreResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := GetStoreFound{Outcome: outcome}
@@ -1156,7 +1158,7 @@ input["registry_id"] = riffdb.UUID(parameters.RegistryId)
 input["store_id"] = riffdb.String(parameters.StoreId)
 response, err := client.session.Invoke(ctx, GetStoreOperation, input, options); if err != nil { return QueryResult[GetStoreResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[GetStoreResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeGetStoreResult(response.Value); if err != nil { return QueryResult[GetStoreResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "GetStore", PlanHash: GetStoreQueryPlanHash}; return QueryResult[GetStoreResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const GetTupleStateQueryPlanHash = "be56b728169f6b344a272714d3c48841e144f48db00a5dd747c2236c0fbcf8a6"
+const GetTupleStateQueryPlanHash = "33fa2c7227dec9607d283281c516b6988109fd673438043a2bca0446a4c43d36"
 var GetTupleStateOperation = riffdb.Operation{Name: "riffdb_openfga_get_tuple_state", InputSchemaHash: "3eb8483f82d574805df4c288a39288436bc112e73be1714b6538d9dd3c48864e"}
 func decodeGetTupleStateResult(value riffdb.Value) (GetTupleStateResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := GetTupleStateFound{Outcome: outcome}
@@ -1173,7 +1175,7 @@ input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 response, err := client.session.Invoke(ctx, GetTupleStateOperation, input, options); if err != nil { return QueryResult[GetTupleStateResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[GetTupleStateResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeGetTupleStateResult(response.Value); if err != nil { return QueryResult[GetTupleStateResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "GetTupleState", PlanHash: GetTupleStateQueryPlanHash}; return QueryResult[GetTupleStateResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const LatestAuthorizationModelQueryPlanHash = "d1fb1508ac8ee1f8c23868e81802b08327996db2b666052a6a6edab8a01a4563"
+const LatestAuthorizationModelQueryPlanHash = "b80f3c4b85fa01e363051ae0187627dc7718ffd2cfe264064e0eddec05313b36"
 var LatestAuthorizationModelOperation = riffdb.Operation{Name: "riffdb_openfga_latest_authorization_model", InputSchemaHash: "cc1145d06844b2b5c27c7030f44d5df0c41a5a53a6c21091d82548e2cd56dc03"}
 func decodeLatestAuthorizationModelResult(value riffdb.Value) (LatestAuthorizationModelResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := LatestAuthorizationModelFound{Outcome: outcome}
@@ -1184,7 +1186,7 @@ func (client *Client) LatestAuthorizationModel(ctx context.Context, parameters L
 input["store_id"] = riffdb.String(parameters.StoreId)
 response, err := client.session.Invoke(ctx, LatestAuthorizationModelOperation, input, options); if err != nil { return QueryResult[LatestAuthorizationModelResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[LatestAuthorizationModelResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeLatestAuthorizationModelResult(response.Value); if err != nil { return QueryResult[LatestAuthorizationModelResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "LatestAuthorizationModel", PlanHash: LatestAuthorizationModelQueryPlanHash}; return QueryResult[LatestAuthorizationModelResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ListAuthorizationModelsQueryPlanHash = "9c08747a3968783280b9a4bd322cd66de32a0b0cfa259fdb09b2ad375597a3a1"
+const ListAuthorizationModelsQueryPlanHash = "b5194f3d23c41e1b6ac722dd0d914f7f9f40094087eb64d8857378ca8d34cd61"
 var ListAuthorizationModelsOperation = riffdb.Operation{Name: "riffdb_openfga_list_authorization_models", InputSchemaHash: "8f21895863693b0f6da6b322f88ebca764c10f8a754cd66e7ca8b629188a00f9"}
 func decodeListAuthorizationModelsResult(value riffdb.Value) (ListAuthorizationModelsResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ListAuthorizationModelsFound{Outcome: outcome}
@@ -1192,11 +1194,11 @@ raw, err = requiredField(fields, "models"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ListAuthorizationModels(ctx context.Context, parameters ListAuthorizationModelsParams, options QueryOptions) (QueryResult[ListAuthorizationModelsResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ListAuthorizationModelsResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ListAuthorizationModelsOperation, input, options); if err != nil { return QueryResult[ListAuthorizationModelsResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ListAuthorizationModelsResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeListAuthorizationModelsResult(response.Value); if err != nil { return QueryResult[ListAuthorizationModelsResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ListAuthorizationModels", PlanHash: ListAuthorizationModelsQueryPlanHash}; return QueryResult[ListAuthorizationModelsResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ListStoresAllQueryPlanHash = "5bb3a4ef3d237b0290c1533e4b8e9fb0e636e89f047b9f5390895c7646e39779"
+const ListStoresAllQueryPlanHash = "1be7285dd134445f7b0b60e86928e430e9ab682c119d3697a26afe5e236e226c"
 var ListStoresAllOperation = riffdb.Operation{Name: "riffdb_openfga_list_stores_all", InputSchemaHash: "fe4c8423645ddfa7949d3ab39c6176ee4a648942d24e63dc7a9a9d2f850b0c40"}
 func decodeListStoresAllResult(value riffdb.Value) (ListStoresAllResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ListStoresAllFound{Outcome: outcome}
@@ -1204,12 +1206,12 @@ raw, err = requiredField(fields, "stores"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ListStoresAll(ctx context.Context, parameters ListStoresAllParams, options QueryOptions) (QueryResult[ListStoresAllResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ListStoresAllResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["registry_id"] = riffdb.UUID(parameters.RegistryId)
 if parameters.Limit != nil { input["limit"] = riffdb.U64(uint64(*parameters.Limit)) }
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ListStoresAllOperation, input, options); if err != nil { return QueryResult[ListStoresAllResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ListStoresAllResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeListStoresAllResult(response.Value); if err != nil { return QueryResult[ListStoresAllResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ListStoresAll", PlanHash: ListStoresAllQueryPlanHash}; return QueryResult[ListStoresAllResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ListStoresByIdsQueryPlanHash = "5ed491d223874ec02e303944c17533aad1e59241ed8afcb983afe1ed956f19da"
+const ListStoresByIdsQueryPlanHash = "e71f51839e2e0c4b0ee36be82404e7bd1f94a51bab283ae509ec1528edacf0b4"
 var ListStoresByIdsOperation = riffdb.Operation{Name: "riffdb_openfga_list_stores_by_ids", InputSchemaHash: "27e9e3ee453c74f57347b8f0e3b014f24dbac14a7448bc38a628737f479576e4"}
 func decodeListStoresByIdsResult(value riffdb.Value) (ListStoresByIdsResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ListStoresByIdsFound{Outcome: outcome}
@@ -1217,13 +1219,13 @@ raw, err = requiredField(fields, "stores"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ListStoresByIds(ctx context.Context, parameters ListStoresByIdsParams, options QueryOptions) (QueryResult[ListStoresByIdsResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ListStoresByIdsResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["registry_id"] = riffdb.UUID(parameters.RegistryId)
 input["ids"] = riffdb.Values(parameters.Ids, func(item string) riffdb.Value { return riffdb.String(item) })
 if parameters.Limit != nil { input["limit"] = riffdb.U64(uint64(*parameters.Limit)) }
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ListStoresByIdsOperation, input, options); if err != nil { return QueryResult[ListStoresByIdsResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ListStoresByIdsResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeListStoresByIdsResult(response.Value); if err != nil { return QueryResult[ListStoresByIdsResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ListStoresByIds", PlanHash: ListStoresByIdsQueryPlanHash}; return QueryResult[ListStoresByIdsResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ListStoresByIdsAndNameQueryPlanHash = "ccf5c0603ec7757215f43708616fadc3386fd4206178efe1260137a794acffd5"
+const ListStoresByIdsAndNameQueryPlanHash = "80d2fc3a51a9a6d782fe8a45fc0c81beae68e259cf55c7df5d4064f2c1314cd8"
 var ListStoresByIdsAndNameOperation = riffdb.Operation{Name: "riffdb_openfga_list_stores_by_ids_and_name", InputSchemaHash: "0f0ba109d202bd6b975aec9b7416ad28193f0821b8513dd2152f9a106751ca73"}
 func decodeListStoresByIdsAndNameResult(value riffdb.Value) (ListStoresByIdsAndNameResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ListStoresByIdsAndNameFound{Outcome: outcome}
@@ -1231,14 +1233,14 @@ raw, err = requiredField(fields, "stores"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ListStoresByIdsAndName(ctx context.Context, parameters ListStoresByIdsAndNameParams, options QueryOptions) (QueryResult[ListStoresByIdsAndNameResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ListStoresByIdsAndNameResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["registry_id"] = riffdb.UUID(parameters.RegistryId)
 input["ids"] = riffdb.Values(parameters.Ids, func(item string) riffdb.Value { return riffdb.String(item) })
 input["name"] = riffdb.String(parameters.Name)
 if parameters.Limit != nil { input["limit"] = riffdb.U64(uint64(*parameters.Limit)) }
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ListStoresByIdsAndNameOperation, input, options); if err != nil { return QueryResult[ListStoresByIdsAndNameResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ListStoresByIdsAndNameResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeListStoresByIdsAndNameResult(response.Value); if err != nil { return QueryResult[ListStoresByIdsAndNameResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ListStoresByIdsAndName", PlanHash: ListStoresByIdsAndNameQueryPlanHash}; return QueryResult[ListStoresByIdsAndNameResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ListStoresByNameQueryPlanHash = "82b33ec6bdc05a8b5a0ef179cefe55920dfe14bcdf0c73431a3df3711c8881a8"
+const ListStoresByNameQueryPlanHash = "d4c3dea110b33b539a1ceac09ea222c6ca3aadbc7c4679384adaf2c0b236c2af"
 var ListStoresByNameOperation = riffdb.Operation{Name: "riffdb_openfga_list_stores_by_name", InputSchemaHash: "21c5fdd127a3fd967ab4571992456beb929fbfa56d807b5348ac33a95affa3fe"}
 func decodeListStoresByNameResult(value riffdb.Value) (ListStoresByNameResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ListStoresByNameFound{Outcome: outcome}
@@ -1246,13 +1248,13 @@ raw, err = requiredField(fields, "stores"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ListStoresByName(ctx context.Context, parameters ListStoresByNameParams, options QueryOptions) (QueryResult[ListStoresByNameResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ListStoresByNameResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["registry_id"] = riffdb.UUID(parameters.RegistryId)
 input["name"] = riffdb.String(parameters.Name)
 if parameters.Limit != nil { input["limit"] = riffdb.U64(uint64(*parameters.Limit)) }
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ListStoresByNameOperation, input, options); if err != nil { return QueryResult[ListStoresByNameResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ListStoresByNameResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeListStoresByNameResult(response.Value); if err != nil { return QueryResult[ListStoresByNameResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ListStoresByName", PlanHash: ListStoresByNameQueryPlanHash}; return QueryResult[ListStoresByNameResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadAllTuplesQueryPlanHash = "2fe72447ddde379ee8e30182e6e23b7bd2468b2b58c234b28d32ef42c8dcd8a6"
+const ReadAllTuplesQueryPlanHash = "37bc00f04c8107ba05b2531cea12429a0764af5dd2aae2252be8e820ba13e12c"
 var ReadAllTuplesOperation = riffdb.Operation{Name: "riffdb_openfga_read_all_tuples", InputSchemaHash: "8f21895863693b0f6da6b322f88ebca764c10f8a754cd66e7ca8b629188a00f9"}
 func decodeReadAllTuplesResult(value riffdb.Value) (ReadAllTuplesResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadAllTuplesFound{Outcome: outcome}
@@ -1260,11 +1262,11 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadAllTuples(ctx context.Context, parameters ReadAllTuplesParams, options QueryOptions) (QueryResult[ReadAllTuplesResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadAllTuplesResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadAllTuplesOperation, input, options); if err != nil { return QueryResult[ReadAllTuplesResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadAllTuplesResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadAllTuplesResult(response.Value); if err != nil { return QueryResult[ReadAllTuplesResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadAllTuples", PlanHash: ReadAllTuplesQueryPlanHash}; return QueryResult[ReadAllTuplesResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadAllTuplesWithConditionsQueryPlanHash = "08adc4eb2bcb25256b7c1720c99bf3e9bcafd5cd24fd9805cfb9585e40856e46"
+const ReadAllTuplesWithConditionsQueryPlanHash = "19603332adaf456c775af3f13f1f88324d40d93b00d182cf593fa0531720b61b"
 var ReadAllTuplesWithConditionsOperation = riffdb.Operation{Name: "riffdb_openfga_read_all_tuples_with_conditions", InputSchemaHash: "0bcebf61fd9d36ad548a0022584033629603af993a4da1913644703389213cfb"}
 func decodeReadAllTuplesWithConditionsResult(value riffdb.Value) (ReadAllTuplesWithConditionsResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadAllTuplesWithConditionsFound{Outcome: outcome}
@@ -1272,66 +1274,68 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadAllTuplesWithConditions(ctx context.Context, parameters ReadAllTuplesWithConditionsParams, options QueryOptions) (QueryResult[ReadAllTuplesWithConditionsResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadAllTuplesWithConditionsResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadAllTuplesWithConditionsOperation, input, options); if err != nil { return QueryResult[ReadAllTuplesWithConditionsResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadAllTuplesWithConditionsResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadAllTuplesWithConditionsResult(response.Value); if err != nil { return QueryResult[ReadAllTuplesWithConditionsResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadAllTuplesWithConditions", PlanHash: ReadAllTuplesWithConditionsQueryPlanHash}; return QueryResult[ReadAllTuplesWithConditionsResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadChangesAscQueryPlanHash = "9094b0a5f6846334be4957e420025472338dba61ac3fc1f578031e4cb5de0dbe"
-var ReadChangesAscOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_asc", InputSchemaHash: "94e6069be0373fcf7d1243c6353bdbfd87b214ca2dba778668a953d32595e8ab"}
+const ReadChangesAscQueryPlanHash = "79000fd4e789d3e6b613d693bb2b4c0cce7551621798e068cc5da7d107b9ee0e"
+var ReadChangesAscOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_asc", InputSchemaHash: "f9d36ffa8a09ef5fa8e845f2230a21f1ffa0d8b54a230e160450251b34f112f5"}
 func decodeReadChangesAscResult(value riffdb.Value) (ReadChangesAscResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadChangesAscFound{Outcome: outcome}
 raw, err = requiredField(fields, "changes"); if err != nil { return nil, err }; result.Changes, err = riffdb.DecodeValues(raw, func(item riffdb.Value) (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { return func() (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { fields, err := riffdb.RecordFields(item); if err != nil { return struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }{}, err }; var result struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }; var raw riffdb.Value; raw, err = requiredField(fields, "store_id"); if err != nil { return result, err }; result.StoreId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "change_id"); if err != nil { return result, err }; result.ChangeId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_type"); if err != nil { return result, err }; result.ObjectType, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_id"); if err != nil { return result, err }; result.ObjectId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "relation"); if err != nil { return result, err }; result.Relation, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "user"); if err != nil { return result, err }; result.User, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "operation"); if err != nil { return result, err }; result.Operation, err = func() (TupleOperation, error) { raw, err := riffdb.EnumValue(raw); return TupleOperation(raw), err }(); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_key"); if err != nil { return result, err }; result.ConditionKey, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_context"); if err != nil { return result, err }; result.ConditionContext, err = riffdb.DecodeOptional(raw, func(item riffdb.Value) ([]byte, error) { return riffdb.BytesValue(item) }); if err != nil { return result, err }; raw, err = requiredField(fields, "inserted_at"); if err != nil { return result, err }; result.InsertedAt, err = riffdb.TimestampValue(raw); if err != nil { return result, err }; return result, nil }() }); if err != nil { return nil, err }
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadChangesAsc(ctx context.Context, parameters ReadChangesAscParams, options QueryOptions) (QueryResult[ReadChangesAscResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadChangesAscResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
-if parameters.From != nil { input["from"] = riffdb.Optional(parameters.From, func(item string) riffdb.Value { return riffdb.String(item) }) }
-input["horizon"] = riffdb.String(parameters.Horizon)
+if parameters.Start != nil { input["start"] = riffdb.Optional(parameters.Start, func(item riffdb.Instant) riffdb.Value { return riffdb.TimestampFrom(item) }) }
+input["horizon"] = riffdb.TimestampFrom(parameters.Horizon)
 response, err := client.session.Invoke(ctx, ReadChangesAscOperation, input, options); if err != nil { return QueryResult[ReadChangesAscResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadChangesAscResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadChangesAscResult(response.Value); if err != nil { return QueryResult[ReadChangesAscResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadChangesAsc", PlanHash: ReadChangesAscQueryPlanHash}; return QueryResult[ReadChangesAscResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadChangesByObjectAscQueryPlanHash = "3e5ef4d9c8c6baf1fc2d983289f369ed1edd3e161e64ba676330287a64e90800"
-var ReadChangesByObjectAscOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_by_object_asc", InputSchemaHash: "7c120385bf7708da09c2caba1d884f9bff856700e4299fdf00b209c157c02d0f"}
+const ReadChangesByObjectAscQueryPlanHash = "8511477ddf0f17c8491561403d744e90f260d99e8834d8f6f282806269642976"
+var ReadChangesByObjectAscOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_by_object_asc", InputSchemaHash: "dfbfa07e6f9a49006d4871b12f5def2b08cde8536eb65b943c49d2d94e35ab72"}
 func decodeReadChangesByObjectAscResult(value riffdb.Value) (ReadChangesByObjectAscResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadChangesByObjectAscFound{Outcome: outcome}
 raw, err = requiredField(fields, "changes"); if err != nil { return nil, err }; result.Changes, err = riffdb.DecodeValues(raw, func(item riffdb.Value) (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { return func() (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { fields, err := riffdb.RecordFields(item); if err != nil { return struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }{}, err }; var result struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }; var raw riffdb.Value; raw, err = requiredField(fields, "store_id"); if err != nil { return result, err }; result.StoreId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "change_id"); if err != nil { return result, err }; result.ChangeId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_type"); if err != nil { return result, err }; result.ObjectType, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_id"); if err != nil { return result, err }; result.ObjectId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "relation"); if err != nil { return result, err }; result.Relation, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "user"); if err != nil { return result, err }; result.User, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "operation"); if err != nil { return result, err }; result.Operation, err = func() (TupleOperation, error) { raw, err := riffdb.EnumValue(raw); return TupleOperation(raw), err }(); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_key"); if err != nil { return result, err }; result.ConditionKey, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_context"); if err != nil { return result, err }; result.ConditionContext, err = riffdb.DecodeOptional(raw, func(item riffdb.Value) ([]byte, error) { return riffdb.BytesValue(item) }); if err != nil { return result, err }; raw, err = requiredField(fields, "inserted_at"); if err != nil { return result, err }; result.InsertedAt, err = riffdb.TimestampValue(raw); if err != nil { return result, err }; return result, nil }() }); if err != nil { return nil, err }
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadChangesByObjectAsc(ctx context.Context, parameters ReadChangesByObjectAscParams, options QueryOptions) (QueryResult[ReadChangesByObjectAscResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadChangesByObjectAscResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
-if parameters.From != nil { input["from"] = riffdb.Optional(parameters.From, func(item string) riffdb.Value { return riffdb.String(item) }) }
-input["horizon"] = riffdb.String(parameters.Horizon)
+if parameters.Start != nil { input["start"] = riffdb.Optional(parameters.Start, func(item riffdb.Instant) riffdb.Value { return riffdb.TimestampFrom(item) }) }
+input["horizon"] = riffdb.TimestampFrom(parameters.Horizon)
 response, err := client.session.Invoke(ctx, ReadChangesByObjectAscOperation, input, options); if err != nil { return QueryResult[ReadChangesByObjectAscResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadChangesByObjectAscResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadChangesByObjectAscResult(response.Value); if err != nil { return QueryResult[ReadChangesByObjectAscResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadChangesByObjectAsc", PlanHash: ReadChangesByObjectAscQueryPlanHash}; return QueryResult[ReadChangesByObjectAscResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadChangesByObjectDescQueryPlanHash = "18b9264cc6cd73f0451ceec33c57a73bea6ed1d924955215b68113e2e92ab9e6"
-var ReadChangesByObjectDescOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_by_object_desc", InputSchemaHash: "7c120385bf7708da09c2caba1d884f9bff856700e4299fdf00b209c157c02d0f"}
+const ReadChangesByObjectDescQueryPlanHash = "1893cfe81d5ffa80dc693434e87427ab6ee266b757386c18071882c39b8bf18b"
+var ReadChangesByObjectDescOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_by_object_desc", InputSchemaHash: "3620f8446074c6323af7f97acb249342645ae7f3cedb28346fb6e70287916d0a"}
 func decodeReadChangesByObjectDescResult(value riffdb.Value) (ReadChangesByObjectDescResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadChangesByObjectDescFound{Outcome: outcome}
 raw, err = requiredField(fields, "changes"); if err != nil { return nil, err }; result.Changes, err = riffdb.DecodeValues(raw, func(item riffdb.Value) (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { return func() (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { fields, err := riffdb.RecordFields(item); if err != nil { return struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }{}, err }; var result struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }; var raw riffdb.Value; raw, err = requiredField(fields, "store_id"); if err != nil { return result, err }; result.StoreId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "change_id"); if err != nil { return result, err }; result.ChangeId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_type"); if err != nil { return result, err }; result.ObjectType, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_id"); if err != nil { return result, err }; result.ObjectId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "relation"); if err != nil { return result, err }; result.Relation, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "user"); if err != nil { return result, err }; result.User, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "operation"); if err != nil { return result, err }; result.Operation, err = func() (TupleOperation, error) { raw, err := riffdb.EnumValue(raw); return TupleOperation(raw), err }(); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_key"); if err != nil { return result, err }; result.ConditionKey, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_context"); if err != nil { return result, err }; result.ConditionContext, err = riffdb.DecodeOptional(raw, func(item riffdb.Value) ([]byte, error) { return riffdb.BytesValue(item) }); if err != nil { return result, err }; raw, err = requiredField(fields, "inserted_at"); if err != nil { return result, err }; result.InsertedAt, err = riffdb.TimestampValue(raw); if err != nil { return result, err }; return result, nil }() }); if err != nil { return nil, err }
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadChangesByObjectDesc(ctx context.Context, parameters ReadChangesByObjectDescParams, options QueryOptions) (QueryResult[ReadChangesByObjectDescResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadChangesByObjectDescResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
-if parameters.From != nil { input["from"] = riffdb.Optional(parameters.From, func(item string) riffdb.Value { return riffdb.String(item) }) }
-input["horizon"] = riffdb.String(parameters.Horizon)
+input["horizon"] = riffdb.TimestampFrom(parameters.Horizon)
 response, err := client.session.Invoke(ctx, ReadChangesByObjectDescOperation, input, options); if err != nil { return QueryResult[ReadChangesByObjectDescResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadChangesByObjectDescResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadChangesByObjectDescResult(response.Value); if err != nil { return QueryResult[ReadChangesByObjectDescResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadChangesByObjectDesc", PlanHash: ReadChangesByObjectDescQueryPlanHash}; return QueryResult[ReadChangesByObjectDescResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadChangesDescQueryPlanHash = "2f789948b39a2010bdac28ffafaf5adb9cab4eabbc2f2d9f89b508adb69dae79"
-var ReadChangesDescOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_desc", InputSchemaHash: "94e6069be0373fcf7d1243c6353bdbfd87b214ca2dba778668a953d32595e8ab"}
+const ReadChangesDescQueryPlanHash = "52b2f0f129370ae02fbd77f677c8d196d4077dd2e27a7674ebcf67ae5e9c7d3e"
+var ReadChangesDescOperation = riffdb.Operation{Name: "riffdb_openfga_read_changes_desc", InputSchemaHash: "426f9bb873d7c673555616967f00365126bc416542df9585078c8e1afd7c03b9"}
 func decodeReadChangesDescResult(value riffdb.Value) (ReadChangesDescResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadChangesDescFound{Outcome: outcome}
 raw, err = requiredField(fields, "changes"); if err != nil { return nil, err }; result.Changes, err = riffdb.DecodeValues(raw, func(item riffdb.Value) (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { return func() (struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }, error) { fields, err := riffdb.RecordFields(item); if err != nil { return struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }{}, err }; var result struct { StoreId string; ChangeId string; ObjectType string; ObjectId string; Relation string; User string; Operation TupleOperation; ConditionKey string; ConditionContext *[]byte; InsertedAt riffdb.Instant }; var raw riffdb.Value; raw, err = requiredField(fields, "store_id"); if err != nil { return result, err }; result.StoreId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "change_id"); if err != nil { return result, err }; result.ChangeId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_type"); if err != nil { return result, err }; result.ObjectType, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "object_id"); if err != nil { return result, err }; result.ObjectId, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "relation"); if err != nil { return result, err }; result.Relation, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "user"); if err != nil { return result, err }; result.User, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "operation"); if err != nil { return result, err }; result.Operation, err = func() (TupleOperation, error) { raw, err := riffdb.EnumValue(raw); return TupleOperation(raw), err }(); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_key"); if err != nil { return result, err }; result.ConditionKey, err = riffdb.StringValue(raw); if err != nil { return result, err }; raw, err = requiredField(fields, "condition_context"); if err != nil { return result, err }; result.ConditionContext, err = riffdb.DecodeOptional(raw, func(item riffdb.Value) ([]byte, error) { return riffdb.BytesValue(item) }); if err != nil { return result, err }; raw, err = requiredField(fields, "inserted_at"); if err != nil { return result, err }; result.InsertedAt, err = riffdb.TimestampValue(raw); if err != nil { return result, err }; return result, nil }() }); if err != nil { return nil, err }
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadChangesDesc(ctx context.Context, parameters ReadChangesDescParams, options QueryOptions) (QueryResult[ReadChangesDescResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadChangesDescResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
-if parameters.From != nil { input["from"] = riffdb.Optional(parameters.From, func(item string) riffdb.Value { return riffdb.String(item) }) }
-input["horizon"] = riffdb.String(parameters.Horizon)
+input["horizon"] = riffdb.TimestampFrom(parameters.Horizon)
 response, err := client.session.Invoke(ctx, ReadChangesDescOperation, input, options); if err != nil { return QueryResult[ReadChangesDescResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadChangesDescResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadChangesDescResult(response.Value); if err != nil { return QueryResult[ReadChangesDescResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadChangesDesc", PlanHash: ReadChangesDescQueryPlanHash}; return QueryResult[ReadChangesDescResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadStartingWithUserQueryPlanHash = "5ece6a2eedeadce6ecb05c615a01c817ea73dcb7bc35636f4ead53581ef435c0"
+const ReadStartingWithUserQueryPlanHash = "c3fee007c91b22321cc87c06f570dd0e872a6a70bbecdb20cdefd2715e2199c5"
 var ReadStartingWithUserOperation = riffdb.Operation{Name: "riffdb_openfga_read_starting_with_user", InputSchemaHash: "b4c0c155b85cd9e541461374d7f2e6ddff5ffea86cc8788b878d78b72520d5fb"}
 func decodeReadStartingWithUserResult(value riffdb.Value) (ReadStartingWithUserResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadStartingWithUserFound{Outcome: outcome}
@@ -1339,14 +1343,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadStartingWithUser(ctx context.Context, parameters ReadStartingWithUserParams, options QueryOptions) (QueryResult[ReadStartingWithUserResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadStartingWithUserResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadStartingWithUserOperation, input, options); if err != nil { return QueryResult[ReadStartingWithUserResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadStartingWithUserResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadStartingWithUserResult(response.Value); if err != nil { return QueryResult[ReadStartingWithUserResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadStartingWithUser", PlanHash: ReadStartingWithUserQueryPlanHash}; return QueryResult[ReadStartingWithUserResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadStartingWithUserAndObjectsQueryPlanHash = "18db052b82ba2ff8a3c652832a8d79499f2222c8ea0daeca140080ae923a6e81"
+const ReadStartingWithUserAndObjectsQueryPlanHash = "607a1fabb4f279ff10a9c423414b7b70c33b02958717c5e7061b839efcfff778"
 var ReadStartingWithUserAndObjectsOperation = riffdb.Operation{Name: "riffdb_openfga_read_starting_with_user_and_objects", InputSchemaHash: "8c9aaa29a65b77b2ce38ff003b9e99dce7afdd144f4d01d7eeecd15d0ddee890"}
 func decodeReadStartingWithUserAndObjectsResult(value riffdb.Value) (ReadStartingWithUserAndObjectsResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadStartingWithUserAndObjectsFound{Outcome: outcome}
@@ -1354,15 +1358,15 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadStartingWithUserAndObjects(ctx context.Context, parameters ReadStartingWithUserAndObjectsParams, options QueryOptions) (QueryResult[ReadStartingWithUserAndObjectsResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadStartingWithUserAndObjectsResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 input["object_ids"] = riffdb.Values(parameters.ObjectIds, func(item string) riffdb.Value { return riffdb.String(item) })
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadStartingWithUserAndObjectsOperation, input, options); if err != nil { return QueryResult[ReadStartingWithUserAndObjectsResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadStartingWithUserAndObjectsResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadStartingWithUserAndObjectsResult(response.Value); if err != nil { return QueryResult[ReadStartingWithUserAndObjectsResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadStartingWithUserAndObjects", PlanHash: ReadStartingWithUserAndObjectsQueryPlanHash}; return QueryResult[ReadStartingWithUserAndObjectsResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadStartingWithUserObjectsConditionQueryPlanHash = "48c11402f5cbfea6408016d753df6c81e5cd87ee43dfc19b26b409ce14e60f96"
+const ReadStartingWithUserObjectsConditionQueryPlanHash = "e277a0977dc8aae67ca527aa33f69b2f305fc0ec7ae38b35181405315a5c3e4d"
 var ReadStartingWithUserObjectsConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_starting_with_user_objects_condition", InputSchemaHash: "c77ac735a58ace9d0cabf5b91fdfca431dd2ea7c328c9ff00e05f35fa6152637"}
 func decodeReadStartingWithUserObjectsConditionResult(value riffdb.Value) (ReadStartingWithUserObjectsConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadStartingWithUserObjectsConditionFound{Outcome: outcome}
@@ -1370,16 +1374,16 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadStartingWithUserObjectsCondition(ctx context.Context, parameters ReadStartingWithUserObjectsConditionParams, options QueryOptions) (QueryResult[ReadStartingWithUserObjectsConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadStartingWithUserObjectsConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 input["object_ids"] = riffdb.Values(parameters.ObjectIds, func(item string) riffdb.Value { return riffdb.String(item) })
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadStartingWithUserObjectsConditionOperation, input, options); if err != nil { return QueryResult[ReadStartingWithUserObjectsConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadStartingWithUserObjectsConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadStartingWithUserObjectsConditionResult(response.Value); if err != nil { return QueryResult[ReadStartingWithUserObjectsConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadStartingWithUserObjectsCondition", PlanHash: ReadStartingWithUserObjectsConditionQueryPlanHash}; return QueryResult[ReadStartingWithUserObjectsConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadStartingWithUserWithConditionQueryPlanHash = "ad5bfd0d960bf21fde7aff7e3932f1e521d31a13aad2c21379bf53f37703776a"
+const ReadStartingWithUserWithConditionQueryPlanHash = "f3139d21c40ab497cb9c127478a221440a6cd8a2a298e7e8fab1efba0a76aa47"
 var ReadStartingWithUserWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_starting_with_user_with_condition", InputSchemaHash: "9600cfef832a80c836c0eed870661107bc6e36b03c8ce292a522633ce936451b"}
 func decodeReadStartingWithUserWithConditionResult(value riffdb.Value) (ReadStartingWithUserWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadStartingWithUserWithConditionFound{Outcome: outcome}
@@ -1387,15 +1391,15 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadStartingWithUserWithCondition(ctx context.Context, parameters ReadStartingWithUserWithConditionParams, options QueryOptions) (QueryResult[ReadStartingWithUserWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadStartingWithUserWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadStartingWithUserWithConditionOperation, input, options); if err != nil { return QueryResult[ReadStartingWithUserWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadStartingWithUserWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadStartingWithUserWithConditionResult(response.Value); if err != nil { return QueryResult[ReadStartingWithUserWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadStartingWithUserWithCondition", PlanHash: ReadStartingWithUserWithConditionQueryPlanHash}; return QueryResult[ReadStartingWithUserWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTupleExactQueryPlanHash = "faf1e45ba7bbc54fa59371cb32f1ec849768498bb0bd9b475f68cb5b5f19e289"
+const ReadTupleExactQueryPlanHash = "1cb0c8a94ac9a66782e1bd4438a97337122332579337aef8701c5b2aac90d615"
 var ReadTupleExactOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuple_exact", InputSchemaHash: "3eb8483f82d574805df4c288a39288436bc112e73be1714b6538d9dd3c48864e"}
 func decodeReadTupleExactResult(value riffdb.Value) (ReadTupleExactResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTupleExactFound{Outcome: outcome}
@@ -1412,7 +1416,7 @@ input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 response, err := client.session.Invoke(ctx, ReadTupleExactOperation, input, options); if err != nil { return QueryResult[ReadTupleExactResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTupleExactResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTupleExactResult(response.Value); if err != nil { return QueryResult[ReadTupleExactResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTupleExact", PlanHash: ReadTupleExactQueryPlanHash}; return QueryResult[ReadTupleExactResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTupleExactWithConditionQueryPlanHash = "56820e40c31b0ee55c1366961903fbc9506fcc94667c29cb0ec180d9e89b6172"
+const ReadTupleExactWithConditionQueryPlanHash = "f6a856fa88b2240e245450bf3af48519104de816d275ceef25ed1135cea88b0e"
 var ReadTupleExactWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuple_exact_with_condition", InputSchemaHash: "5cd7f771ee82e93e1600abc3221eb4f9e1199a37010c2c570e137ea94a3d4205"}
 func decodeReadTupleExactWithConditionResult(value riffdb.Value) (ReadTupleExactWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTupleExactWithConditionFound{Outcome: outcome}
@@ -1430,7 +1434,7 @@ input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
 response, err := client.session.Invoke(ctx, ReadTupleExactWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTupleExactWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTupleExactWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTupleExactWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTupleExactWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTupleExactWithCondition", PlanHash: ReadTupleExactWithConditionQueryPlanHash}; return QueryResult[ReadTupleExactWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByObjectQueryPlanHash = "9c74e33cc0e1b871cf849bd16f6caf1629c5868453719813821da72b8bf38f5c"
+const ReadTuplesByObjectQueryPlanHash = "6eee543fdd37167302ab152f154f0938872093f9a57dd69c771f24661a70b980"
 var ReadTuplesByObjectOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_object", InputSchemaHash: "a96f4c6576582e6f4327647a477772048c4bd6edf717b4d291df5e45907f1911"}
 func decodeReadTuplesByObjectResult(value riffdb.Value) (ReadTuplesByObjectResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByObjectFound{Outcome: outcome}
@@ -1438,13 +1442,13 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByObject(ctx context.Context, parameters ReadTuplesByObjectParams, options QueryOptions) (QueryResult[ReadTuplesByObjectResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByObjectResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByObjectOperation, input, options); if err != nil { return QueryResult[ReadTuplesByObjectResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByObjectResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByObjectResult(response.Value); if err != nil { return QueryResult[ReadTuplesByObjectResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByObject", PlanHash: ReadTuplesByObjectQueryPlanHash}; return QueryResult[ReadTuplesByObjectResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByObjectRelationQueryPlanHash = "36f3ab11439254a729594311cac3fe9e91f2096e1e83618a0d796b2219c70d27"
+const ReadTuplesByObjectRelationQueryPlanHash = "9deb195da37f3e6a77e8f93dd3c6a3914689c0d9cb26a70dbbcfff69f676c856"
 var ReadTuplesByObjectRelationOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_object_relation", InputSchemaHash: "1b9a0fa385a1cbc44bfa42c96f2fe9701c98d9ac76a52559d23a293886c4872e"}
 func decodeReadTuplesByObjectRelationResult(value riffdb.Value) (ReadTuplesByObjectRelationResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByObjectRelationFound{Outcome: outcome}
@@ -1452,14 +1456,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByObjectRelation(ctx context.Context, parameters ReadTuplesByObjectRelationParams, options QueryOptions) (QueryResult[ReadTuplesByObjectRelationResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByObjectRelationResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["relation"] = riffdb.String(parameters.Relation)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByObjectRelationOperation, input, options); if err != nil { return QueryResult[ReadTuplesByObjectRelationResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByObjectRelationResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByObjectRelationResult(response.Value); if err != nil { return QueryResult[ReadTuplesByObjectRelationResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByObjectRelation", PlanHash: ReadTuplesByObjectRelationQueryPlanHash}; return QueryResult[ReadTuplesByObjectRelationResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByObjectRelationWithConditionQueryPlanHash = "703d67e091b0fac1b7b426e5224e07afd4ef114b48a2cf732c91bed9390f1d2b"
+const ReadTuplesByObjectRelationWithConditionQueryPlanHash = "57143495fe155e9caa6e18fb32aa075bb5377b8d99ee7b9bdb7b0085252e43dc"
 var ReadTuplesByObjectRelationWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_object_relation_with_condition", InputSchemaHash: "bc76fef9c3c0c6a5e8a6f23703d9e9eb888107c061fc3349c1adde5aadf77470"}
 func decodeReadTuplesByObjectRelationWithConditionResult(value riffdb.Value) (ReadTuplesByObjectRelationWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByObjectRelationWithConditionFound{Outcome: outcome}
@@ -1467,15 +1471,15 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByObjectRelationWithCondition(ctx context.Context, parameters ReadTuplesByObjectRelationWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByObjectRelationWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByObjectRelationWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["relation"] = riffdb.String(parameters.Relation)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByObjectRelationWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByObjectRelationWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByObjectRelationWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByObjectRelationWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByObjectRelationWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByObjectRelationWithCondition", PlanHash: ReadTuplesByObjectRelationWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByObjectRelationWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByObjectUserQueryPlanHash = "2a6c9e605a05d7770cc8346e61f7169a27b27510a48f3708c2c00d3a0de0e2b3"
+const ReadTuplesByObjectUserQueryPlanHash = "dc8eff06a24e0f870202de9bd477af1b6d35a462849c2122f50c94d5dd1cdfe0"
 var ReadTuplesByObjectUserOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_object_user", InputSchemaHash: "bfdfc72c70766824151f5f5a2fa72410d2e7a3b5069d228327356cc3dc0cde97"}
 func decodeReadTuplesByObjectUserResult(value riffdb.Value) (ReadTuplesByObjectUserResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByObjectUserFound{Outcome: outcome}
@@ -1483,14 +1487,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByObjectUser(ctx context.Context, parameters ReadTuplesByObjectUserParams, options QueryOptions) (QueryResult[ReadTuplesByObjectUserResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByObjectUserResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["user"] = riffdb.String(parameters.User)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByObjectUserOperation, input, options); if err != nil { return QueryResult[ReadTuplesByObjectUserResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByObjectUserResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByObjectUserResult(response.Value); if err != nil { return QueryResult[ReadTuplesByObjectUserResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByObjectUser", PlanHash: ReadTuplesByObjectUserQueryPlanHash}; return QueryResult[ReadTuplesByObjectUserResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByObjectUserWithConditionQueryPlanHash = "7dd94cf803cd7cd763087287dddb75ea92b73c5dfe6114d3654803537765f506"
+const ReadTuplesByObjectUserWithConditionQueryPlanHash = "8a796c6e2c1fd7de75685b4548a69f9cd38f90f6f7f946eac4ff6366ab42e5a3"
 var ReadTuplesByObjectUserWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_object_user_with_condition", InputSchemaHash: "21a57eb1d3d9be1654c1d6c51511a365e89b7b7ee716d81108e6458c26977f2a"}
 func decodeReadTuplesByObjectUserWithConditionResult(value riffdb.Value) (ReadTuplesByObjectUserWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByObjectUserWithConditionFound{Outcome: outcome}
@@ -1498,15 +1502,15 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByObjectUserWithCondition(ctx context.Context, parameters ReadTuplesByObjectUserWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByObjectUserWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByObjectUserWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByObjectUserWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByObjectUserWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByObjectUserWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByObjectUserWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByObjectUserWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByObjectUserWithCondition", PlanHash: ReadTuplesByObjectUserWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByObjectUserWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByObjectWithConditionQueryPlanHash = "52005b3f0d2aac2ccfed4f2f75c6b12080d6246142f27f59728cfae11752c317"
+const ReadTuplesByObjectWithConditionQueryPlanHash = "82a6830d39d110e289587fdf48ccf199350cd0368913d9ef09b0b595a9a6104f"
 var ReadTuplesByObjectWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_object_with_condition", InputSchemaHash: "212f26b2106d1cb85a5acbea0625cba441ba36be606e64e544c40fc60adc4402"}
 func decodeReadTuplesByObjectWithConditionResult(value riffdb.Value) (ReadTuplesByObjectWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByObjectWithConditionFound{Outcome: outcome}
@@ -1514,14 +1518,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByObjectWithCondition(ctx context.Context, parameters ReadTuplesByObjectWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByObjectWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByObjectWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByObjectWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByObjectWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByObjectWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByObjectWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByObjectWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByObjectWithCondition", PlanHash: ReadTuplesByObjectWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByObjectWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByRelationUserQueryPlanHash = "12ff1d4988de579d58983d4644bdb6f43bdcfe69aea5d033cf4ef88d12bbe558"
+const ReadTuplesByRelationUserQueryPlanHash = "c072d40abfdec0a8c367288aea8ca0df526eee512c7ae08303a8f77416e0e96d"
 var ReadTuplesByRelationUserOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_relation_user", InputSchemaHash: "071fd0cbcf8516465929bcb4b9c065ba2dfa7da134a56d8d383c5a52c4d12e7b"}
 func decodeReadTuplesByRelationUserResult(value riffdb.Value) (ReadTuplesByRelationUserResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByRelationUserFound{Outcome: outcome}
@@ -1529,13 +1533,13 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByRelationUser(ctx context.Context, parameters ReadTuplesByRelationUserParams, options QueryOptions) (QueryResult[ReadTuplesByRelationUserResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByRelationUserResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByRelationUserOperation, input, options); if err != nil { return QueryResult[ReadTuplesByRelationUserResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByRelationUserResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByRelationUserResult(response.Value); if err != nil { return QueryResult[ReadTuplesByRelationUserResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByRelationUser", PlanHash: ReadTuplesByRelationUserQueryPlanHash}; return QueryResult[ReadTuplesByRelationUserResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByRelationUserWithConditionQueryPlanHash = "0c5bc9b68881ac24187b08f19f89515da9f98eeaeb6d6d692783aaa8f4748be5"
+const ReadTuplesByRelationUserWithConditionQueryPlanHash = "6df0570c132cea2c5c5c6f0bb2b321d0f2cd05c44f630a4aca4e33f251b36ad6"
 var ReadTuplesByRelationUserWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_relation_user_with_condition", InputSchemaHash: "ef50cebb6a1cda914b75b5ea0ac44000b07afa2ac33f3c6e836f2794c1777621"}
 func decodeReadTuplesByRelationUserWithConditionResult(value riffdb.Value) (ReadTuplesByRelationUserWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByRelationUserWithConditionFound{Outcome: outcome}
@@ -1543,14 +1547,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByRelationUserWithCondition(ctx context.Context, parameters ReadTuplesByRelationUserWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByRelationUserWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByRelationUserWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByRelationUserWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByRelationUserWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByRelationUserWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByRelationUserWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByRelationUserWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByRelationUserWithCondition", PlanHash: ReadTuplesByRelationUserWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByRelationUserWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeQueryPlanHash = "58d9e482eaa793963ed24f15b45eeba05e9dec55f44157888bc043917b61155d"
+const ReadTuplesByTypeQueryPlanHash = "c3228a7ebab648b3ed14e753cf01a0c9218b03e019b4adf8a8a48d5bb2be72b8"
 var ReadTuplesByTypeOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type", InputSchemaHash: "a8a261f1054b63df34cd8dbe6bb94370e37d3b06360452968f99bc8b65363b04"}
 func decodeReadTuplesByTypeResult(value riffdb.Value) (ReadTuplesByTypeResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeFound{Outcome: outcome}
@@ -1558,12 +1562,12 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByType(ctx context.Context, parameters ReadTuplesByTypeParams, options QueryOptions) (QueryResult[ReadTuplesByTypeResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByType", PlanHash: ReadTuplesByTypeQueryPlanHash}; return QueryResult[ReadTuplesByTypeResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeRelationQueryPlanHash = "0a3938d912c7fece367fa35246ad4e0dc8c1f359ab570943e0931a4a839eb792"
+const ReadTuplesByTypeRelationQueryPlanHash = "3f884997152397a801e940ab04a7018a6ae0daca2812a5f1a4c13ecd68c81735"
 var ReadTuplesByTypeRelationOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_relation", InputSchemaHash: "3245a4dacebfe54e6a993105d4ba405abb82a5e693696a72bdec2401c9a76bd1"}
 func decodeReadTuplesByTypeRelationResult(value riffdb.Value) (ReadTuplesByTypeRelationResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeRelationFound{Outcome: outcome}
@@ -1571,13 +1575,13 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeRelation(ctx context.Context, parameters ReadTuplesByTypeRelationParams, options QueryOptions) (QueryResult[ReadTuplesByTypeRelationResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeRelationResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeRelationOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeRelationResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeRelationResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeRelationResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeRelationResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeRelation", PlanHash: ReadTuplesByTypeRelationQueryPlanHash}; return QueryResult[ReadTuplesByTypeRelationResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeRelationUserQueryPlanHash = "9af0225cc1f1d60fa83999b6ae5bdc2424fe2e89adec8ef4f4bdf8362dae5469"
+const ReadTuplesByTypeRelationUserQueryPlanHash = "4b859b18278ec23ffa4ca65dd57066ffcc004518ab4cf4caa0d9dbd85fddc1ee"
 var ReadTuplesByTypeRelationUserOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_relation_user", InputSchemaHash: "b4c0c155b85cd9e541461374d7f2e6ddff5ffea86cc8788b878d78b72520d5fb"}
 func decodeReadTuplesByTypeRelationUserResult(value riffdb.Value) (ReadTuplesByTypeRelationUserResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeRelationUserFound{Outcome: outcome}
@@ -1585,14 +1589,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeRelationUser(ctx context.Context, parameters ReadTuplesByTypeRelationUserParams, options QueryOptions) (QueryResult[ReadTuplesByTypeRelationUserResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeRelationUserResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeRelationUserOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeRelationUserResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeRelationUserResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeRelationUserResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeRelationUserResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeRelationUser", PlanHash: ReadTuplesByTypeRelationUserQueryPlanHash}; return QueryResult[ReadTuplesByTypeRelationUserResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeRelationUserWithConditionQueryPlanHash = "14fb1fd42b01538f395dee4b5d26b1937b54c5389e47a9f7a00401b06199cfb1"
+const ReadTuplesByTypeRelationUserWithConditionQueryPlanHash = "6049c2cfdd83b2bd0317468948b8de9e059ef19ddab4fb4f7606f7233823cd60"
 var ReadTuplesByTypeRelationUserWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_relation_user_with_condition", InputSchemaHash: "9600cfef832a80c836c0eed870661107bc6e36b03c8ce292a522633ce936451b"}
 func decodeReadTuplesByTypeRelationUserWithConditionResult(value riffdb.Value) (ReadTuplesByTypeRelationUserWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeRelationUserWithConditionFound{Outcome: outcome}
@@ -1600,15 +1604,15 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeRelationUserWithCondition(ctx context.Context, parameters ReadTuplesByTypeRelationUserWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByTypeRelationUserWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeRelationUserWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeRelationUserWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeRelationUserWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeRelationUserWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeRelationUserWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeRelationUserWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeRelationUserWithCondition", PlanHash: ReadTuplesByTypeRelationUserWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByTypeRelationUserWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeRelationWithConditionQueryPlanHash = "eb1d7a4f89db449f30084ebb5d7ee6d275d7a0b11ebf80eb5f26d71d884969df"
+const ReadTuplesByTypeRelationWithConditionQueryPlanHash = "bd388bef6db9dbe3706569867f46b22612ab63f5b4d13e1710b8628741173e3d"
 var ReadTuplesByTypeRelationWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_relation_with_condition", InputSchemaHash: "dd3785ea89df9feb6cb99c8caa4d06e87c351497c29e4b997729d585cb52271c"}
 func decodeReadTuplesByTypeRelationWithConditionResult(value riffdb.Value) (ReadTuplesByTypeRelationWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeRelationWithConditionFound{Outcome: outcome}
@@ -1616,14 +1620,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeRelationWithCondition(ctx context.Context, parameters ReadTuplesByTypeRelationWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByTypeRelationWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeRelationWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["relation"] = riffdb.String(parameters.Relation)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeRelationWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeRelationWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeRelationWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeRelationWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeRelationWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeRelationWithCondition", PlanHash: ReadTuplesByTypeRelationWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByTypeRelationWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeUserQueryPlanHash = "831b1062ab3f9635a8af155324a8c7e2e7425ffb800acb4cd2a4d9596cb0da3b"
+const ReadTuplesByTypeUserQueryPlanHash = "cca135c2ba8568a5919aa5cc6bbf06533be7ad434585d93da6429f49920a2816"
 var ReadTuplesByTypeUserOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_user", InputSchemaHash: "9df6e140a6b8f8deaa741467a4c39c3351aaec3f4de35756ef3f4e6f73e73f91"}
 func decodeReadTuplesByTypeUserResult(value riffdb.Value) (ReadTuplesByTypeUserResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeUserFound{Outcome: outcome}
@@ -1631,13 +1635,13 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeUser(ctx context.Context, parameters ReadTuplesByTypeUserParams, options QueryOptions) (QueryResult[ReadTuplesByTypeUserResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeUserResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["user"] = riffdb.String(parameters.User)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeUserOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeUserResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeUserResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeUserResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeUserResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeUser", PlanHash: ReadTuplesByTypeUserQueryPlanHash}; return QueryResult[ReadTuplesByTypeUserResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeUserWithConditionQueryPlanHash = "666be73a7402c18825ac90a801b2ced20ea0aeacdc4e75a45f58d75548265865"
+const ReadTuplesByTypeUserWithConditionQueryPlanHash = "b7950f9638f9849cdd7151e8c4312d52d5737b97c352403f432f4e2dd7a28121"
 var ReadTuplesByTypeUserWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_user_with_condition", InputSchemaHash: "ce479835b19fc3c002ac41fe198f5af1aeb43a136e52900967a13c8973777e66"}
 func decodeReadTuplesByTypeUserWithConditionResult(value riffdb.Value) (ReadTuplesByTypeUserWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeUserWithConditionFound{Outcome: outcome}
@@ -1645,14 +1649,14 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeUserWithCondition(ctx context.Context, parameters ReadTuplesByTypeUserWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByTypeUserWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeUserWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeUserWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeUserWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeUserWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeUserWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeUserWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeUserWithCondition", PlanHash: ReadTuplesByTypeUserWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByTypeUserWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByTypeWithConditionQueryPlanHash = "b897aa597e4b2d27777c4c15fab26faf31e5f0dd392e5a7c54e573b5db2e9baf"
+const ReadTuplesByTypeWithConditionQueryPlanHash = "74a7fcf1473d234678cbf9cc76ca140f04925f62605927ab3b10f26363eaf562"
 var ReadTuplesByTypeWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_type_with_condition", InputSchemaHash: "5e56fa1eda1d54d92768d0537a624d1770dda5bfa981a77f32a63fde369cd364"}
 func decodeReadTuplesByTypeWithConditionResult(value riffdb.Value) (ReadTuplesByTypeWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByTypeWithConditionFound{Outcome: outcome}
@@ -1660,13 +1664,13 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByTypeWithCondition(ctx context.Context, parameters ReadTuplesByTypeWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByTypeWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByTypeWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByTypeWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByTypeWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByTypeWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByTypeWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByTypeWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByTypeWithCondition", PlanHash: ReadTuplesByTypeWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByTypeWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByUserQueryPlanHash = "5ff823eb49828c8e75ea5d614b9f70de8f41814687f015aceb095cdd4c2ed0f5"
+const ReadTuplesByUserQueryPlanHash = "e3bb4c9fd3ceb1b734e0e3356ad0eaa1c6eaca95bed5fb135e2671875fa0f90b"
 var ReadTuplesByUserOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_user", InputSchemaHash: "065f4df709f7bafa3c4268ab8f28cdb0582a9e329810fd7e6a9ba5f177ce5e2a"}
 func decodeReadTuplesByUserResult(value riffdb.Value) (ReadTuplesByUserResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByUserFound{Outcome: outcome}
@@ -1674,12 +1678,12 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByUser(ctx context.Context, parameters ReadTuplesByUserParams, options QueryOptions) (QueryResult[ReadTuplesByUserResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByUserResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["user"] = riffdb.String(parameters.User)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByUserOperation, input, options); if err != nil { return QueryResult[ReadTuplesByUserResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByUserResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByUserResult(response.Value); if err != nil { return QueryResult[ReadTuplesByUserResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByUser", PlanHash: ReadTuplesByUserQueryPlanHash}; return QueryResult[ReadTuplesByUserResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadTuplesByUserWithConditionQueryPlanHash = "0ec17804a14b6bdaf826f93bc423bd2277495d99716cc050f0eb6d10d4fc9167"
+const ReadTuplesByUserWithConditionQueryPlanHash = "272e7929a120d9cc5056983b1f09975e073be5e6156e1376b8021381a9af526e"
 var ReadTuplesByUserWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_tuples_by_user_with_condition", InputSchemaHash: "cd0e4797837f5e2d37d8974bbc06fbdd2af9a626e92afb24987e8e335c8b88b8"}
 func decodeReadTuplesByUserWithConditionResult(value riffdb.Value) (ReadTuplesByUserWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadTuplesByUserWithConditionFound{Outcome: outcome}
@@ -1687,13 +1691,13 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadTuplesByUserWithCondition(ctx context.Context, parameters ReadTuplesByUserWithConditionParams, options QueryOptions) (QueryResult[ReadTuplesByUserWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadTuplesByUserWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["user"] = riffdb.String(parameters.User)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadTuplesByUserWithConditionOperation, input, options); if err != nil { return QueryResult[ReadTuplesByUserWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadTuplesByUserWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadTuplesByUserWithConditionResult(response.Value); if err != nil { return QueryResult[ReadTuplesByUserWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadTuplesByUserWithCondition", PlanHash: ReadTuplesByUserWithConditionQueryPlanHash}; return QueryResult[ReadTuplesByUserWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadUsersetByKindQueryPlanHash = "83380ac8a0a1f360e917c461233d6c7f02babb5bc833ab974479e1559ace0de1"
+const ReadUsersetByKindQueryPlanHash = "380afe76e8d3c9e3281ab7af0082fb4ae0c37bc047ac8fa89ad488a9d3012695"
 var ReadUsersetByKindOperation = riffdb.Operation{Name: "riffdb_openfga_read_userset_by_kind", InputSchemaHash: "3cddb0204c8492e8fda04151d36d51db3de1b7f1c8c1e9e2ba88c3244855ec54"}
 func decodeReadUsersetByKindResult(value riffdb.Value) (ReadUsersetByKindResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadUsersetByKindFound{Outcome: outcome}
@@ -1701,15 +1705,15 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadUsersetByKind(ctx context.Context, parameters ReadUsersetByKindParams, options QueryOptions) (QueryResult[ReadUsersetByKindResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadUsersetByKindResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user_kind"] = riffdb.String(parameters.UserKind)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadUsersetByKindOperation, input, options); if err != nil { return QueryResult[ReadUsersetByKindResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadUsersetByKindResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadUsersetByKindResult(response.Value); if err != nil { return QueryResult[ReadUsersetByKindResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadUsersetByKind", PlanHash: ReadUsersetByKindQueryPlanHash}; return QueryResult[ReadUsersetByKindResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadUsersetByKindAndTypeQueryPlanHash = "788db557c9da3ab3909f1b7639f923566f3da04584db48724f94e2fee2dcc5ff"
+const ReadUsersetByKindAndTypeQueryPlanHash = "7c59f1f2af6e6958e1b3032b7459824861ddd5f438df20196cb7c92fb508ac2a"
 var ReadUsersetByKindAndTypeOperation = riffdb.Operation{Name: "riffdb_openfga_read_userset_by_kind_and_type", InputSchemaHash: "71aeaeeabcbd3564dcf80c3876d36313de76006745e1ae804263a5a80da283f5"}
 func decodeReadUsersetByKindAndTypeResult(value riffdb.Value) (ReadUsersetByKindAndTypeResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadUsersetByKindAndTypeFound{Outcome: outcome}
@@ -1717,16 +1721,16 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadUsersetByKindAndType(ctx context.Context, parameters ReadUsersetByKindAndTypeParams, options QueryOptions) (QueryResult[ReadUsersetByKindAndTypeResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadUsersetByKindAndTypeResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user_kind"] = riffdb.String(parameters.UserKind)
 input["user_object_type"] = riffdb.String(parameters.UserObjectType)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadUsersetByKindAndTypeOperation, input, options); if err != nil { return QueryResult[ReadUsersetByKindAndTypeResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadUsersetByKindAndTypeResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadUsersetByKindAndTypeResult(response.Value); if err != nil { return QueryResult[ReadUsersetByKindAndTypeResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadUsersetByKindAndType", PlanHash: ReadUsersetByKindAndTypeQueryPlanHash}; return QueryResult[ReadUsersetByKindAndTypeResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadUsersetByKindAndTypeWithConditionQueryPlanHash = "92ee42eb2baf1e56d5878e49c8fd420ff774f1e697b90cf145ddfc6c21637905"
+const ReadUsersetByKindAndTypeWithConditionQueryPlanHash = "59de5019b4843ffb687e2cd26b1c045facfcd0f5b752c816a5ee96eff317100c"
 var ReadUsersetByKindAndTypeWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_userset_by_kind_and_type_with_condition", InputSchemaHash: "8bfe228559426aabed85cfbb153134ae2d3d5d0c2f620eb87f534790121f81e5"}
 func decodeReadUsersetByKindAndTypeWithConditionResult(value riffdb.Value) (ReadUsersetByKindAndTypeWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadUsersetByKindAndTypeWithConditionFound{Outcome: outcome}
@@ -1734,6 +1738,7 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadUsersetByKindAndTypeWithCondition(ctx context.Context, parameters ReadUsersetByKindAndTypeWithConditionParams, options QueryOptions) (QueryResult[ReadUsersetByKindAndTypeWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadUsersetByKindAndTypeWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
@@ -1741,10 +1746,9 @@ input["relation"] = riffdb.String(parameters.Relation)
 input["user_kind"] = riffdb.String(parameters.UserKind)
 input["user_object_type"] = riffdb.String(parameters.UserObjectType)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadUsersetByKindAndTypeWithConditionOperation, input, options); if err != nil { return QueryResult[ReadUsersetByKindAndTypeWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadUsersetByKindAndTypeWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadUsersetByKindAndTypeWithConditionResult(response.Value); if err != nil { return QueryResult[ReadUsersetByKindAndTypeWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadUsersetByKindAndTypeWithCondition", PlanHash: ReadUsersetByKindAndTypeWithConditionQueryPlanHash}; return QueryResult[ReadUsersetByKindAndTypeWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadUsersetByKindTypeRelationQueryPlanHash = "bcb94b1ac249b16c426edd68306a50a9656d394d83b319af088ef36e3644ff6c"
+const ReadUsersetByKindTypeRelationQueryPlanHash = "63afc5f08bd9432a09aee5f53b9fbf97939e01a95c1782a09d09e09a2654c01b"
 var ReadUsersetByKindTypeRelationOperation = riffdb.Operation{Name: "riffdb_openfga_read_userset_by_kind_type_relation", InputSchemaHash: "68c5df07cb053435cc4088b1d448ef4f9c8c88260ff61f67f549952a04cae695"}
 func decodeReadUsersetByKindTypeRelationResult(value riffdb.Value) (ReadUsersetByKindTypeRelationResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadUsersetByKindTypeRelationFound{Outcome: outcome}
@@ -1752,6 +1756,7 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadUsersetByKindTypeRelation(ctx context.Context, parameters ReadUsersetByKindTypeRelationParams, options QueryOptions) (QueryResult[ReadUsersetByKindTypeRelationResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadUsersetByKindTypeRelationResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
@@ -1759,10 +1764,9 @@ input["relation"] = riffdb.String(parameters.Relation)
 input["user_kind"] = riffdb.String(parameters.UserKind)
 input["user_object_type"] = riffdb.String(parameters.UserObjectType)
 input["user_relation"] = riffdb.String(parameters.UserRelation)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadUsersetByKindTypeRelationOperation, input, options); if err != nil { return QueryResult[ReadUsersetByKindTypeRelationResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadUsersetByKindTypeRelationResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadUsersetByKindTypeRelationResult(response.Value); if err != nil { return QueryResult[ReadUsersetByKindTypeRelationResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadUsersetByKindTypeRelation", PlanHash: ReadUsersetByKindTypeRelationQueryPlanHash}; return QueryResult[ReadUsersetByKindTypeRelationResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadUsersetByKindTypeRelationWithConditionQueryPlanHash = "1a9cacb838a4d06dc444d6e9a61f09ec17d1d7fb2df79c0f13e23546437828a7"
+const ReadUsersetByKindTypeRelationWithConditionQueryPlanHash = "e44ba4fa3c603ca8e2c7a249fae0bcc55fadfd5cd058ee6a32ba527f3b7c464a"
 var ReadUsersetByKindTypeRelationWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_userset_by_kind_type_relation_with_condition", InputSchemaHash: "5390f346a32263cf088145fe96a1d82ab6b29f3ff8f1ae24f016f655497c8b9c"}
 func decodeReadUsersetByKindTypeRelationWithConditionResult(value riffdb.Value) (ReadUsersetByKindTypeRelationWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadUsersetByKindTypeRelationWithConditionFound{Outcome: outcome}
@@ -1770,6 +1774,7 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadUsersetByKindTypeRelationWithCondition(ctx context.Context, parameters ReadUsersetByKindTypeRelationWithConditionParams, options QueryOptions) (QueryResult[ReadUsersetByKindTypeRelationWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadUsersetByKindTypeRelationWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
@@ -1778,10 +1783,9 @@ input["user_kind"] = riffdb.String(parameters.UserKind)
 input["user_object_type"] = riffdb.String(parameters.UserObjectType)
 input["user_relation"] = riffdb.String(parameters.UserRelation)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadUsersetByKindTypeRelationWithConditionOperation, input, options); if err != nil { return QueryResult[ReadUsersetByKindTypeRelationWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadUsersetByKindTypeRelationWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadUsersetByKindTypeRelationWithConditionResult(response.Value); if err != nil { return QueryResult[ReadUsersetByKindTypeRelationWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadUsersetByKindTypeRelationWithCondition", PlanHash: ReadUsersetByKindTypeRelationWithConditionQueryPlanHash}; return QueryResult[ReadUsersetByKindTypeRelationWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ReadUsersetByKindWithConditionQueryPlanHash = "c7f5d1e9f1fb4a8f4a6c6290efe77b69544a5e2182fc018159ddb3583f55e637"
+const ReadUsersetByKindWithConditionQueryPlanHash = "283589c3f636f25a01f2e983542f80e51462c08342cbd36c67dab153d6ccc3a2"
 var ReadUsersetByKindWithConditionOperation = riffdb.Operation{Name: "riffdb_openfga_read_userset_by_kind_with_condition", InputSchemaHash: "52d906d7a9dcd9bc81ebaf4f393fb27e948f210c4bd325fcd0fc3e0650c54957"}
 func decodeReadUsersetByKindWithConditionResult(value riffdb.Value) (ReadUsersetByKindWithConditionResult, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; var raw riffdb.Value; switch outcome {
 case "Found": result := ReadUsersetByKindWithConditionFound{Outcome: outcome}
@@ -1789,22 +1793,22 @@ raw, err = requiredField(fields, "tuples"); if err != nil { return nil, err }; r
 return result, nil
 default: return nil, errors.New("RiffDB driver returned unknown query outcome") } }
 func (client *Client) ReadUsersetByKindWithCondition(ctx context.Context, parameters ReadUsersetByKindWithConditionParams, options QueryOptions) (QueryResult[ReadUsersetByKindWithConditionResult], error) { input := map[string]riffdb.Value{}
+if parameters.After != nil { if options.Cursor != "" { return QueryResult[ReadUsersetByKindWithConditionResult]{}, errors.New("generated cursor conflicts with query options") }; options.Cursor = *parameters.After }
 input["store_id"] = riffdb.String(parameters.StoreId)
 input["object_type"] = riffdb.String(parameters.ObjectType)
 input["object_id"] = riffdb.String(parameters.ObjectId)
 input["relation"] = riffdb.String(parameters.Relation)
 input["user_kind"] = riffdb.String(parameters.UserKind)
 input["condition"] = riffdb.String(parameters.Condition)
-if parameters.After != nil { input["after"] = riffdb.Optional(parameters.After, func(item string) riffdb.Value { return riffdb.String(item) }) }
 response, err := client.session.Invoke(ctx, ReadUsersetByKindWithConditionOperation, input, options); if err != nil { return QueryResult[ReadUsersetByKindWithConditionResult]{}, err }; if response.ApplicationHead == nil { return QueryResult[ReadUsersetByKindWithConditionResult]{}, errors.New("RiffDB driver omitted query frontier") }; value, err := decodeReadUsersetByKindWithConditionResult(response.Value); if err != nil { return QueryResult[ReadUsersetByKindWithConditionResult]{}, err }; identity := QueryIdentity{ContractLineage: ContractLineage, ContractVersion: ContractVersion, ContractBundleHash: ContractBundleHash, ModuleHash: QueryModuleHash, QueryName: "ReadUsersetByKindWithCondition", PlanHash: ReadUsersetByKindWithConditionQueryPlanHash}; return QueryResult[ReadUsersetByKindWithConditionResult]{Value: value, Identity: identity, ApplicationHead: *response.ApplicationHead, NextCursor: response.Cursor}, nil }
 
-const ApplyTupleMutationsPlanHash = "47a370dc10541c5dbff70f7b3046701849fa759c41e4b2f24fad9ade0b3d4c63"
-var ApplyTupleMutationsOperation = riffdb.Operation{Name: "riffdb_openfga_apply_tuple_mutations", InputSchemaHash: "836b01427a4de84639803b0e0a6f308888afc4f5554ed6cdeb75ffd2a4c0cba2"}
+const ApplyTupleMutationsPlanHash = "dd424f283072ac1bb0dcac9dffa9efce5947dec26e554ad8bc1985cf828b6e52"
+var ApplyTupleMutationsOperation = riffdb.Operation{Name: "riffdb_openfga_apply_tuple_mutations", InputSchemaHash: "265eff8219e465c6d7e150134e6e5819f6121ca77b92cfe01d25e439853f843b"}
 func encodeApplyTupleMutationsInput(input ApplyTupleMutationsInput) map[string]riffdb.Value { return map[string]riffdb.Value{
 	"mutations": riffdb.Values(input.Mutations, func(item TupleMutationInput) riffdb.Value { return encodeTupleMutationInput(item) }),
 	"request_id": riffdb.UUID(input.RequestId),
 } }
-func validateApplyTupleMutationsInput(input ApplyTupleMutationsInput) error { if len(input.Mutations) < 1 || len(input.Mutations) > 8 { return errors.New("invalid bounded collection length for ApplyTupleMutations.mutations") }; return nil }
+func validateApplyTupleMutationsInput(input ApplyTupleMutationsInput) error { if len(input.Mutations) < 1 || len(input.Mutations) > 100 { return errors.New("invalid bounded collection length for ApplyTupleMutations.mutations") }; aggregateElementBytes := 0; for _, item := range input.Mutations { encoded := encodeTupleMutationInput(item); length, err := riffdb.CanonicalValueEncodedLength(encoded); if err != nil || length > 900000-aggregateElementBytes { return errors.New("invalid aggregate collection bytes for ApplyTupleMutations.mutations") }; aggregateElementBytes += length }; return nil }
 func decodeApplyTupleMutationsOutcome(value riffdb.Value) (ApplyTupleMutationsOutcome, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; switch outcome {
 case "TupleStateChanged": result := ApplyTupleMutationsTupleStateChanged{Outcome: outcome}
 return result, nil
@@ -1887,13 +1891,13 @@ default: return nil, errors.New("RiffDB driver returned unknown command outcome"
 func (client *Client) EnsureTuplePartition(ctx context.Context, input EnsureTuplePartitionInput) (CommandResult[EnsureTuplePartitionOutcome], error) { response, err := client.session.Invoke(ctx, EnsureTuplePartitionOperation, encodeEnsureTuplePartitionInput(input), riffdb.Options{MaximumAttempts: client.commandAttempts}); if err != nil { return CommandResult[EnsureTuplePartitionOutcome]{}, err }; outcome, err := decodeEnsureTuplePartitionOutcome(response.Value); if err != nil { return CommandResult[EnsureTuplePartitionOutcome]{}, err }; return CommandResult[EnsureTuplePartitionOutcome]{Outcome: outcome, CommitSequence: response.ApplicationHead, ContractVersion: ContractVersion, PlanHash: EnsureTuplePartitionPlanHash, Replayed: response.Replayed, OutcomeURI: response.Cursor}, nil }
 func (client *Client) EnsureTuplePartitionBatch(ctx context.Context, inputs []EnsureTuplePartitionInput, concurrency, checkpoint uint32) (BatchResult[EnsureTuplePartitionOutcome], error) { encoded := make([]map[string]riffdb.Value, len(inputs)); for index, input := range inputs { encoded[index] = encodeEnsureTuplePartitionInput(input) }; response, err := client.session.Batch(ctx, EnsureTuplePartitionOperation, encoded, concurrency, checkpoint, riffdb.Options{MaximumAttempts: client.commandAttempts}); if err != nil { return BatchResult[EnsureTuplePartitionOutcome]{}, err }; result := BatchResult[EnsureTuplePartitionOutcome]{Checkpoint: response.Checkpoint, Total: response.Total, Items: make([]BatchItem[EnsureTuplePartitionOutcome], 0, len(response.Items))}; for _, item := range response.Items { converted := BatchItem[EnsureTuplePartitionOutcome]{Index: item.Index}; if item.Error != nil { converted.Error = item.Error } else if item.Result != nil { outcome, decodeErr := decodeEnsureTuplePartitionOutcome(item.Result.Value); if decodeErr != nil { return BatchResult[EnsureTuplePartitionOutcome]{}, decodeErr }; converted.Result = &CommandResult[EnsureTuplePartitionOutcome]{Outcome: outcome, CommitSequence: item.Result.CommitSequence, ContractVersion: ContractVersion, PlanHash: EnsureTuplePartitionPlanHash, Replayed: item.Result.Replayed, OutcomeURI: item.Result.OutcomeURI} }; result.Items = append(result.Items, converted) }; return result, nil }
 
-const EnsureTupleStatesPlanHash = "8f80ef5c6275948c98e956b96eee4652b5d2f3e8364bef32fafabff534167a99"
-var EnsureTupleStatesOperation = riffdb.Operation{Name: "riffdb_openfga_ensure_tuple_states", InputSchemaHash: "1e51ac8bd634a2c25aab29e64d843fdea3f6a6cfb2d9bc35f833b7819f72fae8"}
+const EnsureTupleStatesPlanHash = "7604e029c1caf2c56af847161fbaed3394f27242a16c7c8f2c39145125e9076e"
+var EnsureTupleStatesOperation = riffdb.Operation{Name: "riffdb_openfga_ensure_tuple_states", InputSchemaHash: "09b9b718a80a3c64aad70050d0965d13b5cc2a8e024110a15d5fa840f51f780a"}
 func encodeEnsureTupleStatesInput(input EnsureTupleStatesInput) map[string]riffdb.Value { return map[string]riffdb.Value{
 	"states": riffdb.Values(input.States, func(item TupleState) riffdb.Value { return encodeTupleState(item) }),
 	"request_id": riffdb.UUID(input.RequestId),
 } }
-func validateEnsureTupleStatesInput(input EnsureTupleStatesInput) error { if len(input.States) < 1 || len(input.States) > 8 { return errors.New("invalid bounded collection length for EnsureTupleStates.states") }; return nil }
+func validateEnsureTupleStatesInput(input EnsureTupleStatesInput) error { if len(input.States) < 1 || len(input.States) > 100 { return errors.New("invalid bounded collection length for EnsureTupleStates.states") }; aggregateElementBytes := 0; for _, item := range input.States { encoded := encodeTupleState(item); length, err := riffdb.CanonicalValueEncodedLength(encoded); if err != nil || length > 900000-aggregateElementBytes { return errors.New("invalid aggregate collection bytes for EnsureTupleStates.states") }; aggregateElementBytes += length }; return nil }
 func decodeEnsureTupleStatesOutcome(value riffdb.Value) (EnsureTupleStatesOutcome, error) { fields, err := riffdb.RecordFields(value); if err != nil { return nil, err }; outcomeValue, err := requiredField(fields, "outcome"); if err != nil { return nil, err }; outcome, err := riffdb.EnumValue(outcomeValue); if err != nil { return nil, err }; switch outcome {
 case "TupleStatesEnsured": result := EnsureTupleStatesTupleStatesEnsured{Outcome: outcome}
 return result, nil
