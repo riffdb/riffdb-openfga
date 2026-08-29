@@ -85,6 +85,11 @@ func (datastore *Datastore) GetStore(ctx context.Context, id string) (*openfgav1
 	return store, err
 }
 
+// maxStoreQueryPage is the compiler-declared `Limit<50>` maximum for the store
+// listing queries. Store rows are small, so this matches OpenFGA's own default
+// page rather than any cost ceiling.
+const maxStoreQueryPage = 50
+
 func (datastore *Datastore) ListStores(ctx context.Context, options storage.ListStoresOptions) ([]*openfgav1.Store, string, error) {
 	pageSize := options.Pagination.PageSize
 	if pageSize <= 0 {
@@ -93,10 +98,11 @@ func (datastore *Datastore) ListStores(ctx context.Context, options storage.List
 	if pageSize > 500 {
 		pageSize = 500
 	}
-	// RiffDB continuation cursors bind every query input, including the take
-	// limit. OpenFGA permits callers to change page size while continuing a
-	// listing, so walk a fixed one-row internal page and expose only its cursor.
-	limit := uint32(1)
+	// A caller may change page size while continuing a listing. That used to
+	// force a fixed one-row internal page, because a cursor bound every query
+	// input including the take limit. SPEC OQ-068 excludes the submitted page
+	// cardinality from an ordinary ordered binding's cursor hash, so the page
+	// can now be sized to the shortfall and the cursor still continues.
 	afterValue := options.Pagination.From
 	type storeRow struct {
 		id, name             string
@@ -119,6 +125,13 @@ func (datastore *Datastore) ListStores(ctx context.Context, options storage.List
 		if afterValue != "" {
 			after = &afterValue
 		}
+		// Ask for exactly the shortfall: a cursor continues from the end of
+		// the page it arrived with, so a kept-in-part page loses its remainder.
+		want := pageSize - len(rows)
+		if want > maxStoreQueryPage {
+			want = maxStoreQueryPage
+		}
+		limit := uint32(want)
 		previousLength := len(rows)
 		switch {
 		case len(options.IDs) > 0 && options.Name != "":

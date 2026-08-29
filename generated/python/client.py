@@ -23,7 +23,7 @@ def _compact_tag(value: object, tag: str, keys: frozenset[str]) -> dict[str, obj
 CONTRACT_LINEAGE: Final[str] = "RiffDBOpenFGA"
 CONTRACT_VERSION: Final[int] = 1
 CONTRACT_BUNDLE_HASH: Final[str] = "77a3a655238ad919a2a846731ca1202458615ee3e4ac3852954677706c69d91f"
-QUERY_MODULE_HASH: Final[str] = "957f5e7578c06e361522cf789cfb228dab065cb10642fd2ebe9a50b6a0edb40f"
+QUERY_MODULE_HASH: Final[str] = "4a2a7761e6a9f17882fc20886e23f95801ef9185ba13919f0fa0822f5867f1ba"
 
 class TupleOperation(StrEnum):
     WRITE = "Write"
@@ -263,7 +263,7 @@ class ListAuthorizationModelsFound:
 
 ListAuthorizationModelsResult: TypeAlias = ListAuthorizationModelsFound
 
-LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "2e6cfdb2b03fc5b6336da7ae4badc779981b841ecd117378e1429bb57f245e30"
+LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "57734823a35fece11b03a90020f6b1f7c8987203f4ce106aad215ae24571cecb"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresAllParams:
@@ -286,7 +286,7 @@ class ListStoresAllFound:
 
 ListStoresAllResult: TypeAlias = ListStoresAllFound
 
-LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "70cd548776cac512f2ca25326cdf54692582000f7fb9d8b3168ac871ba570a13"
+LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "b0416c59b66d7b002d6c0860426fc7304dfda0a6424536c891d4f586d2ddf6e0"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsParams:
@@ -310,7 +310,7 @@ class ListStoresByIdsFound:
 
 ListStoresByIdsResult: TypeAlias = ListStoresByIdsFound
 
-LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "a8c0e8ad47d01a3348abe565a7495d5b24e002fc07a2eb3790153b24b0852499"
+LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "a2ea21fc3572c5aa8c992f3861482cc77b7f4b14f574e3847e4dff3bc3a4e72d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsAndNameParams:
@@ -335,7 +335,7 @@ class ListStoresByIdsAndNameFound:
 
 ListStoresByIdsAndNameResult: TypeAlias = ListStoresByIdsAndNameFound
 
-LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "657e656aff8393a99f0038c6fd16b7dcbaea020da1adec5960eb33f697844b0a"
+LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "ccee5dace4defa32dc569573bfff05c7b8163ae6390bb7eac62d07b263b65982"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByNameParams:
@@ -1825,6 +1825,8 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_all(self, parameters: ListStoresAllParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresAllResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -1844,6 +1846,8 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_by_ids(self, parameters: ListStoresByIdsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -1863,6 +1867,8 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_by_ids_and_name(self, parameters: ListStoresByIdsAndNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -1882,6 +1888,8 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_stores_by_name(self, parameters: ListStoresByNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByNameResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -2853,6 +2861,8 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_all(self, parameters: ListStoresAllParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresAllResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -2872,6 +2882,8 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_by_ids(self, parameters: ListStoresByIdsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -2891,6 +2903,8 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_by_ids_and_name(self, parameters: ListStoresByIdsAndNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
@@ -2910,6 +2924,8 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_stores_by_name(self, parameters: ListStoresByNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByNameResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:

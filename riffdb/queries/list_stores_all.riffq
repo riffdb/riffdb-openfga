@@ -1,6 +1,6 @@
 query ListStoresAll(
     $registry_id: Store.registry_id,
-    $limit: Limit = 50,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many stores from Store
