@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"errors"
+	"io"
 	"time"
 
 	"github.com/google/uuid"
@@ -127,13 +128,94 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 	now := time.Now().UTC()
 	insertedAt := instant(now)
 
+	// Both OpenFGA policies default to erroring, and on that path the command
+	// answers every question this call has: ApplyTupleMutations observes each
+	// TupleState itself and rejects a write whose target is already active or a
+	// delete whose target is not. Reading first would only narrow a window the
+	// command closes anyway, so the default path issues one round trip.
+	if writeOptions.OnDuplicateInsert == storage.OnDuplicateInsertError &&
+		writeOptions.OnMissingDelete == storage.OnMissingDeleteError {
+		return datastore.applyStrictWrite(ctx, store, deletes, writes, now, insertedAt)
+	}
+	return datastore.applyPolicyWrite(ctx, store, deletes, writes, writeOptions, now, insertedAt)
+}
+
+// applyStrictWrite issues the mutation set without observing current state.
+//
+// A tuple named by both a delete and a write collapses to the write, which is
+// what "deletes before inserts" means for one identity and what the observing
+// path produced too.
+func (datastore *Datastore) applyStrictWrite(
+	ctx context.Context,
+	store string,
+	deletes storage.Deletes,
+	writes storage.Writes,
+	now time.Time,
+	insertedAt riffdb.Instant,
+) error {
+	written := make(map[string]struct{}, len(writes))
+	for _, key := range writes {
+		parts := tupleParts(store, key)
+		written[tupleIdentity(parts.objectType, parts.objectID, parts.relation, parts.user)] = struct{}{}
+	}
+
+	entropy := ulid.Monotonic(rand.Reader, 0)
+	mutations := make([]generated.TupleMutationInput, 0, len(deletes)+len(writes))
+	added := make(map[string]struct{}, len(deletes)+len(writes))
+	for _, key := range deletes {
+		parts := tupleParts(store, key)
+		identity := tupleIdentity(parts.objectType, parts.objectID, parts.relation, parts.user)
+		if _, ok := written[identity]; ok {
+			continue
+		}
+		mutation, err := tupleMutation(store, parts, generated.TupleOperationDelete, false, "", nil, now, insertedAt, entropy)
+		if err != nil {
+			return err
+		}
+		if _, ok := added[identity]; ok {
+			continue
+		}
+		added[identity] = struct{}{}
+		mutations = append(mutations, mutation)
+	}
+	for _, key := range writes {
+		parts := tupleParts(store, key)
+		identity := tupleIdentity(parts.objectType, parts.objectID, parts.relation, parts.user)
+		conditionKey, conditionContext, err := encodeCondition(key.GetCondition())
+		if err != nil {
+			return err
+		}
+		mutation, err := tupleMutation(store, parts, generated.TupleOperationWrite, true, conditionKey, conditionContext, now, insertedAt, entropy)
+		if err != nil {
+			return err
+		}
+		if _, ok := added[identity]; ok {
+			continue
+		}
+		added[identity] = struct{}{}
+		mutations = append(mutations, mutation)
+	}
+	return datastore.applyTupleMutations(ctx, mutations)
+}
+
+// applyPolicyWrite observes current state first, because the caller asked for a
+// policy the command cannot express.
+//
+// Ignoring a duplicate insert or a missing delete means skipping one item and
+// continuing, and a conditional per-item block is not a shape the contract
+// language admits. So the adapter decides which items to send, and the command
+// still validates the ones it receives.
+func (datastore *Datastore) applyPolicyWrite(
+	ctx context.Context,
+	store string,
+	deletes storage.Deletes,
+	writes storage.Writes,
+	writeOptions storage.TupleWriteOptions,
+	now time.Time,
+	insertedAt riffdb.Instant,
+) error {
 	states := make(map[string]persistedTupleState, len(deletes)+len(writes))
 	operations := make(map[string]generated.TupleOperation, len(deletes)+len(writes))
-	// guards records the stored state each mutation must be revision-guarded
-	// against, observed exactly once per identity. ApplyTupleMutations
-	// revalidates it atomically, so re-reading it here would narrow no race --
-	// it would only cost round trips.
-	guards := make(map[string]tupleGuard, len(deletes)+len(writes))
 	load := func(parts persistedTupleState) (persistedTupleState, error) {
 		identity := tupleIdentity(parts.objectType, parts.objectID, parts.relation, parts.user)
 		if value, ok := states[identity]; ok {
@@ -146,10 +228,6 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 		if !found {
 			value = parts
 			value.insertedAt = insertedAt
-			// ApplyTupleMutations will create this row inactive at revision zero.
-			guards[identity] = tupleGuard{}
-		} else {
-			guards[identity] = tupleGuard{active: value.active, revision: value.revision}
 		}
 		states[identity] = value
 		return value, nil
@@ -206,14 +284,6 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 		operations[identity] = generated.TupleOperationWrite
 	}
 
-	// Absent rows need no command of their own. ApplyTupleMutations binds each
-	// TupleState with init_or_mutate, so a missing row is created inside the
-	// same atomic commit that applies the mutation and appends its change. The
-	// (active, revision) guard is what keeps that safe: an absent row is created
-	// inactive at revision zero -- exactly the guard recorded above -- while a
-	// row some other writer created in the meantime carries a different revision
-	// and fails the requirement inside the commit.
-
 	entropy := ulid.Monotonic(rand.Reader, 0)
 	mutations := make([]generated.TupleMutationInput, 0, len(deletes)+len(writes))
 	added := make(map[string]struct{}, len(states))
@@ -222,15 +292,11 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 		if _, ok := added[identity]; ok {
 			return nil
 		}
-		current, ok := guards[identity]
-		if !ok {
-			return storage.ErrTransactionalWriteFailed
-		}
-		changeID, err := ulid.New(ulid.Timestamp(now), entropy)
+		mutation, err := tupleMutation(store, parts, operation, nextActive, conditionKey, conditionContext, now, insertedAt, entropy)
 		if err != nil {
-			return errors.New("riffdb-openfga: failed to generate changelog ULID")
+			return err
 		}
-		mutations = append(mutations, generated.TupleMutationInput{StoreId: store, ChangeId: changeID.String(), ObjectType: parts.objectType, ObjectId: parts.objectID, Relation: parts.relation, User: parts.user, UserObjectType: parts.userObjectType, UserObjectId: parts.userObjectID, UserRelation: parts.userRelation, UserKind: parts.userKind, Operation: operation, ConditionKey: conditionKey, ConditionContext: conditionContext, InsertedAt: insertedAt, ExpectedActive: current.active, NextActive: nextActive, ExpectedRevision: current.revision})
+		mutations = append(mutations, mutation)
 		added[identity] = struct{}{}
 		return nil
 	}
@@ -253,6 +319,28 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 			}
 		}
 	}
+	return datastore.applyTupleMutations(ctx, mutations)
+}
+
+func tupleMutation(
+	store string,
+	parts persistedTupleState,
+	operation generated.TupleOperation,
+	nextActive bool,
+	conditionKey string,
+	conditionContext *[]byte,
+	now time.Time,
+	insertedAt riffdb.Instant,
+	entropy io.Reader,
+) (generated.TupleMutationInput, error) {
+	changeID, err := ulid.New(ulid.Timestamp(now), entropy)
+	if err != nil {
+		return generated.TupleMutationInput{}, errors.New("riffdb-openfga: failed to generate changelog ULID")
+	}
+	return generated.TupleMutationInput{StoreId: store, ChangeId: changeID.String(), ObjectType: parts.objectType, ObjectId: parts.objectID, Relation: parts.relation, User: parts.user, UserObjectType: parts.userObjectType, UserObjectId: parts.userObjectID, UserRelation: parts.userRelation, UserKind: parts.userKind, Operation: operation, ConditionKey: conditionKey, ConditionContext: conditionContext, InsertedAt: insertedAt, NextActive: nextActive}, nil
+}
+
+func (datastore *Datastore) applyTupleMutations(ctx context.Context, mutations []generated.TupleMutationInput) error {
 	if len(mutations) == 0 {
 		return nil
 	}
@@ -260,19 +348,27 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 	if err != nil {
 		return mapError(ctx, err)
 	}
-	switch result.Outcome.(type) {
+	switch outcome := result.Outcome.(type) {
 	case generated.ApplyTupleMutationsTupleMutationsApplied:
 		return nil
-	case generated.ApplyTupleMutationsTupleStateChanged, generated.ApplyTupleMutationsTupleChangeAlreadyExists:
+	case generated.ApplyTupleMutationsTupleStateUnexpected:
+		// The command observed a state the mutation cannot be applied to: an
+		// already-active target for a write, or an inactive one for a delete.
+		// Under the erroring policies that is the invalid-input answer, and it
+		// names the offending tuple rather than reporting a generic conflict.
+		key := &openfgav1.TupleKey{
+			Object:   tuple.BuildObject(outcome.ObjectType, outcome.ObjectId),
+			Relation: outcome.Relation,
+			User:     outcome.User,
+		}
+		operation := openfgav1.TupleOperation_TUPLE_OPERATION_WRITE
+		if outcome.Operation == generated.TupleOperationDelete {
+			operation = openfgav1.TupleOperation_TUPLE_OPERATION_DELETE
+		}
+		return storage.InvalidWriteInputError(key, operation)
+	case generated.ApplyTupleMutationsTupleChangeAlreadyExists:
 		return storage.ErrTransactionalWriteFailed
 	default:
 		return errors.New("riffdb-openfga: unknown ApplyTupleMutations outcome")
 	}
-}
-
-// tupleGuard is the stored (active, revision) pair a mutation is guarded
-// against. RiffDB revalidates it inside the atomic command.
-type tupleGuard struct {
-	active   bool
-	revision uint64
 }

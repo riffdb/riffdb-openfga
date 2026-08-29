@@ -10,8 +10,7 @@ query ReadTuplesByType(
         order by object_id asc, relation asc, user asc
         take $limit after $after
     return Found { tuples: tuples {
-        store_id object_type object_id relation user user_object_type user_object_id
-        user_relation user_kind condition_key condition_context inserted_at active revision
+        object_type object_id relation user condition_key condition_context inserted_at
     } }
     outcomes Found
 }

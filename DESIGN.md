@@ -59,17 +59,30 @@ All mutations are compiled operations:
 | `DeleteStore` | Mark one store deleted idempotently |
 | `WriteAuthorizationModel` | Persist one bounded immutable model |
 | `CreateAssertionSet` / `UpdateAssertionSet` | Create or revision-guard the bounded assertion set for one model |
-| `ApplyTupleMutations` | Validate the entire bounded request, create any absent tuple state, apply deletes before inserts, enforce duplicate/missing policy, and append matching changes |
+| `ApplyTupleMutations` | Validate the entire bounded request, observe or initialize each tuple state, apply deletes before inserts, reject a mutation its observed state cannot accept, and append matching changes |
 
-`ApplyTupleMutations` binds each `TupleState` with `init_or_mutate`: an absent
-row is created inactive at revision zero and a present row uses its exact
-revalidated preimage, and both then run the same revision- and activity-checked
-suffix. One logical tuple write is therefore one durable command rather than a
-separate row-preparation command followed by a mutation. The `(expected_active,
-expected_revision)` guard is what makes the merged form safe — it is observed
-once per identity before the command and revalidated inside it, so a row another
-writer created or changed in the meantime fails the requirement and maps to a
-transactional conflict.
+`ApplyTupleMutations` binds each `TupleState` with `observe_or_initialize` and
+decides from its own observation (ADR-0163). An absent row is initialized
+inactive at revision zero; a present row supplies its exact preimage. The
+decision applies the mutation when the stored activity differs from the
+requested one, and otherwise rejects with the offending tuple named. That
+symmetry is the whole policy: a write whose target is already active and a
+delete whose target is not are both `state.active == mutation.next_active`.
+
+The adapter therefore carries no guard. Under OpenFGA's default policies — both
+`OnDuplicateInsert` and `OnMissingDelete` error — one tuple write is one round
+trip, because the command answers every question the call has.
+
+The earlier shape observed state first and passed `(expected_active,
+expected_revision)` for the command to revalidate. That was safe: a stale guard
+was rejected, never applied. But it left "read, then act on what you read" as an
+expressible mistake, caught rather than prevented. Observing inside the command
+removes the parameter, and with it the mistake.
+
+A caller that selects `Ignore` for either policy still gets a read first.
+Skipping one item and continuing is a conditional per-item block, which the
+contract language does not admit, so the adapter decides which items to send and
+the command validates the ones it receives.
 
 Idempotency keys are generated once per Go call and retained for all retry
 attempts. RiffDB owns concurrency validation and atomic commit. Application
@@ -84,8 +97,6 @@ covers:
 - exact tuple identity;
 - partial tuple reads for every upstream-supported object/relation/user shape;
 - conditioned and unconditioned filters;
-- userset filtering by allowed type and relation;
-- reverse reads by user/userset with optional object IDs and ascending order;
 - store lists by optional IDs and name;
 - model history in descending ULID order;
 - exact assertion-set reads; and
@@ -101,6 +112,12 @@ authoritative ordering key.
 
 Iterators fetch bounded pages lazily and release resources on `Stop` or after
 `ErrIteratorDone`. They never materialize a whole store.
+
+Tuple reads project only the seven fields the adapter consumes. `ReadUsersetTuples`
+and `ReadStartingWithUser` compose a filter over an object/relation read rather
+than dispatching a purpose-built query; the queries that would serve them
+directly were written but never called, and were removed rather than left as
+granted authority for an absent code path.
 
 Paged queries declare `Limit<MAX>` and the adapter never asks for more than
 `MAX`. Tuple and changelog queries carry `Limit<50>`, matching OpenFGA's own

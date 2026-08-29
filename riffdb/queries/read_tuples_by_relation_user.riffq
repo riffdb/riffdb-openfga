@@ -9,6 +9,6 @@ query ReadTuplesByRelationUser(
         where store_id == $store_id && active == true && relation == $relation && user == $user
         order by object_type asc, object_id asc
         take $limit after $after
-    return Found { tuples: tuples { store_id object_type object_id relation user user_object_type user_object_id user_relation user_kind condition_key condition_context inserted_at active revision } }
+    return Found { tuples: tuples { object_type object_id relation user condition_key condition_context inserted_at } }
     outcomes Found
 }
