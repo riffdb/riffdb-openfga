@@ -1,13 +1,14 @@
 query ReadChangesDesc(
     $store_id: TupleChange.store_id,
     $horizon: TupleChange.inserted_at,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many changes from TupleChange
         where store_id == $store_id
           && inserted_at < $horizon
         order by inserted_at desc, change_id desc
-        take 1 after $after
+        take $limit after $after
 
     return Found {
         changes: changes {

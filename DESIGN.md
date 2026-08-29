@@ -59,8 +59,17 @@ All mutations are compiled operations:
 | `DeleteStore` | Mark one store deleted idempotently |
 | `WriteAuthorizationModel` | Persist one bounded immutable model |
 | `CreateAssertionSet` / `UpdateAssertionSet` | Create or revision-guard the bounded assertion set for one model |
-| `EnsureTuplePartition` / `EnsureTupleStates` | Prepare the bounded tuple partition and revision-bearing tuple states |
-| `ApplyTupleMutations` | Validate the entire bounded request, apply deletes before inserts, enforce duplicate/missing policy, and append matching changes |
+| `ApplyTupleMutations` | Validate the entire bounded request, create any absent tuple state, apply deletes before inserts, enforce duplicate/missing policy, and append matching changes |
+
+`ApplyTupleMutations` binds each `TupleState` with `init_or_mutate`: an absent
+row is created inactive at revision zero and a present row uses its exact
+revalidated preimage, and both then run the same revision- and activity-checked
+suffix. One logical tuple write is therefore one durable command rather than a
+separate row-preparation command followed by a mutation. The `(expected_active,
+expected_revision)` guard is what makes the merged form safe — it is observed
+once per identity before the command and revalidated inside it, so a row another
+writer created or changed in the meantime fails the requirement and maps to a
+transactional conflict.
 
 Idempotency keys are generated once per Go call and retained for all retry
 attempts. RiffDB owns concurrency validation and atomic commit. Application
@@ -92,6 +101,17 @@ authoritative ordering key.
 
 Iterators fetch bounded pages lazily and release resources on `Stop` or after
 `ErrIteratorDone`. They never materialize a whole store.
+
+Paged queries declare `Limit<MAX>` and the adapter never asks for more than
+`MAX`. Tuple and changelog queries carry `Limit<50>`, matching OpenFGA's own
+default page. Model history carries `Limit<15>`, because a serialized model is
+up to 256 KiB and the planner charges the *declared maximum* against its 4 MiB
+whole-request result ceiling — fifty models could not be admitted at any
+runtime value. A paged read costs one round trip per page, not one per row.
+
+A caller that wants fewer rows than `MAX` asks for exactly that many. A
+returned cursor continues from the end of the page it arrived with, so
+over-fetching and keeping part of a page would silently skip the remainder.
 
 ## Change ordering
 

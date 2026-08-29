@@ -4,6 +4,7 @@ query ReadTuplesByObjectRelationWithCondition(
     $object_id: TupleState.object_id,
     $relation: TupleState.relation,
     $condition: TupleState.condition_key,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many tuples from TupleState
@@ -11,7 +12,7 @@ query ReadTuplesByObjectRelationWithCondition(
           && condition_key == $condition && object_type == $object_type
           && object_id == $object_id && relation == $relation
         order by user asc
-        take 1 after $after
+        take $limit after $after
     return Found { tuples: tuples {
         store_id object_type object_id relation user user_object_type user_object_id
         user_relation user_kind condition_key condition_context inserted_at active revision

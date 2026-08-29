@@ -3,6 +3,7 @@ query ReadChangesByObjectAsc(
     $object_type: TupleChange.object_type,
     $start: TupleChange.inserted_at?,
     $horizon: TupleChange.inserted_at,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many changes from TupleChange
@@ -11,7 +12,7 @@ query ReadChangesByObjectAsc(
           && when $start { inserted_at > $start }
           && inserted_at < $horizon
         order by inserted_at asc, change_id asc
-        take 1 after $after
+        take $limit after $after
 
     return Found {
         changes: changes {

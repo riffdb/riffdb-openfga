@@ -12,6 +12,12 @@ import (
 
 const maximumAuthorizationModelBytes = 262144
 
+// maxModelQueryPage is the compiler-declared `Limit<15>` maximum for the model
+// history query. Models carry a 256 KiB serialized protobuf, so the planner's
+// 4 MiB whole-request result ceiling admits only fifteen of them per round
+// trip -- far fewer than the fifty-row page tuples allow.
+const maxModelQueryPage = 15
+
 func decodeAuthorizationModel(encoded []byte, expectedStore, expectedID, expectedSchema string) (*openfgav1.AuthorizationModel, error) {
 	model := new(openfgav1.AuthorizationModel)
 	if err := unmarshalCanonical(encoded, model, maximumAuthorizationModelBytes); err != nil {
@@ -77,7 +83,15 @@ func (datastore *Datastore) ReadAuthorizationModels(ctx context.Context, store s
 		if afterValue != "" {
 			after = &afterValue
 		}
-		result, err := datastore.client.ListAuthorizationModels(ctx, generated.ListAuthorizationModelsParams{StoreId: store, After: after}, generated.QueryOptions{})
+		// Ask for exactly the shortfall. A returned cursor continues from the
+		// end of the page it arrived with, so over-fetching and keeping only
+		// part of a page would silently drop the remainder.
+		want := pageSize - len(models)
+		if want > maxModelQueryPage {
+			want = maxModelQueryPage
+		}
+		limit := uint32(want)
+		result, err := datastore.client.ListAuthorizationModels(ctx, generated.ListAuthorizationModelsParams{StoreId: store, Limit: &limit, After: after}, generated.QueryOptions{})
 		if err != nil {
 			return nil, "", mapError(ctx, err)
 		}
@@ -88,12 +102,13 @@ func (datastore *Datastore) ReadAuthorizationModels(ctx context.Context, store s
 		if len(found.Models) == 0 {
 			return models, "", nil
 		}
-		row := found.Models[0]
-		model, err := decodeAuthorizationModel(row.SerializedProtobuf, store, row.ModelId, row.SchemaVersion)
-		if err != nil {
-			return nil, "", err
+		for _, row := range found.Models {
+			model, err := decodeAuthorizationModel(row.SerializedProtobuf, store, row.ModelId, row.SchemaVersion)
+			if err != nil {
+				return nil, "", err
+			}
+			models = append(models, model)
 		}
-		models = append(models, model)
 		afterValue = result.NextCursor
 		if afterValue == "" {
 			return models, "", nil

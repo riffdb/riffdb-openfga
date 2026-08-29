@@ -16,6 +16,34 @@ import (
 	riffdb "riffdb.dev/application"
 )
 
+// projectedChanges converts one bounded changelog page. The generated
+// projection is a slice; every row in it must be consumed, because the cursor
+// that comes back continues from the end of the page and any row left behind
+// would be skipped forever.
+func projectedChanges(result any) ([]*openfgav1.TupleChange, error) {
+	value := reflect.ValueOf(result)
+	if value.Kind() == reflect.Pointer {
+		value = value.Elem()
+	}
+	if !value.IsValid() || value.Kind() != reflect.Struct {
+		return nil, errors.New("riffdb-openfga: invalid changelog query outcome")
+	}
+	rows := value.FieldByName("Changes")
+	if !rows.IsValid() || rows.Kind() != reflect.Slice {
+		return nil, errors.New("riffdb-openfga: invalid generated changelog projection")
+	}
+	page := make([]*openfgav1.TupleChange, 0, rows.Len())
+	for index := 0; index < rows.Len(); index++ {
+		change, _, err := projectedChangeRow(rows.Index(index))
+		if err != nil {
+			return nil, err
+		}
+		page = append(page, change)
+	}
+	return page, nil
+}
+
+// projectedChange returns the first row of a changelog page.
 func projectedChange(result any) (*openfgav1.TupleChange, string, error) {
 	value := reflect.ValueOf(result)
 	if value.Kind() == reflect.Pointer {
@@ -31,7 +59,10 @@ func projectedChange(result any) (*openfgav1.TupleChange, string, error) {
 	if rows.Len() == 0 {
 		return nil, "", nil
 	}
-	row := rows.Index(0)
+	return projectedChangeRow(rows.Index(0))
+}
+
+func projectedChangeRow(row reflect.Value) (*openfgav1.TupleChange, string, error) {
 	stringField := func(name string) (string, error) {
 		field := row.FieldByName(name)
 		if !field.IsValid() || field.Kind() != reflect.String {
@@ -217,44 +248,51 @@ func (datastore *Datastore) ReadChanges(ctx context.Context, store string, filte
 			value := cursor.Start.riffDB()
 			start = &value
 		}
+		// Ask for exactly the shortfall so the cursor we keep lands on the
+		// last row we actually returned.
+		want := pageSize - len(changes)
+		if want > maxQueryPage {
+			want = maxQueryPage
+		}
+		limit := uint32(want)
 		switch {
 		case filter.ObjectType != "" && options.SortDesc:
-			result, queryErr := datastore.client.ReadChangesByObjectDesc(ctx, generated.ReadChangesByObjectDescParams{StoreId: store, ObjectType: filter.ObjectType, Horizon: horizon, After: after}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesByObjectDesc(ctx, generated.ReadChangesByObjectDescParams{StoreId: store, ObjectType: filter.ObjectType, Horizon: horizon, Limit: &limit, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
 			next = result.NextCursor
 		case filter.ObjectType != "":
-			result, queryErr := datastore.client.ReadChangesByObjectAsc(ctx, generated.ReadChangesByObjectAscParams{StoreId: store, ObjectType: filter.ObjectType, Start: start, Horizon: horizon, After: after}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesByObjectAsc(ctx, generated.ReadChangesByObjectAscParams{StoreId: store, ObjectType: filter.ObjectType, Start: start, Horizon: horizon, Limit: &limit, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
 			next = result.NextCursor
 		case options.SortDesc:
-			result, queryErr := datastore.client.ReadChangesDesc(ctx, generated.ReadChangesDescParams{StoreId: store, Horizon: horizon, After: after}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesDesc(ctx, generated.ReadChangesDescParams{StoreId: store, Horizon: horizon, Limit: &limit, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
 			next = result.NextCursor
 		default:
-			result, queryErr := datastore.client.ReadChangesAsc(ctx, generated.ReadChangesAscParams{StoreId: store, Start: start, Horizon: horizon, After: after}, generated.QueryOptions{})
+			result, queryErr := datastore.client.ReadChangesAsc(ctx, generated.ReadChangesAscParams{StoreId: store, Start: start, Horizon: horizon, Limit: &limit, After: after}, generated.QueryOptions{})
 			if queryErr != nil {
 				return nil, "", mapError(ctx, queryErr)
 			}
 			value = result.Value
 			next = result.NextCursor
 		}
-		change, _, err := projectedChange(value)
+		page, err := projectedChanges(value)
 		if err != nil {
 			return nil, "", err
 		}
-		if change == nil {
+		if len(page) == 0 {
 			break
 		}
-		changes = append(changes, change)
+		changes = append(changes, page...)
 		cursor.Cursor = next
 		cursor.Terminal = next == ""
 		if cursor.Terminal {

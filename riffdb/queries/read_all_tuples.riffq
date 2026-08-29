@@ -1,12 +1,13 @@
 query ReadAllTuples(
     $store_id: TupleState.store_id,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many tuples from TupleState
         where store_id == $store_id
           && active == true
         order by object_type asc, object_id asc, relation asc, user asc
-        take 1 after $after
+        take $limit after $after
 
     return Found {
         tuples: tuples {

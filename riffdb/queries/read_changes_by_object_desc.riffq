@@ -2,6 +2,7 @@ query ReadChangesByObjectDesc(
     $store_id: TupleChange.store_id,
     $object_type: TupleChange.object_type,
     $horizon: TupleChange.inserted_at,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many changes from TupleChange
@@ -9,7 +10,7 @@ query ReadChangesByObjectDesc(
           && object_type == $object_type
           && inserted_at < $horizon
         order by inserted_at desc, change_id desc
-        take 1 after $after
+        take $limit after $after
 
     return Found {
         changes: changes {

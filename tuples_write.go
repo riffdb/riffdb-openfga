@@ -86,19 +86,6 @@ func generatedTupleState(value persistedTupleState) generated.TupleState {
 	return generated.TupleState{StoreId: value.store, ObjectType: value.objectType, ObjectId: value.objectID, Relation: value.relation, User: value.user, UserObjectType: value.userObjectType, UserObjectId: value.userObjectID, UserRelation: value.userRelation, UserKind: value.userKind, ConditionKey: value.conditionKey, ConditionContext: value.conditionContext, InsertedAt: value.insertedAt, Active: value.active, Revision: value.revision}
 }
 
-func (datastore *Datastore) ensureTupleState(ctx context.Context, value persistedTupleState) error {
-	result, err := datastore.client.EnsureTupleStates(ctx, generated.EnsureTupleStatesInput{States: []generated.TupleState{generatedTupleState(value)}, RequestId: uuid.NewString()})
-	if err != nil {
-		return mapError(ctx, err)
-	}
-	switch result.Outcome.(type) {
-	case generated.EnsureTupleStatesTupleStatesEnsured, generated.EnsureTupleStatesTupleStateAlreadyExists:
-		return nil
-	default:
-		return errors.New("riffdb-openfga: unknown EnsureTupleStates outcome")
-	}
-}
-
 func encodeCondition(condition *openfgav1.RelationshipCondition) (string, *[]byte, error) {
 	if condition == nil {
 		return "", nil, nil
@@ -139,18 +126,14 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 	writeOptions := storage.NewTupleWriteOptions(options...)
 	now := time.Now().UTC()
 	insertedAt := instant(now)
-	partition, err := datastore.client.EnsureTuplePartition(ctx, generated.EnsureTuplePartitionInput{StoreId: store, RequestId: uuid.NewString()})
-	if err != nil {
-		return mapError(ctx, err)
-	}
-	switch partition.Outcome.(type) {
-	case generated.EnsureTuplePartitionTuplePartitionEnsured, generated.EnsureTuplePartitionTuplePartitionAlreadyExists:
-	default:
-		return errors.New("riffdb-openfga: unknown EnsureTuplePartition outcome")
-	}
 
 	states := make(map[string]persistedTupleState, len(deletes)+len(writes))
 	operations := make(map[string]generated.TupleOperation, len(deletes)+len(writes))
+	// guards records the stored state each mutation must be revision-guarded
+	// against, observed exactly once per identity. ApplyTupleMutations
+	// revalidates it atomically, so re-reading it here would narrow no race --
+	// it would only cost round trips.
+	guards := make(map[string]tupleGuard, len(deletes)+len(writes))
 	load := func(parts persistedTupleState) (persistedTupleState, error) {
 		identity := tupleIdentity(parts.objectType, parts.objectID, parts.relation, parts.user)
 		if value, ok := states[identity]; ok {
@@ -163,6 +146,10 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 		if !found {
 			value = parts
 			value.insertedAt = insertedAt
+			// ApplyTupleMutations will create this row inactive at revision zero.
+			guards[identity] = tupleGuard{}
+		} else {
+			guards[identity] = tupleGuard{active: value.active, revision: value.revision}
 		}
 		states[identity] = value
 		return value, nil
@@ -219,33 +206,13 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 		operations[identity] = generated.TupleOperationWrite
 	}
 
-	// Create only the still-absent rows. Dormant rows are not visible to any
-	// OpenFGA read and make the following multi-row mutation fully atomic.
-	for identity, desired := range states {
-		current, found, err := datastore.getTupleState(ctx, desired)
-		if err != nil {
-			return err
-		}
-		if !found {
-			dormant := desired
-			dormant.active = false
-			dormant.revision = 0
-			dormant.conditionKey = ""
-			dormant.conditionContext = nil
-			if err := datastore.ensureTupleState(ctx, dormant); err != nil {
-				return err
-			}
-			current, found, err = datastore.getTupleState(ctx, desired)
-			if err != nil {
-				return err
-			}
-			if !found {
-				return storage.ErrTransactionalWriteFailed
-			}
-		}
-		desired.revision = current.revision
-		states[identity] = desired
-	}
+	// Absent rows need no command of their own. ApplyTupleMutations binds each
+	// TupleState with init_or_mutate, so a missing row is created inside the
+	// same atomic commit that applies the mutation and appends its change. The
+	// (active, revision) guard is what keeps that safe: an absent row is created
+	// inactive at revision zero -- exactly the guard recorded above -- while a
+	// row some other writer created in the meantime carries a different revision
+	// and fails the requirement inside the commit.
 
 	entropy := ulid.Monotonic(rand.Reader, 0)
 	mutations := make([]generated.TupleMutationInput, 0, len(deletes)+len(writes))
@@ -255,11 +222,8 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 		if _, ok := added[identity]; ok {
 			return nil
 		}
-		current, found, err := datastore.getTupleState(ctx, parts)
-		if err != nil {
-			return err
-		}
-		if !found {
+		current, ok := guards[identity]
+		if !ok {
 			return storage.ErrTransactionalWriteFailed
 		}
 		changeID, err := ulid.New(ulid.Timestamp(now), entropy)
@@ -299,9 +263,16 @@ func (datastore *Datastore) Write(ctx context.Context, store string, deletes sto
 	switch result.Outcome.(type) {
 	case generated.ApplyTupleMutationsTupleMutationsApplied:
 		return nil
-	case generated.ApplyTupleMutationsTupleStateChanged, generated.ApplyTupleMutationsTupleStateMissing, generated.ApplyTupleMutationsTupleChangeAlreadyExists:
+	case generated.ApplyTupleMutationsTupleStateChanged, generated.ApplyTupleMutationsTupleChangeAlreadyExists:
 		return storage.ErrTransactionalWriteFailed
 	default:
 		return errors.New("riffdb-openfga: unknown ApplyTupleMutations outcome")
 	}
+}
+
+// tupleGuard is the stored (active, revision) pair a mutation is guarded
+// against. RiffDB revalidates it inside the atomic command.
+type tupleGuard struct {
+	active   bool
+	revision uint64
 }

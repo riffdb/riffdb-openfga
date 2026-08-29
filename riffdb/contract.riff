@@ -242,14 +242,6 @@ contract RiffDBOpenFGA version 1 {
     return AssertionSetCreated {}
   }
 
-  command EnsureTuplePartition {
-    input request_id: uuid
-    input store_id: string<26>
-    idempotency_key request_id
-    create TuplePartition(store_id) as partition else TuplePartitionAlreadyExists {}
-    return TuplePartitionEnsured {}
-  }
-
   command UpdateAssertionSet {
     input request_id: uuid
     input store_id: string<26>
@@ -264,43 +256,28 @@ contract RiffDBOpenFGA version 1 {
     return AssertionSetUpdated {}
   }
 
-  bulk command EnsureTupleStates {
-    input request_id: uuid
-    input states: list<TupleState, 1..100> aggregate_bytes <= 900000
-    idempotency_key request_id
-    for state_input in states {
-      create TupleState(
-        state_input.store_id,
-        state_input.object_type,
-        state_input.object_id,
-        state_input.relation,
-        state_input.user
-      ) as state else TupleStateAlreadyExists {}
-      set state.user_object_type = state_input.user_object_type
-      set state.user_object_id = state_input.user_object_id
-      set state.user_relation = state_input.user_relation
-      set state.user_kind = state_input.user_kind
-      set state.condition_key = state_input.condition_key
-      set state.condition_context = state_input.condition_context
-      set state.inserted_at = state_input.inserted_at
-      set state.active = state_input.active
-      set state.revision = state_input.revision
-    }
-    return TupleStatesEnsured {}
-  }
-
   bulk command ApplyTupleMutations {
     input request_id: uuid
     input mutations: list<TupleMutationInput, 1..100> aggregate_bytes <= 900000
     idempotency_key request_id
     for mutation in mutations {
-      mutate TupleState(
+      init_or_mutate TupleState(
         mutation.store_id,
         mutation.object_type,
         mutation.object_id,
         mutation.relation,
         mutation.user
-      ) as state else TupleStateMissing {}
+      ) as state initialize {
+        user_object_type: "",
+        user_object_id: "",
+        user_relation: "",
+        user_kind: "",
+        condition_key: "",
+        condition_context: null,
+        inserted_at: mutation.inserted_at,
+        active: false,
+        revision: 0,
+      }
       create TupleChange(mutation.store_id, mutation.change_id) as change
         else TupleChangeAlreadyExists {}
       require tuple_revision: state.revision == mutation.expected_revision

@@ -2,13 +2,14 @@ query ReadTuplesByTypeRelation(
     $store_id: TupleState.store_id,
     $object_type: TupleState.object_type,
     $relation: TupleState.relation,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many tuples from TupleState
         where store_id == $store_id && active == true
           && object_type == $object_type && relation == $relation
         order by object_id asc, user asc
-        take 1 after $after
+        take $limit after $after
     return Found { tuples: tuples {
         store_id object_type object_id relation user user_object_type user_object_id
         user_relation user_kind condition_key condition_context inserted_at active revision

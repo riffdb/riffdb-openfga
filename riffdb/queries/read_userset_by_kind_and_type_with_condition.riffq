@@ -2,7 +2,7 @@ query ReadUsersetByKindAndTypeWithCondition(
     $store_id: TupleState.store_id, $object_type: TupleState.object_type,
     $object_id: TupleState.object_id, $relation: TupleState.relation,
     $user_kind: TupleState.user_kind, $user_object_type: TupleState.user_object_type,
-    $condition: TupleState.condition_key, $after: Cursor?,
+    $condition: TupleState.condition_key, $limit: Limit<50> = 50, $after: Cursor?,
 ) {
     many tuples from TupleState
         where store_id == $store_id && active == true && condition_key == $condition
@@ -10,7 +10,7 @@ query ReadUsersetByKindAndTypeWithCondition(
           && relation == $relation && user_kind == $user_kind
           && user_object_type == $user_object_type
         order by user_relation asc, user asc
-        take 1 after $after
+        take $limit after $after
     return Found { tuples: tuples {
         store_id object_type object_id relation user user_object_type user_object_id
         user_relation user_kind condition_key condition_context inserted_at active revision

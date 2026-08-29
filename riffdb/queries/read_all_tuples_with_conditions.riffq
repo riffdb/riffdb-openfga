@@ -1,6 +1,7 @@
 query ReadAllTuplesWithConditions(
     $store_id: TupleState.store_id,
     $condition: TupleState.condition_key,
+    $limit: Limit<50> = 50,
     $after: Cursor?,
 ) {
     many tuples from TupleState
@@ -8,7 +9,7 @@ query ReadAllTuplesWithConditions(
           && active == true
           && condition_key == $condition
         order by object_type asc, object_id asc, relation asc, user asc
-        take 1 after $after
+        take $limit after $after
 
     return Found {
         tuples: tuples {

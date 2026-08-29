@@ -22,8 +22,8 @@ def _compact_tag(value: object, tag: str, keys: frozenset[str]) -> dict[str, obj
 
 CONTRACT_LINEAGE: Final[str] = "RiffDBOpenFGA"
 CONTRACT_VERSION: Final[int] = 1
-CONTRACT_BUNDLE_HASH: Final[str] = "e9afd3a0a61de1d4914e5617eca729dd2826eae5acaa2ab7230567c9337ea416"
-QUERY_MODULE_HASH: Final[str] = "20b3e8f33b299208ae03789b8a45cc0318f83297b012ab7637c292401df9d857"
+CONTRACT_BUNDLE_HASH: Final[str] = "77a3a655238ad919a2a846731ca1202458615ee3e4ac3852954677706c69d91f"
+QUERY_MODULE_HASH: Final[str] = "957f5e7578c06e361522cf789cfb228dab065cb10642fd2ebe9a50b6a0edb40f"
 
 class TupleOperation(StrEnum):
     WRITE = "Write"
@@ -107,7 +107,7 @@ class TupleMutationInput:
     condition_context: bytes | None
     expected_revision: Annotated[int, "u64"]
 
-GET_ASSERTION_SET_QUERY_PLAN_HASH: Final[str] = "5fab66fd4b0db34b9e4a5d8bbde65fb15730f700bf8d7d80289b3b80c89ef5a0"
+GET_ASSERTION_SET_QUERY_PLAN_HASH: Final[str] = "21515912072e79d09650d57e6cd7a93260c1ea64cc3f9fceac30ce4c988afd53"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetAssertionSetParams:
@@ -132,7 +132,7 @@ class GetAssertionSetNotFound:
 
 GetAssertionSetResult: TypeAlias = GetAssertionSetFound | GetAssertionSetNotFound
 
-GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "6a43874b6f0b716e9990ff97b980d1b92c0b61ce9502628d2dd803ce5ff56b86"
+GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "31f030e2cd5823cd71e3f99a39380ec040cb5f5f0e083a978cc694359b2d89f3"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetAuthorizationModelParams:
@@ -157,7 +157,7 @@ class GetAuthorizationModelNotFound:
 
 GetAuthorizationModelResult: TypeAlias = GetAuthorizationModelFound | GetAuthorizationModelNotFound
 
-GET_STORE_QUERY_PLAN_HASH: Final[str] = "2c52fc6964d25fc7d9f953a74296f0f4acad8f7fc8104432d845d7a4c1b061be"
+GET_STORE_QUERY_PLAN_HASH: Final[str] = "f321dd983e5c20a8a1d6298075b8958193a94da7ec365c4c4811a44a2cf08f3a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetStoreParams:
@@ -183,7 +183,7 @@ class GetStoreNotFound:
 
 GetStoreResult: TypeAlias = GetStoreFound | GetStoreNotFound
 
-GET_TUPLE_STATE_QUERY_PLAN_HASH: Final[str] = "33fa2c7227dec9607d283281c516b6988109fd673438043a2bca0446a4c43d36"
+GET_TUPLE_STATE_QUERY_PLAN_HASH: Final[str] = "b90b9526b935d9205841b957c7056a327789b4d030f3eb62a4b0484f82a1e017"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetTupleStateParams:
@@ -221,7 +221,7 @@ class GetTupleStateNotFound:
 
 GetTupleStateResult: TypeAlias = GetTupleStateFound | GetTupleStateNotFound
 
-LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "b80f3c4b85fa01e363051ae0187627dc7718ffd2cfe264064e0eddec05313b36"
+LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "3569194ebcce6ab49ec849cbe7dbe7c245b19349bf9c3361c7fac42c37c880fa"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class LatestAuthorizationModelParams:
@@ -241,11 +241,12 @@ class LatestAuthorizationModelFound:
 
 LatestAuthorizationModelResult: TypeAlias = LatestAuthorizationModelFound
 
-LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "b5194f3d23c41e1b6ac722dd0d914f7f9f40094087eb64d8857378ca8d34cd61"
+LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "b4111db7733681014f25301b62a9b88bd17b184299c615ba04a78484eeacd50c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListAuthorizationModelsParams:
     store_id: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -262,7 +263,7 @@ class ListAuthorizationModelsFound:
 
 ListAuthorizationModelsResult: TypeAlias = ListAuthorizationModelsFound
 
-LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "1be7285dd134445f7b0b60e86928e430e9ab682c119d3697a26afe5e236e226c"
+LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "2e6cfdb2b03fc5b6336da7ae4badc779981b841ecd117378e1429bb57f245e30"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresAllParams:
@@ -285,7 +286,7 @@ class ListStoresAllFound:
 
 ListStoresAllResult: TypeAlias = ListStoresAllFound
 
-LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "e71f51839e2e0c4b0ee36be82404e7bd1f94a51bab283ae509ec1528edacf0b4"
+LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "70cd548776cac512f2ca25326cdf54692582000f7fb9d8b3168ac871ba570a13"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsParams:
@@ -309,7 +310,7 @@ class ListStoresByIdsFound:
 
 ListStoresByIdsResult: TypeAlias = ListStoresByIdsFound
 
-LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "80d2fc3a51a9a6d782fe8a45fc0c81beae68e259cf55c7df5d4064f2c1314cd8"
+LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "a8c0e8ad47d01a3348abe565a7495d5b24e002fc07a2eb3790153b24b0852499"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsAndNameParams:
@@ -334,7 +335,7 @@ class ListStoresByIdsAndNameFound:
 
 ListStoresByIdsAndNameResult: TypeAlias = ListStoresByIdsAndNameFound
 
-LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "d4c3dea110b33b539a1ceac09ea222c6ca3aadbc7c4679384adaf2c0b236c2af"
+LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "657e656aff8393a99f0038c6fd16b7dcbaea020da1adec5960eb33f697844b0a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByNameParams:
@@ -358,11 +359,12 @@ class ListStoresByNameFound:
 
 ListStoresByNameResult: TypeAlias = ListStoresByNameFound
 
-READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "37bc00f04c8107ba05b2531cea12429a0764af5dd2aae2252be8e820ba13e12c"
+READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "556c9bf06d8de0b680610735a42687051b93e528e9ffe60a9e09a4039fa16562"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesParams:
     store_id: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -389,12 +391,13 @@ class ReadAllTuplesFound:
 
 ReadAllTuplesResult: TypeAlias = ReadAllTuplesFound
 
-READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "19603332adaf456c775af3f13f1f88324d40d93b00d182cf593fa0531720b61b"
+READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "a4eb4d71e117a61baa160c1ec91f9fdfeadd5ff3eeb9c070dbc16eeef98e9d6d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesWithConditionsParams:
     store_id: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -421,13 +424,14 @@ class ReadAllTuplesWithConditionsFound:
 
 ReadAllTuplesWithConditionsResult: TypeAlias = ReadAllTuplesWithConditionsFound
 
-READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "79000fd4e789d3e6b613d693bb2b4c0cce7551621798e068cc5da7d107b9ee0e"
+READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "c26d02ed12b24150e8347a80808c432e7e432c77274396f9f232589faec152ec"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesAscParams:
     store_id: str
     start: Timestamp | None = None
     horizon: Timestamp
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -450,7 +454,7 @@ class ReadChangesAscFound:
 
 ReadChangesAscResult: TypeAlias = ReadChangesAscFound
 
-READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "8511477ddf0f17c8491561403d744e90f260d99e8834d8f6f282806269642976"
+READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "67106e335e0d8a2939223d9bff42c71cf34640c65ae8af6f6515b5f420fbca74"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectAscParams:
@@ -458,6 +462,7 @@ class ReadChangesByObjectAscParams:
     object_type: str
     start: Timestamp | None = None
     horizon: Timestamp
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -480,13 +485,14 @@ class ReadChangesByObjectAscFound:
 
 ReadChangesByObjectAscResult: TypeAlias = ReadChangesByObjectAscFound
 
-READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "1893cfe81d5ffa80dc693434e87427ab6ee266b757386c18071882c39b8bf18b"
+READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "3d284a27a3be08d308f7e639b33b6f47bb9b846caf0900ae65876fa898d020dc"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectDescParams:
     store_id: str
     object_type: str
     horizon: Timestamp
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -509,12 +515,13 @@ class ReadChangesByObjectDescFound:
 
 ReadChangesByObjectDescResult: TypeAlias = ReadChangesByObjectDescFound
 
-READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "52b2f0f129370ae02fbd77f677c8d196d4077dd2e27a7674ebcf67ae5e9c7d3e"
+READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "69998456b9be7a5fe33933ac4797264c1c339ed86d73fe742e7d8772405ac1a9"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesDescParams:
     store_id: str
     horizon: Timestamp
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -537,7 +544,7 @@ class ReadChangesDescFound:
 
 ReadChangesDescResult: TypeAlias = ReadChangesDescFound
 
-READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "c3fee007c91b22321cc87c06f570dd0e872a6a70bbecdb20cdefd2715e2199c5"
+READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "54e04e9fd8ddd0ce277d85f0fa7251224b2ba9fc654a52b2d41d328af01c7880"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserParams:
@@ -545,6 +552,7 @@ class ReadStartingWithUserParams:
     object_type: str
     relation: str
     user: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -571,7 +579,7 @@ class ReadStartingWithUserFound:
 
 ReadStartingWithUserResult: TypeAlias = ReadStartingWithUserFound
 
-READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "607a1fabb4f279ff10a9c423414b7b70c33b02958717c5e7061b839efcfff778"
+READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "1fd32e424e1b588a0d01b2716bd842dbd3c83f742a56d26f1760376b932d80c6"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserAndObjectsParams:
@@ -580,6 +588,7 @@ class ReadStartingWithUserAndObjectsParams:
     relation: str
     user: str
     object_ids: tuple[str, ...]
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -606,7 +615,7 @@ class ReadStartingWithUserAndObjectsFound:
 
 ReadStartingWithUserAndObjectsResult: TypeAlias = ReadStartingWithUserAndObjectsFound
 
-READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "e277a0977dc8aae67ca527aa33f69b2f305fc0ec7ae38b35181405315a5c3e4d"
+READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "37f6cf1b8126bdfaa63559a0910e28eba022d02fc5eab2b3bd2bae9ecfa34e9d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserObjectsConditionParams:
@@ -616,6 +625,7 @@ class ReadStartingWithUserObjectsConditionParams:
     user: str
     object_ids: tuple[str, ...]
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -642,7 +652,7 @@ class ReadStartingWithUserObjectsConditionFound:
 
 ReadStartingWithUserObjectsConditionResult: TypeAlias = ReadStartingWithUserObjectsConditionFound
 
-READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "f3139d21c40ab497cb9c127478a221440a6cd8a2a298e7e8fab1efba0a76aa47"
+READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "6e0216d41bc691fe32d541af99112840f2bec43b525103819985137768dfc02a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserWithConditionParams:
@@ -651,6 +661,7 @@ class ReadStartingWithUserWithConditionParams:
     relation: str
     user: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -677,7 +688,7 @@ class ReadStartingWithUserWithConditionFound:
 
 ReadStartingWithUserWithConditionResult: TypeAlias = ReadStartingWithUserWithConditionFound
 
-READ_TUPLE_EXACT_QUERY_PLAN_HASH: Final[str] = "1cb0c8a94ac9a66782e1bd4438a97337122332579337aef8701c5b2aac90d615"
+READ_TUPLE_EXACT_QUERY_PLAN_HASH: Final[str] = "87ecffd23a9bd136e408c5c417717cb87e15d21d5bcc5e0c6ba3327d0efcc0eb"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTupleExactParams:
@@ -715,7 +726,7 @@ class ReadTupleExactNotFound:
 
 ReadTupleExactResult: TypeAlias = ReadTupleExactFound | ReadTupleExactNotFound
 
-READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "f6a856fa88b2240e245450bf3af48519104de816d275ceef25ed1135cea88b0e"
+READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "7a5329da156b39e690315414da2b324cc9d37b44977496b9cd3d555032f882e7"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTupleExactWithConditionParams:
@@ -754,13 +765,14 @@ class ReadTupleExactWithConditionNotFound:
 
 ReadTupleExactWithConditionResult: TypeAlias = ReadTupleExactWithConditionFound | ReadTupleExactWithConditionNotFound
 
-READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "6eee543fdd37167302ab152f154f0938872093f9a57dd69c771f24661a70b980"
+READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "3915f4590587e43d3f3eed335538d53c58a84de601c2222d6fdd4c83e8372adc"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectParams:
     store_id: str
     object_type: str
     object_id: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -787,7 +799,7 @@ class ReadTuplesByObjectFound:
 
 ReadTuplesByObjectResult: TypeAlias = ReadTuplesByObjectFound
 
-READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "9deb195da37f3e6a77e8f93dd3c6a3914689c0d9cb26a70dbbcfff69f676c856"
+READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "c4b6aba2d8a013c8485536b6bcfad2e3d0ecf93588d9411987ede4157f22ba21"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationParams:
@@ -795,6 +807,7 @@ class ReadTuplesByObjectRelationParams:
     object_type: str
     object_id: str
     relation: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -821,7 +834,7 @@ class ReadTuplesByObjectRelationFound:
 
 ReadTuplesByObjectRelationResult: TypeAlias = ReadTuplesByObjectRelationFound
 
-READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "57143495fe155e9caa6e18fb32aa075bb5377b8d99ee7b9bdb7b0085252e43dc"
+READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "88c1f5d87302f7701cf5a43ebbe632f565d6ee73c9aa95f8b00de063a6032503"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationWithConditionParams:
@@ -830,6 +843,7 @@ class ReadTuplesByObjectRelationWithConditionParams:
     object_id: str
     relation: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -856,7 +870,7 @@ class ReadTuplesByObjectRelationWithConditionFound:
 
 ReadTuplesByObjectRelationWithConditionResult: TypeAlias = ReadTuplesByObjectRelationWithConditionFound
 
-READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "dc8eff06a24e0f870202de9bd477af1b6d35a462849c2122f50c94d5dd1cdfe0"
+READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "3914837dd32421e663186a6d3cfd2f162f5ad9160d14a08850ca2743cb0b9212"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserParams:
@@ -864,6 +878,7 @@ class ReadTuplesByObjectUserParams:
     object_type: str
     object_id: str
     user: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -890,7 +905,7 @@ class ReadTuplesByObjectUserFound:
 
 ReadTuplesByObjectUserResult: TypeAlias = ReadTuplesByObjectUserFound
 
-READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "8a796c6e2c1fd7de75685b4548a69f9cd38f90f6f7f946eac4ff6366ab42e5a3"
+READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e60e161d85f0b6a239686c955555937620062c7757c7304b323391fa4e5c7068"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserWithConditionParams:
@@ -899,6 +914,7 @@ class ReadTuplesByObjectUserWithConditionParams:
     object_id: str
     user: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -925,7 +941,7 @@ class ReadTuplesByObjectUserWithConditionFound:
 
 ReadTuplesByObjectUserWithConditionResult: TypeAlias = ReadTuplesByObjectUserWithConditionFound
 
-READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "82a6830d39d110e289587fdf48ccf199350cd0368913d9ef09b0b595a9a6104f"
+READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "560980e1f00441a3283668b0faa49d6a5e805c911e70eda63b4ff8974843476b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectWithConditionParams:
@@ -933,6 +949,7 @@ class ReadTuplesByObjectWithConditionParams:
     object_type: str
     object_id: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -959,13 +976,14 @@ class ReadTuplesByObjectWithConditionFound:
 
 ReadTuplesByObjectWithConditionResult: TypeAlias = ReadTuplesByObjectWithConditionFound
 
-READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "c072d40abfdec0a8c367288aea8ca0df526eee512c7ae08303a8f77416e0e96d"
+READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "f121afeeea96f864056ad47e6f69d8ef3d0db4f294726220f0f97963ad4629bf"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserParams:
     store_id: str
     relation: str
     user: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -992,7 +1010,7 @@ class ReadTuplesByRelationUserFound:
 
 ReadTuplesByRelationUserResult: TypeAlias = ReadTuplesByRelationUserFound
 
-READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "6df0570c132cea2c5c5c6f0bb2b321d0f2cd05c44f630a4aca4e33f251b36ad6"
+READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "b82c8573c44d37441babb81cc929d9b42204efbabe449c297dc61942b53ce402"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserWithConditionParams:
@@ -1000,6 +1018,7 @@ class ReadTuplesByRelationUserWithConditionParams:
     relation: str
     user: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1026,12 +1045,13 @@ class ReadTuplesByRelationUserWithConditionFound:
 
 ReadTuplesByRelationUserWithConditionResult: TypeAlias = ReadTuplesByRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "c3228a7ebab648b3ed14e753cf01a0c9218b03e019b4adf8a8a48d5bb2be72b8"
+READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "6a58560c01de37cfe670e35423854c517cb406f7667f49dd22e9723f3d3a0033"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeParams:
     store_id: str
     object_type: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1058,13 +1078,14 @@ class ReadTuplesByTypeFound:
 
 ReadTuplesByTypeResult: TypeAlias = ReadTuplesByTypeFound
 
-READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "3f884997152397a801e940ab04a7018a6ae0daca2812a5f1a4c13ecd68c81735"
+READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "f5f4a5e15634fa7857318093af2d913b56168e6bcbb1224d682b05c60148c418"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationParams:
     store_id: str
     object_type: str
     relation: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1091,7 +1112,7 @@ class ReadTuplesByTypeRelationFound:
 
 ReadTuplesByTypeRelationResult: TypeAlias = ReadTuplesByTypeRelationFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "4b859b18278ec23ffa4ca65dd57066ffcc004518ab4cf4caa0d9dbd85fddc1ee"
+READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "b0030a8b5ff987ba1846076cc51eb8cfc46fdce352bca0ae5a69fa5fb98a14fc"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserParams:
@@ -1099,6 +1120,7 @@ class ReadTuplesByTypeRelationUserParams:
     object_type: str
     relation: str
     user: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1125,7 +1147,7 @@ class ReadTuplesByTypeRelationUserFound:
 
 ReadTuplesByTypeRelationUserResult: TypeAlias = ReadTuplesByTypeRelationUserFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "6049c2cfdd83b2bd0317468948b8de9e059ef19ddab4fb4f7606f7233823cd60"
+READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "0a756245f8ff95b25b8e7ff1db640b8c5a95ed8bb2569c67b9bc5984d2d878c4"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserWithConditionParams:
@@ -1134,6 +1156,7 @@ class ReadTuplesByTypeRelationUserWithConditionParams:
     relation: str
     user: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1160,7 +1183,7 @@ class ReadTuplesByTypeRelationUserWithConditionFound:
 
 ReadTuplesByTypeRelationUserWithConditionResult: TypeAlias = ReadTuplesByTypeRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "bd388bef6db9dbe3706569867f46b22612ab63f5b4d13e1710b8628741173e3d"
+READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "cfcae6c68bd118473824050f89c5d53ce8d22a2b832eef527c8be90fdeb6bdaf"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationWithConditionParams:
@@ -1168,6 +1191,7 @@ class ReadTuplesByTypeRelationWithConditionParams:
     object_type: str
     relation: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1194,13 +1218,14 @@ class ReadTuplesByTypeRelationWithConditionFound:
 
 ReadTuplesByTypeRelationWithConditionResult: TypeAlias = ReadTuplesByTypeRelationWithConditionFound
 
-READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "cca135c2ba8568a5919aa5cc6bbf06533be7ad434585d93da6429f49920a2816"
+READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "af284b723bffd7821f1045c51629c5a1e71c0a78b961d484eb8f12a714a2210f"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserParams:
     store_id: str
     object_type: str
     user: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1227,7 +1252,7 @@ class ReadTuplesByTypeUserFound:
 
 ReadTuplesByTypeUserResult: TypeAlias = ReadTuplesByTypeUserFound
 
-READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "b7950f9638f9849cdd7151e8c4312d52d5737b97c352403f432f4e2dd7a28121"
+READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "a78cff56a90ea366a9924d2c2965b3cc6fecfa7487581b35a21ea7ae7fc625e9"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserWithConditionParams:
@@ -1235,6 +1260,7 @@ class ReadTuplesByTypeUserWithConditionParams:
     object_type: str
     user: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1261,13 +1287,14 @@ class ReadTuplesByTypeUserWithConditionFound:
 
 ReadTuplesByTypeUserWithConditionResult: TypeAlias = ReadTuplesByTypeUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "74a7fcf1473d234678cbf9cc76ca140f04925f62605927ab3b10f26363eaf562"
+READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e3d2d9075ec78ba87ead3bb8a7a77ec08f05fd332411e6c5cb87bf853c7a4192"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeWithConditionParams:
     store_id: str
     object_type: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1294,12 +1321,13 @@ class ReadTuplesByTypeWithConditionFound:
 
 ReadTuplesByTypeWithConditionResult: TypeAlias = ReadTuplesByTypeWithConditionFound
 
-READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "e3bb4c9fd3ceb1b734e0e3356ad0eaa1c6eaca95bed5fb135e2671875fa0f90b"
+READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "224caf69512a454810892fa5bc3713604f4fe63228beabcdaca4f9331a9d84c7"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserParams:
     store_id: str
     user: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1326,13 +1354,14 @@ class ReadTuplesByUserFound:
 
 ReadTuplesByUserResult: TypeAlias = ReadTuplesByUserFound
 
-READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "272e7929a120d9cc5056983b1f09975e073be5e6156e1376b8021381a9af526e"
+READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "3471b018b24f7bfc964c252f4bccf719c2c0b42ec786717d9c7b401756e609a7"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserWithConditionParams:
     store_id: str
     user: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1359,7 +1388,7 @@ class ReadTuplesByUserWithConditionFound:
 
 ReadTuplesByUserWithConditionResult: TypeAlias = ReadTuplesByUserWithConditionFound
 
-READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "380afe76e8d3c9e3281ab7af0082fb4ae0c37bc047ac8fa89ad488a9d3012695"
+READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "141558767c38a293028e93480188a2d4787779fffa6cea56c0ef88a04746480e"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindParams:
@@ -1368,6 +1397,7 @@ class ReadUsersetByKindParams:
     object_id: str
     relation: str
     user_kind: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1394,7 +1424,7 @@ class ReadUsersetByKindFound:
 
 ReadUsersetByKindResult: TypeAlias = ReadUsersetByKindFound
 
-READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH: Final[str] = "7c59f1f2af6e6958e1b3032b7459824861ddd5f438df20196cb7c92fb508ac2a"
+READ_USERSET_BY_KIND_AND_TYPE_QUERY_PLAN_HASH: Final[str] = "fd0aaff7f94dba3166fb73ece76f2fc7723b39187bcc48dcce5e2df81a9082f4"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindAndTypeParams:
@@ -1404,6 +1434,7 @@ class ReadUsersetByKindAndTypeParams:
     relation: str
     user_kind: str
     user_object_type: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1430,7 +1461,7 @@ class ReadUsersetByKindAndTypeFound:
 
 ReadUsersetByKindAndTypeResult: TypeAlias = ReadUsersetByKindAndTypeFound
 
-READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "59de5019b4843ffb687e2cd26b1c045facfcd0f5b752c816a5ee96eff317100c"
+READ_USERSET_BY_KIND_AND_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "0e9584aea7d27eec27c8d380401cddd91aeb495ef1592babc7e4b59a923b9934"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindAndTypeWithConditionParams:
@@ -1441,6 +1472,7 @@ class ReadUsersetByKindAndTypeWithConditionParams:
     user_kind: str
     user_object_type: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1467,7 +1499,7 @@ class ReadUsersetByKindAndTypeWithConditionFound:
 
 ReadUsersetByKindAndTypeWithConditionResult: TypeAlias = ReadUsersetByKindAndTypeWithConditionFound
 
-READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "63afc5f08bd9432a09aee5f53b9fbf97939e01a95c1782a09d09e09a2654c01b"
+READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "8164a032c2279d4fae8e12dc932977f529876927ad5f3b7cd377ee31cdb6461c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindTypeRelationParams:
@@ -1478,6 +1510,7 @@ class ReadUsersetByKindTypeRelationParams:
     user_kind: str
     user_object_type: str
     user_relation: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1504,7 +1537,7 @@ class ReadUsersetByKindTypeRelationFound:
 
 ReadUsersetByKindTypeRelationResult: TypeAlias = ReadUsersetByKindTypeRelationFound
 
-READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e44ba4fa3c603ca8e2c7a249fae0bcc55fadfd5cd058ee6a32ba527f3b7c464a"
+READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "566ebe923e77d9d6928608b4ba2f84f8bf03cc08ffaf15ab506195d16869bbd1"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindTypeRelationWithConditionParams:
@@ -1516,6 +1549,7 @@ class ReadUsersetByKindTypeRelationWithConditionParams:
     user_object_type: str
     user_relation: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1542,7 +1576,7 @@ class ReadUsersetByKindTypeRelationWithConditionFound:
 
 ReadUsersetByKindTypeRelationWithConditionResult: TypeAlias = ReadUsersetByKindTypeRelationWithConditionFound
 
-READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "283589c3f636f25a01f2e983542f80e51462c08342cbd36c67dab153d6ccc3a2"
+READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "586fb173049ca843d51b65bb96afaefe51db537fc25729ab85e5ceef8da387ae"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindWithConditionParams:
@@ -1552,6 +1586,7 @@ class ReadUsersetByKindWithConditionParams:
     relation: str
     user_kind: str
     condition: str
+    limit: Annotated[int, "u64"] | None = None
     after: str | None = None
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -1583,14 +1618,10 @@ class ApplyTupleMutationsInput:
     mutations: tuple[TupleMutationInput, ...]
     request_id: UUID
 
-APPLY_TUPLE_MUTATIONS_PLAN_HASH: Final[str] = "dd424f283072ac1bb0dcac9dffa9efce5947dec26e554ad8bc1985cf828b6e52"
+APPLY_TUPLE_MUTATIONS_PLAN_HASH: Final[str] = "34e6807fa966cb807204218a16243be0a9c68b068d169fbe95a083e17bbe8412"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ApplyTupleMutationsTupleStateChanged:
     outcome: Literal["TupleStateChanged"] = field(default="TupleStateChanged", init=False)
-
-@dataclass(frozen=True, slots=True, kw_only=True)
-class ApplyTupleMutationsTupleStateMissing:
-    outcome: Literal["TupleStateMissing"] = field(default="TupleStateMissing", init=False)
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ApplyTupleMutationsTupleMutationsApplied:
@@ -1600,7 +1631,7 @@ class ApplyTupleMutationsTupleMutationsApplied:
 class ApplyTupleMutationsTupleChangeAlreadyExists:
     outcome: Literal["TupleChangeAlreadyExists"] = field(default="TupleChangeAlreadyExists", init=False)
 
-ApplyTupleMutationsOutcome: TypeAlias = ApplyTupleMutationsTupleStateChanged | ApplyTupleMutationsTupleStateMissing | ApplyTupleMutationsTupleMutationsApplied | ApplyTupleMutationsTupleChangeAlreadyExists
+ApplyTupleMutationsOutcome: TypeAlias = ApplyTupleMutationsTupleStateChanged | ApplyTupleMutationsTupleMutationsApplied | ApplyTupleMutationsTupleChangeAlreadyExists
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class CreateAssertionSetInput:
@@ -1609,7 +1640,7 @@ class CreateAssertionSetInput:
     request_id: UUID
     serialized_protobuf: bytes
 
-CREATE_ASSERTION_SET_PLAN_HASH: Final[str] = "a510eaad1cf79f4c80e2fdb8a73142c9ff07bce5ba08e873c02d8f8116c4c365"
+CREATE_ASSERTION_SET_PLAN_HASH: Final[str] = "fc10d37a546c70e93beb034109aac7957993f56aa37bdbef690dbd71b577f1ee"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class CreateAssertionSetAssertionSetCreated:
     outcome: Literal["AssertionSetCreated"] = field(default="AssertionSetCreated", init=False)
@@ -1662,38 +1693,6 @@ class DeleteStoreStoreMissing:
 DeleteStoreOutcome: TypeAlias = DeleteStoreStoreChanged | DeleteStoreStoreDeleted | DeleteStoreStoreMissing
 
 @dataclass(frozen=True, slots=True, kw_only=True)
-class EnsureTuplePartitionInput:
-    store_id: str
-    request_id: UUID
-
-ENSURE_TUPLE_PARTITION_PLAN_HASH: Final[str] = "f42ebf0f300c6d438b06f51086ef7aa14fe2df8927781e8cd96d2e9257acab7c"
-@dataclass(frozen=True, slots=True, kw_only=True)
-class EnsureTuplePartitionTuplePartitionEnsured:
-    outcome: Literal["TuplePartitionEnsured"] = field(default="TuplePartitionEnsured", init=False)
-
-@dataclass(frozen=True, slots=True, kw_only=True)
-class EnsureTuplePartitionTuplePartitionAlreadyExists:
-    outcome: Literal["TuplePartitionAlreadyExists"] = field(default="TuplePartitionAlreadyExists", init=False)
-
-EnsureTuplePartitionOutcome: TypeAlias = EnsureTuplePartitionTuplePartitionEnsured | EnsureTuplePartitionTuplePartitionAlreadyExists
-
-@dataclass(frozen=True, slots=True, kw_only=True)
-class EnsureTupleStatesInput:
-    states: tuple[TupleState, ...]
-    request_id: UUID
-
-ENSURE_TUPLE_STATES_PLAN_HASH: Final[str] = "7604e029c1caf2c56af847161fbaed3394f27242a16c7c8f2c39145125e9076e"
-@dataclass(frozen=True, slots=True, kw_only=True)
-class EnsureTupleStatesTupleStatesEnsured:
-    outcome: Literal["TupleStatesEnsured"] = field(default="TupleStatesEnsured", init=False)
-
-@dataclass(frozen=True, slots=True, kw_only=True)
-class EnsureTupleStatesTupleStateAlreadyExists:
-    outcome: Literal["TupleStateAlreadyExists"] = field(default="TupleStateAlreadyExists", init=False)
-
-EnsureTupleStatesOutcome: TypeAlias = EnsureTupleStatesTupleStatesEnsured | EnsureTupleStatesTupleStateAlreadyExists
-
-@dataclass(frozen=True, slots=True, kw_only=True)
 class UpdateAssertionSetInput:
     model_id: str
     store_id: str
@@ -1701,7 +1700,7 @@ class UpdateAssertionSetInput:
     expected_revision: Annotated[int, "u64"]
     serialized_protobuf: bytes
 
-UPDATE_ASSERTION_SET_PLAN_HASH: Final[str] = "4e5a9e1563b4be9c493ebe8f83a8d9d6bc635d7a1e2c1720545dbc482ecde81a"
+UPDATE_ASSERTION_SET_PLAN_HASH: Final[str] = "41b121de556c2840ead07f3c5a36fea8f60346755fa14afed6ace025360be331"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class UpdateAssertionSetAssertionSetChanged:
     outcome: Literal["AssertionSetChanged"] = field(default="AssertionSetChanged", init=False)
@@ -1724,7 +1723,7 @@ class WriteAuthorizationModelInput:
     schema_version: str
     serialized_protobuf: bytes
 
-WRITE_AUTHORIZATION_MODEL_PLAN_HASH: Final[str] = "a34d5de8c0048575ad9529f061d399751cf6037381927d0f976537a7a8af6c4e"
+WRITE_AUTHORIZATION_MODEL_PLAN_HASH: Final[str] = "e3c077b2739448ce092d95a89578b384a73958f2dc7a6fdd4f19ebc3505f415a"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class WriteAuthorizationModelModelWritten:
     outcome: Literal["ModelWritten"] = field(default="ModelWritten", init=False)
@@ -1805,12 +1804,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def list_authorization_models(self, parameters: ListAuthorizationModelsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListAuthorizationModelsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 15):
+            raise ValueError("limit must be an integer from 1 through 15")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1829,7 +1830,7 @@ class RiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1848,7 +1849,7 @@ class RiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1867,7 +1868,7 @@ class RiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1886,7 +1887,7 @@ class RiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1900,12 +1901,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_all_tuples(self, parameters: ReadAllTuplesParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1919,12 +1922,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_all_tuples_with_conditions(self, parameters: ReadAllTuplesWithConditionsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesWithConditionsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1938,12 +1943,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_asc(self, parameters: ReadChangesAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesAscResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1957,12 +1964,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_by_object_asc(self, parameters: ReadChangesByObjectAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectAscResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1976,12 +1985,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_by_object_desc(self, parameters: ReadChangesByObjectDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectDescResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -1995,12 +2006,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_changes_desc(self, parameters: ReadChangesDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesDescResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2014,12 +2027,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user(self, parameters: ReadStartingWithUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2033,12 +2048,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user_and_objects(self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2052,12 +2069,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2071,12 +2090,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2116,12 +2137,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object(self, parameters: ReadTuplesByObjectParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2135,12 +2158,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_relation(self, parameters: ReadTuplesByObjectRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2154,12 +2179,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_relation_with_condition(self, parameters: ReadTuplesByObjectRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2173,12 +2200,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_user(self, parameters: ReadTuplesByObjectUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2192,12 +2221,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_user_with_condition(self, parameters: ReadTuplesByObjectUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2211,12 +2242,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_object_with_condition(self, parameters: ReadTuplesByObjectWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2230,12 +2263,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_relation_user(self, parameters: ReadTuplesByRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2249,12 +2284,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_relation_user_with_condition(self, parameters: ReadTuplesByRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2268,12 +2305,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type(self, parameters: ReadTuplesByTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2287,12 +2326,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation(self, parameters: ReadTuplesByTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2306,12 +2347,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation_user(self, parameters: ReadTuplesByTypeRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2325,12 +2368,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation_user_with_condition(self, parameters: ReadTuplesByTypeRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2344,12 +2389,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_relation_with_condition(self, parameters: ReadTuplesByTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2363,12 +2410,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_user(self, parameters: ReadTuplesByTypeUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2382,12 +2431,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_user_with_condition(self, parameters: ReadTuplesByTypeUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2401,12 +2452,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_type_with_condition(self, parameters: ReadTuplesByTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2420,12 +2473,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_user(self, parameters: ReadTuplesByUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2439,12 +2494,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_tuples_by_user_with_condition(self, parameters: ReadTuplesByUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2458,12 +2515,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind(self, parameters: ReadUsersetByKindParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2477,12 +2536,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_and_type(self, parameters: ReadUsersetByKindAndTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2496,12 +2557,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_and_type_with_condition(self, parameters: ReadUsersetByKindAndTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2515,12 +2578,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_type_relation(self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2534,12 +2599,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_type_relation_with_condition(self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2553,12 +2620,14 @@ class RiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     def read_userset_by_kind_with_condition(self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2584,7 +2653,6 @@ class RiffDBOpenFGAClient:
         )
         outcomes = {
             "TupleStateChanged": ApplyTupleMutationsTupleStateChanged,
-            "TupleStateMissing": ApplyTupleMutationsTupleStateMissing,
             "TupleMutationsApplied": ApplyTupleMutationsTupleMutationsApplied,
             "TupleChangeAlreadyExists": ApplyTupleMutationsTupleChangeAlreadyExists,
         }
@@ -2656,53 +2724,6 @@ class RiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[DeleteStoreOutcome]:
         return self._transport._command_batch(inputs, options, self.delete_store, progress)
-
-    def ensure_tuple_partition(self, input: EnsureTuplePartitionInput) -> TypedCommandResult[EnsureTuplePartitionOutcome]:
-        raw = self._transport._execute_command(
-            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
-            command_name="EnsureTuplePartition", plan_hash=ENSURE_TUPLE_PARTITION_PLAN_HASH,
-            input=encode_record(input), attempts=self._command_attempts,
-        )
-        outcomes = {
-            "TuplePartitionEnsured": EnsureTuplePartitionTuplePartitionEnsured,
-            "TuplePartitionAlreadyExists": EnsureTuplePartitionTuplePartitionAlreadyExists,
-        }
-        return raw._map_outcome(lambda value: decode_variant(outcomes, value))
-
-    def ensure_tuple_partition_batch(
-        self, inputs: Sequence[EnsureTuplePartitionInput], options: CommandBatchOptions,
-        progress: Callable[[CommandBatchProgress], None] | None = None,
-    ) -> CommandBatchResult[EnsureTuplePartitionOutcome]:
-        return self._transport._command_batch(inputs, options, self.ensure_tuple_partition, progress)
-
-    def ensure_tuple_states(self, input: EnsureTupleStatesInput) -> TypedCommandResult[EnsureTupleStatesOutcome]:
-        if not 1 <= len(input.states) <= 100:
-            raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
-        aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
-        if aggregate_element_bytes > 900000:
-            raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
-        raw = self._transport._execute_command(
-            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
-            command_name="EnsureTupleStates", plan_hash=ENSURE_TUPLE_STATES_PLAN_HASH,
-            input=encode_record(input), attempts=self._command_attempts,
-        )
-        outcomes = {
-            "TupleStatesEnsured": EnsureTupleStatesTupleStatesEnsured,
-            "TupleStateAlreadyExists": EnsureTupleStatesTupleStateAlreadyExists,
-        }
-        return raw._map_outcome(lambda value: decode_variant(outcomes, value))
-
-    def ensure_tuple_states_batch(
-        self, inputs: Sequence[EnsureTupleStatesInput], options: CommandBatchOptions,
-        progress: Callable[[CommandBatchProgress], None] | None = None,
-    ) -> CommandBatchResult[EnsureTupleStatesOutcome]:
-        for input in inputs:
-            if not 1 <= len(input.states) <= 100:
-                raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
-            aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
-            if aggregate_element_bytes > 900000:
-                raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
-        return self._transport._command_batch(inputs, options, self.ensure_tuple_states, progress)
 
     def update_assertion_set(self, input: UpdateAssertionSetInput) -> TypedCommandResult[UpdateAssertionSetOutcome]:
         raw = self._transport._execute_command(
@@ -2811,12 +2832,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def list_authorization_models(self, parameters: ListAuthorizationModelsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListAuthorizationModelsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 15):
+            raise ValueError("limit must be an integer from 1 through 15")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2835,7 +2858,7 @@ class AsyncRiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2854,7 +2877,7 @@ class AsyncRiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2873,7 +2896,7 @@ class AsyncRiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2892,7 +2915,7 @@ class AsyncRiffDBOpenFGAClient:
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2906,12 +2929,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_all_tuples(self, parameters: ReadAllTuplesParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2925,12 +2950,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_all_tuples_with_conditions(self, parameters: ReadAllTuplesWithConditionsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadAllTuplesWithConditionsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2944,12 +2971,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_asc(self, parameters: ReadChangesAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesAscResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2963,12 +2992,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_by_object_asc(self, parameters: ReadChangesByObjectAscParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectAscResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2982,12 +3013,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_by_object_desc(self, parameters: ReadChangesByObjectDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesByObjectDescResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3001,12 +3034,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_changes_desc(self, parameters: ReadChangesDescParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadChangesDescResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3020,12 +3055,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user(self, parameters: ReadStartingWithUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3039,12 +3076,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user_and_objects(self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3058,12 +3097,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3077,12 +3118,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3122,12 +3165,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object(self, parameters: ReadTuplesByObjectParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3141,12 +3186,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_relation(self, parameters: ReadTuplesByObjectRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3160,12 +3207,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_relation_with_condition(self, parameters: ReadTuplesByObjectRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3179,12 +3228,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_user(self, parameters: ReadTuplesByObjectUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3198,12 +3249,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_user_with_condition(self, parameters: ReadTuplesByObjectUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3217,12 +3270,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_object_with_condition(self, parameters: ReadTuplesByObjectWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByObjectWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3236,12 +3291,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_relation_user(self, parameters: ReadTuplesByRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3255,12 +3312,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_relation_user_with_condition(self, parameters: ReadTuplesByRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByRelationUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3274,12 +3333,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type(self, parameters: ReadTuplesByTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3293,12 +3354,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation(self, parameters: ReadTuplesByTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3312,12 +3375,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation_user(self, parameters: ReadTuplesByTypeRelationUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3331,12 +3396,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation_user_with_condition(self, parameters: ReadTuplesByTypeRelationUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3350,12 +3417,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_relation_with_condition(self, parameters: ReadTuplesByTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3369,12 +3438,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_user(self, parameters: ReadTuplesByTypeUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3388,12 +3459,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_user_with_condition(self, parameters: ReadTuplesByTypeUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3407,12 +3480,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_type_with_condition(self, parameters: ReadTuplesByTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByTypeWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3426,12 +3501,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_user(self, parameters: ReadTuplesByUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3445,12 +3522,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_tuples_by_user_with_condition(self, parameters: ReadTuplesByUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTuplesByUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3464,12 +3543,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind(self, parameters: ReadUsersetByKindParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3483,12 +3564,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_and_type(self, parameters: ReadUsersetByKindAndTypeParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3502,12 +3585,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_and_type_with_condition(self, parameters: ReadUsersetByKindAndTypeWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindAndTypeWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3521,12 +3606,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_type_relation(self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3540,12 +3627,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_type_relation_with_condition(self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3559,12 +3648,14 @@ class AsyncRiffDBOpenFGAClient:
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
     async def read_userset_by_kind_with_condition(self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
         encoded_parameters = encode_record(parameters)
         generated_cursor = parameters.after
         if generated_cursor is not None:
             if options.cursor is not None:
                 raise ValueError("generated cursor conflicts with query options")
-            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit)
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
         encoded_parameters.pop("after", None)
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -3590,7 +3681,6 @@ class AsyncRiffDBOpenFGAClient:
         )
         outcomes = {
             "TupleStateChanged": ApplyTupleMutationsTupleStateChanged,
-            "TupleStateMissing": ApplyTupleMutationsTupleStateMissing,
             "TupleMutationsApplied": ApplyTupleMutationsTupleMutationsApplied,
             "TupleChangeAlreadyExists": ApplyTupleMutationsTupleChangeAlreadyExists,
         }
@@ -3662,53 +3752,6 @@ class AsyncRiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[DeleteStoreOutcome]:
         return await self._transport._command_batch(inputs, options, self.delete_store, progress)
-
-    async def ensure_tuple_partition(self, input: EnsureTuplePartitionInput) -> TypedCommandResult[EnsureTuplePartitionOutcome]:
-        raw = await self._transport._execute_command(
-            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
-            command_name="EnsureTuplePartition", plan_hash=ENSURE_TUPLE_PARTITION_PLAN_HASH,
-            input=encode_record(input), attempts=self._command_attempts,
-        )
-        outcomes = {
-            "TuplePartitionEnsured": EnsureTuplePartitionTuplePartitionEnsured,
-            "TuplePartitionAlreadyExists": EnsureTuplePartitionTuplePartitionAlreadyExists,
-        }
-        return raw._map_outcome(lambda value: decode_variant(outcomes, value))
-
-    async def ensure_tuple_partition_batch(
-        self, inputs: Sequence[EnsureTuplePartitionInput], options: CommandBatchOptions,
-        progress: Callable[[CommandBatchProgress], None] | None = None,
-    ) -> CommandBatchResult[EnsureTuplePartitionOutcome]:
-        return await self._transport._command_batch(inputs, options, self.ensure_tuple_partition, progress)
-
-    async def ensure_tuple_states(self, input: EnsureTupleStatesInput) -> TypedCommandResult[EnsureTupleStatesOutcome]:
-        if not 1 <= len(input.states) <= 100:
-            raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
-        aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
-        if aggregate_element_bytes > 900000:
-            raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
-        raw = await self._transport._execute_command(
-            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
-            command_name="EnsureTupleStates", plan_hash=ENSURE_TUPLE_STATES_PLAN_HASH,
-            input=encode_record(input), attempts=self._command_attempts,
-        )
-        outcomes = {
-            "TupleStatesEnsured": EnsureTupleStatesTupleStatesEnsured,
-            "TupleStateAlreadyExists": EnsureTupleStatesTupleStateAlreadyExists,
-        }
-        return raw._map_outcome(lambda value: decode_variant(outcomes, value))
-
-    async def ensure_tuple_states_batch(
-        self, inputs: Sequence[EnsureTupleStatesInput], options: CommandBatchOptions,
-        progress: Callable[[CommandBatchProgress], None] | None = None,
-    ) -> CommandBatchResult[EnsureTupleStatesOutcome]:
-        for input in inputs:
-            if not 1 <= len(input.states) <= 100:
-                raise ValueError("invalid bounded collection length for EnsureTupleStates.states")
-            aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleState)) for item in input.states)
-            if aggregate_element_bytes > 900000:
-                raise ValueError("invalid aggregate collection bytes for EnsureTupleStates.states")
-        return await self._transport._command_batch(inputs, options, self.ensure_tuple_states, progress)
 
     async def update_assertion_set(self, input: UpdateAssertionSetInput) -> TypedCommandResult[UpdateAssertionSetOutcome]:
         raw = await self._transport._execute_command(

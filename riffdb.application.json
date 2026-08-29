@@ -128,8 +128,6 @@
         "WriteAuthorizationModel",
         "CreateAssertionSet",
         "UpdateAssertionSet",
-        "EnsureTuplePartition",
-        "EnsureTupleStates",
         "ApplyTupleMutations"
       ],
       "event_streams": [],

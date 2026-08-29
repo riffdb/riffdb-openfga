@@ -15,13 +15,24 @@ import (
 	riffdb "riffdb.dev/application"
 )
 
-type tupleFetch func(context.Context, *string) (*openfgav1.Tuple, string, error)
+// maxQueryPage is the largest page a tuple or changelog named query will
+// return in one round trip. It is the compiler-declared `Limit<50>` maximum:
+// the planner charges the declared maximum, not the submitted value, so this
+// constant and the contract's bound must stay equal. Asking for more is
+// rejected before any storage work.
+const maxQueryPage = 50
+
+// A fetcher returns one bounded page and the cursor that continues it. An
+// empty page ends the fetcher.
+type tupleFetch func(ctx context.Context, limit uint32, after *string) ([]*openfgav1.Tuple, string, error)
 
 type lazyTupleIterator struct {
 	mu       sync.Mutex
 	fetchers []tupleFetch
 	index    int
 	cursor   string
+	buffer   []*openfgav1.Tuple
+	page     uint32
 	head     *openfgav1.Tuple
 	stopped  bool
 	ordered  bool
@@ -29,28 +40,48 @@ type lazyTupleIterator struct {
 
 var _ storage.TupleIterator = (*lazyTupleIterator)(nil)
 
+func (iterator *lazyTupleIterator) pageSize() uint32 {
+	if iterator.page == 0 {
+		return maxQueryPage
+	}
+	return iterator.page
+}
+
+// fetch serves the buffered page first and only crosses the wire when it is
+// exhausted, so a caller walking N tuples costs ceil(N/page) round trips
+// rather than N.
 func (iterator *lazyTupleIterator) fetch(ctx context.Context) (*openfgav1.Tuple, error) {
-	for iterator.index < len(iterator.fetchers) {
+	for {
+		if len(iterator.buffer) > 0 {
+			value := iterator.buffer[0]
+			iterator.buffer = iterator.buffer[1:]
+			return value, nil
+		}
+		if iterator.index >= len(iterator.fetchers) {
+			return nil, storage.ErrIteratorDone
+		}
 		var after *string
 		if iterator.cursor != "" {
 			after = &iterator.cursor
 		}
-		value, next, err := iterator.fetchers[iterator.index](ctx, after)
+		page, next, err := iterator.fetchers[iterator.index](ctx, iterator.pageSize(), after)
 		if err != nil {
 			return nil, err
 		}
-		if value != nil {
-			iterator.cursor = next
-			if next == "" {
-				iterator.index++
-				iterator.cursor = ""
-			}
-			return value, nil
+		// An empty page ends this fetcher whatever the cursor says, which is
+		// the pre-batching behaviour and cannot spin.
+		if len(page) == 0 {
+			iterator.index++
+			iterator.cursor = ""
+			continue
 		}
-		iterator.index++
-		iterator.cursor = ""
+		iterator.buffer = page
+		iterator.cursor = next
+		if next == "" {
+			iterator.index++
+			iterator.cursor = ""
+		}
 	}
-	return nil, storage.ErrIteratorDone
 }
 
 func (iterator *lazyTupleIterator) Next(ctx context.Context) (*openfgav1.Tuple, error) {
@@ -93,6 +124,7 @@ func (iterator *lazyTupleIterator) Stop() {
 	iterator.mu.Lock()
 	iterator.stopped = true
 	iterator.head = nil
+	iterator.buffer = nil
 	iterator.mu.Unlock()
 }
 func (iterator *lazyTupleIterator) IsOrdered() bool { return iterator.ordered }
@@ -100,7 +132,11 @@ func (iterator *lazyTupleIterator) IsOrdered() bool { return iterator.ordered }
 // Generated query projections are intentionally anonymous Go structs. This
 // narrow projector validates their generated shape before converting them to
 // OpenFGA values, keeping the rest of the adapter independent of that detail.
-func projectedTuple(result any) (*openfgav1.Tuple, error) {
+//
+// A paged query projects `Tuples` as a slice and a single-identity query
+// projects one `Tuple`; both shapes yield a page so callers never care which
+// named query answered them.
+func projectedTuples(result any) ([]*openfgav1.Tuple, error) {
 	value := reflect.ValueOf(result)
 	if value.Kind() == reflect.Pointer {
 		value = value.Elem()
@@ -108,19 +144,32 @@ func projectedTuple(result any) (*openfgav1.Tuple, error) {
 	if !value.IsValid() || value.Kind() != reflect.Struct {
 		return nil, errors.New("riffdb-openfga: invalid tuple query outcome")
 	}
-	rows := value.FieldByName("Tuples")
-	var row reflect.Value
-	if rows.IsValid() {
-		if rows.Kind() != reflect.Slice || rows.Len() == 0 {
-			return nil, nil
+	if rows := value.FieldByName("Tuples"); rows.IsValid() {
+		if rows.Kind() != reflect.Slice {
+			return nil, errors.New("riffdb-openfga: invalid generated tuple page")
 		}
-		row = rows.Index(0)
-	} else {
-		row = value.FieldByName("Tuple")
-		if !row.IsValid() {
-			return nil, nil
+		page := make([]*openfgav1.Tuple, 0, rows.Len())
+		for index := 0; index < rows.Len(); index++ {
+			projected, err := projectedTupleRow(rows.Index(index))
+			if err != nil {
+				return nil, err
+			}
+			page = append(page, projected)
 		}
+		return page, nil
 	}
+	row := value.FieldByName("Tuple")
+	if !row.IsValid() {
+		return nil, nil
+	}
+	projected, err := projectedTupleRow(row)
+	if err != nil {
+		return nil, err
+	}
+	return []*openfgav1.Tuple{projected}, nil
+}
+
+func projectedTupleRow(row reflect.Value) (*openfgav1.Tuple, error) {
 	stringField := func(name string) (string, error) {
 		field := row.FieldByName(name)
 		if !field.IsValid() || field.Kind() != reflect.String {
@@ -198,14 +247,14 @@ func (datastore *Datastore) tupleFetcher(store string, filter storage.ReadFilter
 	if filter.Object != "" && !exactObject && !typeOnly {
 		return nil, errors.New("riffdb-openfga: invalid tuple object filter")
 	}
-	return func(ctx context.Context, after *string) (*openfgav1.Tuple, string, error) {
+	return func(ctx context.Context, limit uint32, after *string) ([]*openfgav1.Tuple, string, error) {
 		options := generated.QueryOptions{}
-		finish := func(value any, cursor string, err error) (*openfgav1.Tuple, string, error) {
+		finish := func(value any, cursor string, err error) ([]*openfgav1.Tuple, string, error) {
 			if err != nil {
 				return nil, "", mapError(ctx, err)
 			}
-			tupleValue, err := projectedTuple(value)
-			return tupleValue, cursor, err
+			page, err := projectedTuples(value)
+			return page, cursor, err
 		}
 		if exactObject && filter.Relation != "" && filter.User != "" {
 			if condition == nil {
@@ -217,84 +266,84 @@ func (datastore *Datastore) tupleFetcher(store string, filter storage.ReadFilter
 		}
 		if exactObject && filter.Relation != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByObjectRelation(ctx, generated.ReadTuplesByObjectRelationParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: filter.Relation, After: after}, options)
+				result, err := datastore.client.ReadTuplesByObjectRelation(ctx, generated.ReadTuplesByObjectRelationParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: filter.Relation, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByObjectRelationWithCondition(ctx, generated.ReadTuplesByObjectRelationWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: filter.Relation, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByObjectRelationWithCondition(ctx, generated.ReadTuplesByObjectRelationWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: filter.Relation, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if exactObject && filter.User != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByObjectUser(ctx, generated.ReadTuplesByObjectUserParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, User: filter.User, After: after}, options)
+				result, err := datastore.client.ReadTuplesByObjectUser(ctx, generated.ReadTuplesByObjectUserParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, User: filter.User, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByObjectUserWithCondition(ctx, generated.ReadTuplesByObjectUserWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, User: filter.User, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByObjectUserWithCondition(ctx, generated.ReadTuplesByObjectUserWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, User: filter.User, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if exactObject {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByObject(ctx, generated.ReadTuplesByObjectParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, After: after}, options)
+				result, err := datastore.client.ReadTuplesByObject(ctx, generated.ReadTuplesByObjectParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByObjectWithCondition(ctx, generated.ReadTuplesByObjectWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByObjectWithCondition(ctx, generated.ReadTuplesByObjectWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if typeOnly && filter.Relation != "" && filter.User != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByTypeRelationUser(ctx, generated.ReadTuplesByTypeRelationUserParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, User: filter.User, After: after}, options)
+				result, err := datastore.client.ReadTuplesByTypeRelationUser(ctx, generated.ReadTuplesByTypeRelationUserParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, User: filter.User, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByTypeRelationUserWithCondition(ctx, generated.ReadTuplesByTypeRelationUserWithConditionParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, User: filter.User, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByTypeRelationUserWithCondition(ctx, generated.ReadTuplesByTypeRelationUserWithConditionParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, User: filter.User, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if typeOnly && filter.Relation != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByTypeRelation(ctx, generated.ReadTuplesByTypeRelationParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, After: after}, options)
+				result, err := datastore.client.ReadTuplesByTypeRelation(ctx, generated.ReadTuplesByTypeRelationParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByTypeRelationWithCondition(ctx, generated.ReadTuplesByTypeRelationWithConditionParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByTypeRelationWithCondition(ctx, generated.ReadTuplesByTypeRelationWithConditionParams{StoreId: store, ObjectType: objectType, Relation: filter.Relation, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if typeOnly && filter.User != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByTypeUser(ctx, generated.ReadTuplesByTypeUserParams{StoreId: store, ObjectType: objectType, User: filter.User, After: after}, options)
+				result, err := datastore.client.ReadTuplesByTypeUser(ctx, generated.ReadTuplesByTypeUserParams{StoreId: store, ObjectType: objectType, User: filter.User, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByTypeUserWithCondition(ctx, generated.ReadTuplesByTypeUserWithConditionParams{StoreId: store, ObjectType: objectType, User: filter.User, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByTypeUserWithCondition(ctx, generated.ReadTuplesByTypeUserWithConditionParams{StoreId: store, ObjectType: objectType, User: filter.User, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if typeOnly {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByType(ctx, generated.ReadTuplesByTypeParams{StoreId: store, ObjectType: objectType, After: after}, options)
+				result, err := datastore.client.ReadTuplesByType(ctx, generated.ReadTuplesByTypeParams{StoreId: store, ObjectType: objectType, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByTypeWithCondition(ctx, generated.ReadTuplesByTypeWithConditionParams{StoreId: store, ObjectType: objectType, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByTypeWithCondition(ctx, generated.ReadTuplesByTypeWithConditionParams{StoreId: store, ObjectType: objectType, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if filter.Relation != "" && filter.User != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByRelationUser(ctx, generated.ReadTuplesByRelationUserParams{StoreId: store, Relation: filter.Relation, User: filter.User, After: after}, options)
+				result, err := datastore.client.ReadTuplesByRelationUser(ctx, generated.ReadTuplesByRelationUserParams{StoreId: store, Relation: filter.Relation, User: filter.User, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByRelationUserWithCondition(ctx, generated.ReadTuplesByRelationUserWithConditionParams{StoreId: store, Relation: filter.Relation, User: filter.User, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByRelationUserWithCondition(ctx, generated.ReadTuplesByRelationUserWithConditionParams{StoreId: store, Relation: filter.Relation, User: filter.User, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if filter.User != "" {
 			if condition == nil {
-				result, err := datastore.client.ReadTuplesByUser(ctx, generated.ReadTuplesByUserParams{StoreId: store, User: filter.User, After: after}, options)
+				result, err := datastore.client.ReadTuplesByUser(ctx, generated.ReadTuplesByUserParams{StoreId: store, User: filter.User, Limit: &limit, After: after}, options)
 				return finish(result.Value, result.NextCursor, err)
 			}
-			result, err := datastore.client.ReadTuplesByUserWithCondition(ctx, generated.ReadTuplesByUserWithConditionParams{StoreId: store, User: filter.User, Condition: *condition, After: after}, options)
+			result, err := datastore.client.ReadTuplesByUserWithCondition(ctx, generated.ReadTuplesByUserWithConditionParams{StoreId: store, User: filter.User, Condition: *condition, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
 		if filter.Relation != "" {
 			return nil, "", errors.New("riffdb-openfga: relation-only tuple reads are invalid")
 		}
 		if condition == nil {
-			result, err := datastore.client.ReadAllTuples(ctx, generated.ReadAllTuplesParams{StoreId: store, After: after}, options)
+			result, err := datastore.client.ReadAllTuples(ctx, generated.ReadAllTuplesParams{StoreId: store, Limit: &limit, After: after}, options)
 			return finish(result.Value, result.NextCursor, err)
 		}
-		result, err := datastore.client.ReadAllTuplesWithConditions(ctx, generated.ReadAllTuplesWithConditionsParams{StoreId: store, Condition: *condition, After: after}, options)
+		result, err := datastore.client.ReadAllTuplesWithConditions(ctx, generated.ReadAllTuplesWithConditionsParams{StoreId: store, Condition: *condition, Limit: &limit, After: after}, options)
 		return finish(result.Value, result.NextCursor, err)
 	}, nil
 }
@@ -365,22 +414,32 @@ func (datastore *Datastore) ReadPage(ctx context.Context, store string, filter s
 	if pageSize <= 0 {
 		pageSize = storage.DefaultPageSize
 	}
-	values := make([]*openfgav1.Tuple, 0, pageSize)
+	capacity := pageSize
+	if capacity > maxQueryPage {
+		capacity = maxQueryPage
+	}
+	values := make([]*openfgav1.Tuple, 0, capacity)
 	index, after := cursor.Index, cursor.Cursor
 	for len(values) < pageSize && index < len(fetchers) {
+		// Never over-fetch. The returned cursor is only valid immediately
+		// after the last row of the page it came with, so asking for more
+		// rows than the caller wants would strand the surplus: the token we
+		// hand back would skip them.
+		want := pageSize - len(values)
+		if want > maxQueryPage {
+			want = maxQueryPage
+		}
 		var afterPtr *string
 		if after != "" {
 			afterPtr = &after
 		}
-		value, next, err := fetchers[index](ctx, afterPtr)
+		page, next, err := fetchers[index](ctx, uint32(want), afterPtr)
 		if err != nil {
 			return nil, "", err
 		}
-		if value != nil {
-			values = append(values, value)
-		}
+		values = append(values, page...)
 		after = next
-		if value == nil || next == "" {
+		if len(page) == 0 || next == "" {
 			index++
 			after = ""
 		}
@@ -400,7 +459,7 @@ func (datastore *Datastore) ReadUserTuple(ctx context.Context, store string, fil
 	if err != nil {
 		return nil, err
 	}
-	iterator := &lazyTupleIterator{fetchers: fetchers}
+	iterator := &lazyTupleIterator{fetchers: fetchers, page: 1}
 	value, err := iterator.Next(ctx)
 	if errors.Is(err, storage.ErrIteratorDone) {
 		return nil, storage.ErrNotFound
