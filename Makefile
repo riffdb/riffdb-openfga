@@ -3,7 +3,7 @@ RIFFDB ?= riffdb
 GO_PROXY ?= http://127.0.0.1:4874/go,https://proxy.golang.org,direct
 GO_NO_SUMDB ?= riffdb.dev/*
 
-.PHONY: bootstrap check fmt test vet conformance
+.PHONY: bootstrap check fmt test vet conformance authority
 
 bootstrap:
 	GONOSUMDB=$(GO_NO_SUMDB) GOPROXY=$(GO_PROXY) $(GO) mod download
@@ -17,7 +17,10 @@ test:
 vet:
 	GONOSUMDB=$(GO_NO_SUMDB) GOPROXY=$(GO_PROXY) $(GO) vet ./...
 
-check: fmt vet test
+authority:
+	./scripts/check-role-authority
+
+check: fmt vet test authority
 	git diff --exit-code
 
 conformance:

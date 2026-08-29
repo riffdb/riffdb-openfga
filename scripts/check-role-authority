@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""Reconciles the granted role surface against what the adapter actually calls.
+
+RiffDB cannot do this itself. It owns the role file and generates the client,
+but what the adapter *invokes* lives in Go, so only this repository holds both
+halves. Nothing else checks it: a query or command can be written, compiled,
+locked, generated into five languages, and granted on a live role while being
+called by nothing, and every gate stays green.
+
+That is authority for code paths that do not exist. Run it from `make check`.
+"""
+
+from __future__ import annotations
+
+import json
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+
+def granted() -> tuple[set[str], set[str]]:
+    manifest = json.loads((ROOT / "riffdb.application.json").read_text())
+    roles = manifest.get("roles") or []
+    queries: set[str] = set()
+    commands: set[str] = set()
+    for role in roles:
+        queries.update(role.get("queries") or [])
+        commands.update(role.get("commands") or [])
+    return queries, commands
+
+
+def called() -> set[str]:
+    """Every generated client symbol the adapter's own Go sources invoke."""
+    invoked: set[str] = set()
+    pattern = re.compile(r"\bclient\.([A-Za-z][A-Za-z0-9]*)\(")
+    for path in ROOT.glob("*.go"):
+        if path.name.endswith("_test.go"):
+            continue
+        invoked.update(pattern.findall(path.read_text()))
+    return invoked
+
+
+def main() -> int:
+    queries, commands = granted()
+    invoked = called()
+
+    unused_queries = sorted(queries - invoked)
+    unused_commands = sorted(commands - invoked)
+    # A grant naming something the adapter cannot call at all is a different
+    # and worse problem than one it simply has not wired up yet, but RiffDB
+    # already rejects that with RDB-AR005, so it cannot reach here.
+
+    total = len(queries) + len(commands)
+    used = total - len(unused_queries) - len(unused_commands)
+    print(f"role authority: {used} of {total} granted operations are called")
+
+    if not unused_queries and not unused_commands:
+        return 0
+
+    for name in unused_commands:
+        print(f"  command granted but never called: {name}")
+    for name in unused_queries:
+        print(f"  query granted but never called: {name}")
+    print(
+        "\nEach is live, executable authority for a code path that does not "
+        "exist. Either wire it up or drop the grant; leaving it is the "
+        "least-privilege gap this check exists to surface."
+    )
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -110,17 +110,7 @@
         "ReadTuplesByUser",
         "ReadTuplesByUserWithCondition",
         "ReadTuplesByRelationUser",
-        "ReadTuplesByRelationUserWithCondition",
-        "ReadUsersetByKind",
-        "ReadUsersetByKindAndType",
-        "ReadUsersetByKindAndTypeWithCondition",
-        "ReadUsersetByKindTypeRelation",
-        "ReadUsersetByKindTypeRelationWithCondition",
-        "ReadUsersetByKindWithCondition",
-        "ReadStartingWithUser",
-        "ReadStartingWithUserAndObjects",
-        "ReadStartingWithUserObjectsCondition",
-        "ReadStartingWithUserWithCondition"
+        "ReadTuplesByRelationUserWithCondition"
       ],
       "commands": [
         "CreateStore",
