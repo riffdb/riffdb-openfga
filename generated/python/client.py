@@ -22,8 +22,8 @@ def _compact_tag(value: object, tag: str, keys: frozenset[str]) -> dict[str, obj
 
 CONTRACT_LINEAGE: Final[str] = "RiffDBOpenFGA"
 CONTRACT_VERSION: Final[int] = 1
-CONTRACT_BUNDLE_HASH: Final[str] = "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8"
-QUERY_MODULE_HASH: Final[str] = "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968"
+CONTRACT_BUNDLE_HASH: Final[str] = "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a"
+QUERY_MODULE_HASH: Final[str] = "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810"
 
 class TupleOperation(StrEnum):
     WRITE = "Write"
@@ -105,7 +105,7 @@ class TupleMutationInput:
     user_object_type: str
     condition_context: bytes | None
 
-GET_ASSERTION_SET_QUERY_PLAN_HASH: Final[str] = "3e7a78c4ececb94fc67fbda64f12dd201b318753005b95cababf15c5e8d9f499"
+GET_ASSERTION_SET_QUERY_PLAN_HASH: Final[str] = "5fc17a4a314001a6d2773fb6aad52fe37e2997b5bca08b88027945438269cb4c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetAssertionSetParams:
@@ -130,7 +130,7 @@ class GetAssertionSetNotFound:
 
 GetAssertionSetResult: TypeAlias = GetAssertionSetFound | GetAssertionSetNotFound
 
-GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "19c6cf0a6354ad82451fb44fdfcbd203dcc1c6f7060cac9c40edee3c5ab6b01a"
+GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "e889aac30f97e81e9722b172844ad698c4987a9238ea6ea075a3b4d17bdc8d29"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetAuthorizationModelParams:
@@ -155,7 +155,7 @@ class GetAuthorizationModelNotFound:
 
 GetAuthorizationModelResult: TypeAlias = GetAuthorizationModelFound | GetAuthorizationModelNotFound
 
-GET_STORE_QUERY_PLAN_HASH: Final[str] = "d3cb09f61f8f5082517f9446fdf4718dd235b23985684e93d103a145c470b3e3"
+GET_STORE_QUERY_PLAN_HASH: Final[str] = "6f1b44b13091f80e91696d0bed833cb3bdae8ece8b41e98b0fc82660ac6bf6c1"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetStoreParams:
@@ -181,7 +181,7 @@ class GetStoreNotFound:
 
 GetStoreResult: TypeAlias = GetStoreFound | GetStoreNotFound
 
-GET_TUPLE_STATE_QUERY_PLAN_HASH: Final[str] = "a240f5567eca59fef5e5c85f428a59f08c8b7bc0ea42d39f1194188d3ccb4523"
+GET_TUPLE_STATE_QUERY_PLAN_HASH: Final[str] = "46f7eddbc017e06bd3fd8485b8f2ce5e3237587c99fe1db53dc458e48fd0696c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class GetTupleStateParams:
@@ -219,7 +219,7 @@ class GetTupleStateNotFound:
 
 GetTupleStateResult: TypeAlias = GetTupleStateFound | GetTupleStateNotFound
 
-LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "6f3167bc1f261d38d5a5e7073197135b64bab337d60c871e8c2edfb26c942023"
+LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: Final[str] = "ea3ee6eb9a17cd12d0a8bc66c193f0b138de8009da15110b780c5486652f5d53"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class LatestAuthorizationModelParams:
@@ -239,7 +239,7 @@ class LatestAuthorizationModelFound:
 
 LatestAuthorizationModelResult: TypeAlias = LatestAuthorizationModelFound
 
-LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "8750b309449f19a042bbbd98f853653600dde6a8794632a2822d129804911805"
+LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "525e94ee7db7266c25c9d1c36fedd07dac34d5458a3527da80612bbcb6e61ec5"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListAuthorizationModelsParams:
@@ -261,7 +261,7 @@ class ListAuthorizationModelsFound:
 
 ListAuthorizationModelsResult: TypeAlias = ListAuthorizationModelsFound
 
-LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "14060e5988358d586291a438784eae4e5fc73a0d4f8e7e9d0197e63b4c4c5e61"
+LIST_STORES_ALL_QUERY_PLAN_HASH: Final[str] = "b7839af4a85bf0306db6cf87b0cd6bf6c4005ac1ce10a9f970a698b112717736"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresAllParams:
@@ -284,7 +284,7 @@ class ListStoresAllFound:
 
 ListStoresAllResult: TypeAlias = ListStoresAllFound
 
-LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "382b5ac50c82103acd2d9aaa50ab7185de4750746a32b72bad26a0b0d5cbb48a"
+LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "500a42eb9c95c017fbb0df612e79ab04a2d9428da36400339dffdff65e39a6f9"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsParams:
@@ -308,7 +308,7 @@ class ListStoresByIdsFound:
 
 ListStoresByIdsResult: TypeAlias = ListStoresByIdsFound
 
-LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "c6929f5f19c77a2753727ebf093cd705e94e6b603ddae4527440a5da7ea2a2e5"
+LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "4063256cc29c9f9f1c380b3b669b86d12301d216fffeef2e474f5e669418b4bb"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsAndNameParams:
@@ -333,7 +333,7 @@ class ListStoresByIdsAndNameFound:
 
 ListStoresByIdsAndNameResult: TypeAlias = ListStoresByIdsAndNameFound
 
-LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "b1f4810e2d5abc3cec551555b3ba057c0f100523ced53cd77cec416ce846fb34"
+LIST_STORES_BY_NAME_QUERY_PLAN_HASH: Final[str] = "92a4213c718f0ead5d8e459dd2e6cbdd27d947e63c9b8da5b66efc35cb2d4d5d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByNameParams:
@@ -357,7 +357,7 @@ class ListStoresByNameFound:
 
 ListStoresByNameResult: TypeAlias = ListStoresByNameFound
 
-READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "9188b2af9b511683e6e4b34be7e40df8c030f449640efe2c38ead72ccfdf6c96"
+READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "753af368cca8c08f3e9dc6e1a76465655f958015c4262888ecf8f600269174d5"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesParams:
@@ -382,7 +382,7 @@ class ReadAllTuplesFound:
 
 ReadAllTuplesResult: TypeAlias = ReadAllTuplesFound
 
-READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "ae2724c60b0d59cc597150df9e56c710b50d5da2354ff14ce06c04d498268526"
+READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "700b4adbd397d0afde3900470d13923f61a8e5d23275ef1717bf17aaafe4c059"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesWithConditionsParams:
@@ -408,7 +408,7 @@ class ReadAllTuplesWithConditionsFound:
 
 ReadAllTuplesWithConditionsResult: TypeAlias = ReadAllTuplesWithConditionsFound
 
-READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "d24d84bef2707b39db1d6b37d12f750662d0592bc710d1a2f40ec920f7088562"
+READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "eb7274190ded330015e10c36fb79e1e8df30b5bb2e257b81506538cf40315b89"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesAscParams:
@@ -438,7 +438,7 @@ class ReadChangesAscFound:
 
 ReadChangesAscResult: TypeAlias = ReadChangesAscFound
 
-READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "8515d023360b01ee48be0a56590814cbe1a9f3460d77da000bc3463b44e05ea8"
+READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "679ba1dbc600bf230ae7c29b1614545bd9e29df1023f0bbe634e97d66081d6ce"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectAscParams:
@@ -469,7 +469,7 @@ class ReadChangesByObjectAscFound:
 
 ReadChangesByObjectAscResult: TypeAlias = ReadChangesByObjectAscFound
 
-READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "fa73e5f8087402b043cea3f863f454781d40739886ad25a010875da82f5ecc7e"
+READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "84dedf835224236a2582b5fe1fb3b3eee00f6e1a38e4cd0876a1b138442a4f64"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectDescParams:
@@ -499,7 +499,7 @@ class ReadChangesByObjectDescFound:
 
 ReadChangesByObjectDescResult: TypeAlias = ReadChangesByObjectDescFound
 
-READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "d192043dad864b94bac3868db76126fbfc8378097c815dbedee86b651abaaebb"
+READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "1287fef35e4c1a4595d7df90f7ede8e104e0c65a4798c437828cc64427043e97"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesDescParams:
@@ -528,7 +528,123 @@ class ReadChangesDescFound:
 
 ReadChangesDescResult: TypeAlias = ReadChangesDescFound
 
-READ_TUPLE_EXACT_QUERY_PLAN_HASH: Final[str] = "c8709709841720e447c9a8a89850d5613f4ba18074b9729d933bd613c51176c4"
+READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "61ccbfa5565d722d838ca039f91c85a5465fe6cbbb2a417b212bdd704c5b1a32"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserParams:
+    store_id: str
+    object_type: str
+    relation: str
+    user: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserFound:
+    tuples: tuple[ReadStartingWithUserFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadStartingWithUserResult: TypeAlias = ReadStartingWithUserFound
+
+READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "623de0eee583dd79d3f14b46780f2d52d6da380aa8e17a1ce260ecd9e2b00008"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserAndObjectsParams:
+    store_id: str
+    object_type: str
+    relation: str
+    user: str
+    object_ids: tuple[str, ...]
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserAndObjectsFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserAndObjectsFound:
+    tuples: tuple[ReadStartingWithUserAndObjectsFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadStartingWithUserAndObjectsResult: TypeAlias = ReadStartingWithUserAndObjectsFound
+
+READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "e0fe087161b62c252d975b6bf661d8561a3bac860da22601172f45af8c8e6ece"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserObjectsConditionParams:
+    store_id: str
+    object_type: str
+    relation: str
+    user: str
+    object_ids: tuple[str, ...]
+    condition: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserObjectsConditionFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserObjectsConditionFound:
+    tuples: tuple[ReadStartingWithUserObjectsConditionFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadStartingWithUserObjectsConditionResult: TypeAlias = ReadStartingWithUserObjectsConditionFound
+
+READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "1cf2ecf330090823c01cef884f311f709e42e4a822c5103e88c30ea656a7c381"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserWithConditionParams:
+    store_id: str
+    object_type: str
+    relation: str
+    user: str
+    condition: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserWithConditionFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadStartingWithUserWithConditionFound:
+    tuples: tuple[ReadStartingWithUserWithConditionFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadStartingWithUserWithConditionResult: TypeAlias = ReadStartingWithUserWithConditionFound
+
+READ_TUPLE_EXACT_QUERY_PLAN_HASH: Final[str] = "5dfaaa7cac93b08b0e69f18e03a68ce4f06e525f02ea996974ffd00fa2d6ddb9"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTupleExactParams:
@@ -559,7 +675,7 @@ class ReadTupleExactNotFound:
 
 ReadTupleExactResult: TypeAlias = ReadTupleExactFound | ReadTupleExactNotFound
 
-READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "94acba298d236d99968cc58f71427588bcf62ba4c547d80c2f84d80191b88235"
+READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "484910c73c9f21f8941787fe8460513a3826f597400a65070381c09663a4a859"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTupleExactWithConditionParams:
@@ -591,7 +707,7 @@ class ReadTupleExactWithConditionNotFound:
 
 ReadTupleExactWithConditionResult: TypeAlias = ReadTupleExactWithConditionFound | ReadTupleExactWithConditionNotFound
 
-READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "2cc18a37fb760ec6151b8256ad93b6ee4dcd4828199446a3eb24d363571d614c"
+READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "faaf938e84cf29df04674dfb7acf813e8ce1aebb2637e1c8ce76720e58c1aad8"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectParams:
@@ -618,7 +734,7 @@ class ReadTuplesByObjectFound:
 
 ReadTuplesByObjectResult: TypeAlias = ReadTuplesByObjectFound
 
-READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "1017dab640dc201c051c27bf7a8819ddf8ebe741453febb3b1f33b192f083c8a"
+READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "1c276309bee8490ad0d38f95cae40599bf7e6e827cedf25496391535e8a59139"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationParams:
@@ -646,7 +762,7 @@ class ReadTuplesByObjectRelationFound:
 
 ReadTuplesByObjectRelationResult: TypeAlias = ReadTuplesByObjectRelationFound
 
-READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "fddf9133c2259174e4fc1a31e10312dd669be06b7d5ab8fc451d043fffb9c58a"
+READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "b77a48fb374e173cdd4dd9c3ecd54c06868ab7fdf837e703663139eae6e2fd47"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationWithConditionParams:
@@ -675,7 +791,7 @@ class ReadTuplesByObjectRelationWithConditionFound:
 
 ReadTuplesByObjectRelationWithConditionResult: TypeAlias = ReadTuplesByObjectRelationWithConditionFound
 
-READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "989e659b97e604374889edd2c48135388d2995d46606f4beb8f96cbc2e5fa912"
+READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "a76154f2a8c0744165103fddb223e6a292783df1ffdeb32d177f68e7cdf55392"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserParams:
@@ -703,7 +819,7 @@ class ReadTuplesByObjectUserFound:
 
 ReadTuplesByObjectUserResult: TypeAlias = ReadTuplesByObjectUserFound
 
-READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "7dff877e5f19a0ba2910a8dfbfa646a581c5b0510a2f43a95b35603940ba4dc5"
+READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "095b5d0032c1c783aaab943765e7fd3e06c4041da8885f3a326202f7fd7fdd6a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserWithConditionParams:
@@ -732,7 +848,7 @@ class ReadTuplesByObjectUserWithConditionFound:
 
 ReadTuplesByObjectUserWithConditionResult: TypeAlias = ReadTuplesByObjectUserWithConditionFound
 
-READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "d47ffa06446de93da4b45f2815b25c67f780d2bc0ddfd3428c7963993de565c2"
+READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "92b4cf62549cdd4926536cd0b8a39f1bf237cd38ceff5a03a51a77e56b105f03"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectWithConditionParams:
@@ -760,7 +876,7 @@ class ReadTuplesByObjectWithConditionFound:
 
 ReadTuplesByObjectWithConditionResult: TypeAlias = ReadTuplesByObjectWithConditionFound
 
-READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "de2087d7707f82c21265d994281ad422518651a3c2e264ec64f62dfa54eda2f3"
+READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "674c277b9bdd00ddb3aec331972d014e58d23f36a22761bb2a8069992a0d90a3"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserParams:
@@ -787,7 +903,7 @@ class ReadTuplesByRelationUserFound:
 
 ReadTuplesByRelationUserResult: TypeAlias = ReadTuplesByRelationUserFound
 
-READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "fd3b497862f9ec3dd0bdf1c58deeb1c77516fa79c42d794eb69b2678cc2cb04c"
+READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e99177f0611fded678598c956440b12104202f32b6638bc49dea2148b30a9a1b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserWithConditionParams:
@@ -815,7 +931,7 @@ class ReadTuplesByRelationUserWithConditionFound:
 
 ReadTuplesByRelationUserWithConditionResult: TypeAlias = ReadTuplesByRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "9cf3c6160c86861b843eb126f283a0b894630837b054683acf27b895d47df098"
+READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "0c513433e556d7f3e1f61c05a39132fd14cdc5a0860007676d4356a8a200ab0d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeParams:
@@ -841,7 +957,7 @@ class ReadTuplesByTypeFound:
 
 ReadTuplesByTypeResult: TypeAlias = ReadTuplesByTypeFound
 
-READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "264a762a06c1bf5ab0fed6400d70b8c3ea94dd8e4e0481dc90ae2526aae377da"
+READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "b22bfcaa967b7f0a44efcb33620c2767a5412127ee4c1b3566fc65a0043cefb6"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationParams:
@@ -868,7 +984,7 @@ class ReadTuplesByTypeRelationFound:
 
 ReadTuplesByTypeRelationResult: TypeAlias = ReadTuplesByTypeRelationFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "8a0524fc0ba370227ea4e1fe98930450a65d3319da98369c22e50bfedaca99aa"
+READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "1e2f3dfd1d49f45b5d08b76c0ce98081b05159397cc91e44a2193ddcbeb742ae"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserParams:
@@ -896,7 +1012,7 @@ class ReadTuplesByTypeRelationUserFound:
 
 ReadTuplesByTypeRelationUserResult: TypeAlias = ReadTuplesByTypeRelationUserFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "2d527a1eaa6fe592879bbb6c694c89871e6715af90db99233f94407515d6a2b4"
+READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "94b5b9c927309bf78b65252258e6fbdd4f16acd32dcc86bf7288b5e0c39d6d1c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserWithConditionParams:
@@ -925,7 +1041,7 @@ class ReadTuplesByTypeRelationUserWithConditionFound:
 
 ReadTuplesByTypeRelationUserWithConditionResult: TypeAlias = ReadTuplesByTypeRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "c7836e73317beb19fa9ecbac76ab1fc394bb03994bfeb6ad1215bec2abe77af5"
+READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "c5b0056362de67ba9cddb48af67ea5e6e86218b74b5c7767c3f4eb5b00d94cc8"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationWithConditionParams:
@@ -953,7 +1069,7 @@ class ReadTuplesByTypeRelationWithConditionFound:
 
 ReadTuplesByTypeRelationWithConditionResult: TypeAlias = ReadTuplesByTypeRelationWithConditionFound
 
-READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "4feef67eff4a5a1109e657244d7358c16e5261c3c89abc5e45286af2c5a2db47"
+READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "1cfba0bb73a44514bfb113f1001c28c7cb5cdb6ddb0a39b0cca79567813d8c60"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserParams:
@@ -980,7 +1096,7 @@ class ReadTuplesByTypeUserFound:
 
 ReadTuplesByTypeUserResult: TypeAlias = ReadTuplesByTypeUserFound
 
-READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "9c6e90cd8c594f275d8eba34fcf037ac67faa2de418a8d9821f7cb72b5bcee1c"
+READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "d94cdf0961ba51cd63b20de6a5861f70bade55f7ae9be750514838ad5bfd8e7a"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserWithConditionParams:
@@ -1008,7 +1124,7 @@ class ReadTuplesByTypeUserWithConditionFound:
 
 ReadTuplesByTypeUserWithConditionResult: TypeAlias = ReadTuplesByTypeUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "444f21f8eba49d438f0184f1e044f1b253448225d5ec42373196d15056a3db0b"
+READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "bb6e73d30d3e991082f654767028541a600d6b364b1943a18d1f7c9b50f3a905"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeWithConditionParams:
@@ -1035,7 +1151,7 @@ class ReadTuplesByTypeWithConditionFound:
 
 ReadTuplesByTypeWithConditionResult: TypeAlias = ReadTuplesByTypeWithConditionFound
 
-READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "3a2a0b395951dc2cc32d9ea6499bea2d73072f2e6ea8f5626007f7c4088e1b82"
+READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "b82d6dd7a2b354f818a6cfcf3febf780ba241bac3fcb9d7e0a8c153b53fd6830"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserParams:
@@ -1061,7 +1177,7 @@ class ReadTuplesByUserFound:
 
 ReadTuplesByUserResult: TypeAlias = ReadTuplesByUserFound
 
-READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "bb723ade5434d1f85330618cb4db5bc5f049e774a7502b4efe5126622046bf0c"
+READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e9d8f907295482e0d178f71d53066063572751ba48e0886ba4586e7cfd063f4b"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserWithConditionParams:
@@ -1088,12 +1204,134 @@ class ReadTuplesByUserWithConditionFound:
 
 ReadTuplesByUserWithConditionResult: TypeAlias = ReadTuplesByUserWithConditionFound
 
+READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "af6ed91f0069b23bb4cefbfbfaf7095138d90b9609389bab2e9a16b2f20b6fe4"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindParams:
+    store_id: str
+    object_type: str
+    object_id: str
+    relation: str
+    user_kind: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindFound:
+    tuples: tuple[ReadUsersetByKindFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadUsersetByKindResult: TypeAlias = ReadUsersetByKindFound
+
+READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "64adb17a14487bf67857ca12ddbdf235021896d33ce8ebf806c942af983a92f1"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindTypeRelationParams:
+    store_id: str
+    object_type: str
+    object_id: str
+    relation: str
+    user_kind: str
+    user_object_type: str
+    user_relation: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindTypeRelationFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindTypeRelationFound:
+    tuples: tuple[ReadUsersetByKindTypeRelationFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadUsersetByKindTypeRelationResult: TypeAlias = ReadUsersetByKindTypeRelationFound
+
+READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "994e559765e5765ab749fc43ae44418250e107c92c58c3d9a4cb0730d2361554"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindTypeRelationWithConditionParams:
+    store_id: str
+    object_type: str
+    object_id: str
+    relation: str
+    user_kind: str
+    user_object_type: str
+    user_relation: str
+    condition: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindTypeRelationWithConditionFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindTypeRelationWithConditionFound:
+    tuples: tuple[ReadUsersetByKindTypeRelationWithConditionFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadUsersetByKindTypeRelationWithConditionResult: TypeAlias = ReadUsersetByKindTypeRelationWithConditionFound
+
+READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "e82d771758ad86e52cc130626b618ab7c92d9211cb98c6cec34c83e76d5ecc3f"
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindWithConditionParams:
+    store_id: str
+    object_type: str
+    object_id: str
+    relation: str
+    user_kind: str
+    condition: str
+    limit: Annotated[int, "u64"] | None = None
+    after: str | None = None
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindWithConditionFoundTuples:
+    object_type: str
+    object_id: str
+    relation: str
+    user: str
+    condition_key: str
+    condition_context: bytes | None
+    inserted_at: Timestamp
+
+@dataclass(frozen=True, slots=True, kw_only=True)
+class ReadUsersetByKindWithConditionFound:
+    tuples: tuple[ReadUsersetByKindWithConditionFoundTuples, ...]
+    outcome: Literal["Found"] = field(default="Found", init=False)
+
+ReadUsersetByKindWithConditionResult: TypeAlias = ReadUsersetByKindWithConditionFound
+
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ApplyTupleMutationsInput:
     mutations: tuple[TupleMutationInput, ...]
     request_id: UUID
 
-APPLY_TUPLE_MUTATIONS_PLAN_HASH: Final[str] = "3a3a8f4a8e768da6558ba1764a7fbae8fe32f8b692d0fa49d14d28d986a844ee"
+APPLY_TUPLE_MUTATIONS_PLAN_HASH: Final[str] = "3742170720e3258ec25693e088d8bd729966c513e2d9d44ae18938a58f3ea332"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ApplyTupleMutationsTupleStateUnexpected:
     user: str
@@ -1203,7 +1441,7 @@ class WriteAuthorizationModelInput:
     schema_version: str
     serialized_protobuf: bytes
 
-WRITE_AUTHORIZATION_MODEL_PLAN_HASH: Final[str] = "101c1bb902fc334e30f73f6cead830f5544b52a0fb2db4a0f5eadb62e59c701c"
+WRITE_AUTHORIZATION_MODEL_PLAN_HASH: Final[str] = "e3c077b2739448ce092d95a89578b384a73958f2dc7a6fdd4f19ebc3505f415a"
 @dataclass(frozen=True, slots=True, kw_only=True)
 class WriteAuthorizationModelModelWritten:
     outcome: Literal["ModelWritten"] = field(default="ModelWritten", init=False)
@@ -1511,6 +1749,90 @@ class RiffDBOpenFGAClient:
         )
         outcomes = {
             "Found": ReadChangesDescFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_starting_with_user(self, parameters: ReadStartingWithUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUser", plan_hash=READ_STARTING_WITH_USER_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_starting_with_user_and_objects(self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUserAndObjects", plan_hash=READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserAndObjectsFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUserObjectsCondition", plan_hash=READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserObjectsConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUserWithCondition", plan_hash=READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserWithConditionFound,
         }
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
@@ -1915,6 +2237,90 @@ class RiffDBOpenFGAClient:
         )
         outcomes = {
             "Found": ReadTuplesByUserWithConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_userset_by_kind(self, parameters: ReadUsersetByKindParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKind", plan_hash=READ_USERSET_BY_KIND_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_userset_by_kind_type_relation(self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKindTypeRelation", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindTypeRelationFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_userset_by_kind_type_relation_with_condition(self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKindTypeRelationWithCondition", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindTypeRelationWithConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    def read_userset_by_kind_with_condition(self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKindWithCondition", plan_hash=READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindWithConditionFound,
         }
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
@@ -2340,6 +2746,90 @@ class AsyncRiffDBOpenFGAClient:
         }
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 
+    async def read_starting_with_user(self, parameters: ReadStartingWithUserParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUser", plan_hash=READ_STARTING_WITH_USER_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_starting_with_user_and_objects(self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUserAndObjects", plan_hash=READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserAndObjectsFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUserObjectsCondition", plan_hash=READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserObjectsConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadStartingWithUserWithCondition", plan_hash=READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadStartingWithUserWithConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
     async def read_tuple_exact(self, parameters: ReadTupleExactParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadTupleExactResult]:
         raw = await self._transport._execute_named_query(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
@@ -2741,6 +3231,90 @@ class AsyncRiffDBOpenFGAClient:
         )
         outcomes = {
             "Found": ReadTuplesByUserWithConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_userset_by_kind(self, parameters: ReadUsersetByKindParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKind", plan_hash=READ_USERSET_BY_KIND_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_userset_by_kind_type_relation(self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKindTypeRelation", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindTypeRelationFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_userset_by_kind_type_relation_with_condition(self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindTypeRelationWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKindTypeRelationWithCondition", plan_hash=READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindTypeRelationWithConditionFound,
+        }
+        return raw._map_value(lambda value: decode_variant(outcomes, value))
+
+    async def read_userset_by_kind_with_condition(self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadUsersetByKindWithConditionResult]:
+        if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
+            raise ValueError("limit must be an integer from 1 through 50")
+        encoded_parameters = encode_record(parameters)
+        generated_cursor = parameters.after
+        if generated_cursor is not None:
+            if options.cursor is not None:
+                raise ValueError("generated cursor conflicts with query options")
+            options = QueryOptions(cursor=generated_cursor, read_after_commit=options.read_after_commit, consistency=options.consistency)
+        encoded_parameters.pop("after", None)
+        raw = await self._transport._execute_named_query(
+            contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
+            contract_bundle_hash=CONTRACT_BUNDLE_HASH, module_hash=QUERY_MODULE_HASH,
+            query_name="ReadUsersetByKindWithCondition", plan_hash=READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH,
+            parameters=encoded_parameters, options=options,
+        )
+        outcomes = {
+            "Found": ReadUsersetByKindWithConditionFound,
         }
         return raw._map_value(lambda value: decode_variant(outcomes, value))
 

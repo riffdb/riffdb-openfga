@@ -9,98 +9,84 @@ import (
 	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 	"github.com/openfga/openfga/pkg/storage"
 	"github.com/openfga/openfga/pkg/tuple"
+	generated "github.com/riffdb/riffdb-openfga/generated/go"
 )
 
-type filteringTupleIterator struct {
-	inner   storage.TupleIterator
-	keep    func(*openfgav1.Tuple) bool
-	mu      sync.Mutex
-	head    *openfgav1.Tuple
-	stopped bool
+// usersetFetcher builds one bounded page source for userset tuples under an
+// exact object and relation.
+//
+// `user_kind == "userset"` is applied by the query rather than by the caller,
+// so the scan is bounded by the userset index instead of by an object/relation
+// read the adapter then filters.
+func (datastore *Datastore) usersetFetcher(
+	store, objectType, objectID, relation string,
+	userObjectType, userRelation *string,
+	condition *string,
+) tupleFetch {
+	return func(ctx context.Context, limit uint32, after *string) ([]*openfgav1.Tuple, string, error) {
+		options := generated.QueryOptions{}
+		finish := func(value any, cursor string, err error) ([]*openfgav1.Tuple, string, error) {
+			if err != nil {
+				return nil, "", mapError(ctx, err)
+			}
+			page, err := projectedTuples(value)
+			return page, cursor, err
+		}
+		if userObjectType != nil && userRelation != nil {
+			if condition == nil {
+				result, err := datastore.client.ReadUsersetByKindTypeRelation(ctx, generated.ReadUsersetByKindTypeRelationParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: relation, UserKind: usersetUserKind, UserObjectType: *userObjectType, UserRelation: *userRelation, Limit: &limit, After: after}, options)
+				return finish(result.Value, result.NextCursor, err)
+			}
+			result, err := datastore.client.ReadUsersetByKindTypeRelationWithCondition(ctx, generated.ReadUsersetByKindTypeRelationWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: relation, UserKind: usersetUserKind, UserObjectType: *userObjectType, UserRelation: *userRelation, Condition: *condition, Limit: &limit, After: after}, options)
+			return finish(result.Value, result.NextCursor, err)
+		}
+		if condition == nil {
+			result, err := datastore.client.ReadUsersetByKind(ctx, generated.ReadUsersetByKindParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: relation, UserKind: usersetUserKind, Limit: &limit, After: after}, options)
+			return finish(result.Value, result.NextCursor, err)
+		}
+		result, err := datastore.client.ReadUsersetByKindWithCondition(ctx, generated.ReadUsersetByKindWithConditionParams{StoreId: store, ObjectType: objectType, ObjectId: objectID, Relation: relation, UserKind: usersetUserKind, Condition: *condition, Limit: &limit, After: after}, options)
+		return finish(result.Value, result.NextCursor, err)
+	}
 }
 
-func (iterator *filteringTupleIterator) fetch(ctx context.Context) (*openfgav1.Tuple, error) {
-	for {
-		value, err := iterator.inner.Next(ctx)
-		if err != nil {
-			return nil, err
-		}
-		if iterator.keep(value) {
-			return value, nil
-		}
-	}
-}
-func (iterator *filteringTupleIterator) Next(ctx context.Context) (*openfgav1.Tuple, error) {
-	iterator.mu.Lock()
-	defer iterator.mu.Unlock()
-	if iterator.stopped {
-		return nil, storage.ErrIteratorDone
-	}
-	if iterator.head != nil {
-		value := iterator.head
-		iterator.head = nil
-		return value, nil
-	}
-	return iterator.fetch(ctx)
-}
-func (iterator *filteringTupleIterator) Head(ctx context.Context) (*openfgav1.Tuple, error) {
-	iterator.mu.Lock()
-	defer iterator.mu.Unlock()
-	if iterator.stopped {
-		return nil, storage.ErrIteratorDone
-	}
-	if iterator.head == nil {
-		value, err := iterator.fetch(ctx)
-		if err != nil {
-			return nil, err
-		}
-		iterator.head = value
-	}
-	return iterator.head, nil
-}
-func (iterator *filteringTupleIterator) Stop() {
-	iterator.mu.Lock()
-	iterator.stopped = true
-	iterator.head = nil
-	iterator.inner.Stop()
-	iterator.mu.Unlock()
-}
-func (iterator *filteringTupleIterator) IsOrdered() bool { return iterator.inner.IsOrdered() }
-
-func allowedUserset(value *openfgav1.Tuple, restrictions []*openfgav1.RelationReference) bool {
-	user := value.GetKey().GetUser()
-	if tuple.GetUserTypeFromUser(user) != tuple.UserSet {
-		return false
-	}
-	if len(restrictions) == 0 {
-		return true
-	}
-	userObject, relation := tuple.SplitObjectRelation(user)
-	userType, userID := tuple.SplitObject(userObject)
-	for _, restriction := range restrictions {
-		if restriction.GetType() != userType {
-			continue
-		}
-		switch restriction.GetRelationOrWildcard().(type) {
-		case *openfgav1.RelationReference_Relation:
-			if restriction.GetRelation() == relation {
-				return true
-			}
-		case *openfgav1.RelationReference_Wildcard:
-			if userID == "*" && relation == "" {
-				return true
-			}
-		}
-	}
-	return false
-}
+const usersetUserKind = "userset"
 
 func (datastore *Datastore) ReadUsersetTuples(_ context.Context, store string, filter storage.ReadUsersetTuplesFilter, _ storage.ReadUsersetTuplesOptions) (storage.TupleIterator, error) {
-	inner, err := datastore.Read(context.Background(), store, storage.ReadFilter{Object: filter.Object, Relation: filter.Relation, Conditions: filter.Conditions}, storage.ReadOptions{})
-	if err != nil {
-		return nil, err
+	objectType, objectID := tuple.SplitObject(filter.Object)
+	if objectType == "" || objectID == "" {
+		return nil, errors.New("riffdb-openfga: userset reads require an exact object")
 	}
-	return &filteringTupleIterator{inner: inner, keep: func(value *openfgav1.Tuple) bool { return allowedUserset(value, filter.AllowedUserTypeRestrictions) }}, nil
+	conditions := conditionValues(filter.Conditions)
+
+	// `GetUserTypeFromUser` classifies both `type:id#relation` and `type:*` as
+	// a userset, so both are stored with `user_kind = "userset"`. They differ in
+	// `user_relation`: a userset carries its relation and a wildcard carries the
+	// empty string. Both restriction kinds are therefore the same query with a
+	// different relation, and neither needs a client-side filter.
+	var allowed [][2]string
+	for _, restriction := range filter.AllowedUserTypeRestrictions {
+		switch restriction.GetRelationOrWildcard().(type) {
+		case *openfgav1.RelationReference_Relation:
+			allowed = append(allowed, [2]string{restriction.GetType(), restriction.GetRelation()})
+		case *openfgav1.RelationReference_Wildcard:
+			allowed = append(allowed, [2]string{restriction.GetType(), ""})
+		}
+	}
+
+	var fetchers []tupleFetch
+	if len(filter.AllowedUserTypeRestrictions) == 0 {
+		for _, condition := range conditions {
+			fetchers = append(fetchers, datastore.usersetFetcher(store, objectType, objectID, filter.Relation, nil, nil, condition))
+		}
+	} else {
+		for _, pair := range allowed {
+			userObjectType, userRelation := pair[0], pair[1]
+			for _, condition := range conditions {
+				fetchers = append(fetchers, datastore.usersetFetcher(store, objectType, objectID, filter.Relation, &userObjectType, &userRelation, condition))
+			}
+		}
+	}
+	return &lazyTupleIterator{fetchers: fetchers, ordered: len(fetchers) == 1}, nil
 }
 
 type mergingTupleIterator struct {
@@ -184,6 +170,43 @@ func (iterator *mergingTupleIterator) Stop() {
 }
 func (*mergingTupleIterator) IsOrdered() bool { return true }
 
+// startingWithUserFetcher builds one bounded page source for reverse reads.
+//
+// When the caller supplies object IDs the query applies `object_id in
+// $object_ids`, so the set bounds the scan instead of filtering its output.
+// Every variant orders by `object_id asc`, which is the order
+// `WithResultsSortedAscending` needs.
+func (datastore *Datastore) startingWithUserFetcher(
+	store, objectType, relation, user string,
+	objectIDs []string,
+	condition *string,
+) tupleFetch {
+	return func(ctx context.Context, limit uint32, after *string) ([]*openfgav1.Tuple, string, error) {
+		options := generated.QueryOptions{}
+		finish := func(value any, cursor string, err error) ([]*openfgav1.Tuple, string, error) {
+			if err != nil {
+				return nil, "", mapError(ctx, err)
+			}
+			page, err := projectedTuples(value)
+			return page, cursor, err
+		}
+		if objectIDs != nil {
+			if condition == nil {
+				result, err := datastore.client.ReadStartingWithUserAndObjects(ctx, generated.ReadStartingWithUserAndObjectsParams{StoreId: store, ObjectType: objectType, Relation: relation, User: user, ObjectIds: objectIDs, Limit: &limit, After: after}, options)
+				return finish(result.Value, result.NextCursor, err)
+			}
+			result, err := datastore.client.ReadStartingWithUserObjectsCondition(ctx, generated.ReadStartingWithUserObjectsConditionParams{StoreId: store, ObjectType: objectType, Relation: relation, User: user, ObjectIds: objectIDs, Condition: *condition, Limit: &limit, After: after}, options)
+			return finish(result.Value, result.NextCursor, err)
+		}
+		if condition == nil {
+			result, err := datastore.client.ReadStartingWithUser(ctx, generated.ReadStartingWithUserParams{StoreId: store, ObjectType: objectType, Relation: relation, User: user, Limit: &limit, After: after}, options)
+			return finish(result.Value, result.NextCursor, err)
+		}
+		result, err := datastore.client.ReadStartingWithUserWithCondition(ctx, generated.ReadStartingWithUserWithConditionParams{StoreId: store, ObjectType: objectType, Relation: relation, User: user, Condition: *condition, Limit: &limit, After: after}, options)
+		return finish(result.Value, result.NextCursor, err)
+	}
+}
+
 func (datastore *Datastore) ReadStartingWithUser(_ context.Context, store string, filter storage.ReadStartingWithUserFilter, options storage.ReadStartingWithUserOptions) (storage.TupleIterator, error) {
 	users := make([]string, 0, len(filter.UserFilter))
 	seen := make(map[string]struct{}, len(filter.UserFilter))
@@ -195,22 +218,25 @@ func (datastore *Datastore) ReadStartingWithUser(_ context.Context, store string
 		}
 	}
 	sort.Strings(users)
+
+	var objectIDs []string
+	if filter.ObjectIDs != nil {
+		objectIDs = filter.ObjectIDs.Values()
+		if len(objectIDs) == 0 {
+			// An empty set selects nothing, and the compiled query requires a
+			// non-empty set, so answer without asking.
+			return storage.NewCombinedIterator[*openfgav1.Tuple](), nil
+		}
+	}
+
+	conditions := conditionValues(filter.Conditions)
 	iterators := make([]storage.TupleIterator, 0, len(users))
 	for _, user := range users {
-		inner, err := datastore.Read(context.Background(), store, storage.ReadFilter{Object: filter.ObjectType + ":", Relation: filter.Relation, User: user, Conditions: filter.Conditions}, storage.ReadOptions{})
-		if err != nil {
-			for _, existing := range iterators {
-				existing.Stop()
-			}
-			return nil, err
+		fetchers := make([]tupleFetch, 0, len(conditions))
+		for _, condition := range conditions {
+			fetchers = append(fetchers, datastore.startingWithUserFetcher(store, filter.ObjectType, filter.Relation, user, objectIDs, condition))
 		}
-		if filter.ObjectIDs != nil {
-			inner = &filteringTupleIterator{inner: inner, keep: func(value *openfgav1.Tuple) bool {
-				_, id := tuple.SplitObject(value.GetKey().GetObject())
-				return filter.ObjectIDs.Exists(id)
-			}}
-		}
-		iterators = append(iterators, inner)
+		iterators = append(iterators, &lazyTupleIterator{fetchers: fetchers, ordered: len(fetchers) == 1})
 	}
 	if options.WithResultsSortedAscending {
 		return &mergingTupleIterator{iterators: iterators, heads: make([]*openfgav1.Tuple, len(iterators)), loaded: make([]bool, len(iterators))}, nil

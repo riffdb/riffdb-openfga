@@ -1,5 +1,5 @@
 {
-  "application_manifest_hash": "bac42eb1105abb9b547d99bc64b7e32a2361651ba38318ca502ab903ec72fee3",
+  "application_manifest_hash": "9a467f069e1991e274e738bce8e1de75e3e49971fb1118a01266ed1e3d6cb9b5",
   "commands": [
     {
       "annotations": {
@@ -8,7 +8,7 @@
         "openWorldHint": false,
         "readOnlyHint": false
       },
-      "contract_bundle_hash": "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8",
+      "contract_bundle_hash": "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a",
       "description": "Execute the exact ApplyTupleMutations compiled command from contract RiffDBOpenFGA.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -108,7 +108,7 @@
       },
       "name": "riffdb_openfga_apply_tuple_mutations",
       "operation_name": "ApplyTupleMutations",
-      "plan_hash": "3a3a8f4a8e768da6558ba1764a7fbae8fe32f8b692d0fa49d14d28d986a844ee",
+      "plan_hash": "3742170720e3258ec25693e088d8bd729966c513e2d9d44ae18938a58f3ea332",
       "result_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "oneOf": [
@@ -182,7 +182,7 @@
         "openWorldHint": false,
         "readOnlyHint": false
       },
-      "contract_bundle_hash": "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8",
+      "contract_bundle_hash": "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a",
       "description": "Execute the exact CreateAssertionSet compiled command from contract RiffDBOpenFGA.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -253,7 +253,7 @@
         "openWorldHint": false,
         "readOnlyHint": false
       },
-      "contract_bundle_hash": "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8",
+      "contract_bundle_hash": "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a",
       "description": "Execute the exact CreateStore compiled command from contract RiffDBOpenFGA.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -367,7 +367,7 @@
         "openWorldHint": false,
         "readOnlyHint": false
       },
-      "contract_bundle_hash": "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8",
+      "contract_bundle_hash": "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a",
       "description": "Execute the exact DeleteStore compiled command from contract RiffDBOpenFGA.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -450,7 +450,7 @@
         "openWorldHint": false,
         "readOnlyHint": false
       },
-      "contract_bundle_hash": "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8",
+      "contract_bundle_hash": "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a",
       "description": "Execute the exact UpdateAssertionSet compiled command from contract RiffDBOpenFGA.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -538,7 +538,7 @@
         "openWorldHint": false,
         "readOnlyHint": false
       },
-      "contract_bundle_hash": "005a97aa23b5bc67f845f3d5d536ce87e942e582c68e42908161b6c5b7a1ddc8",
+      "contract_bundle_hash": "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a",
       "description": "Execute the exact WriteAuthorizationModel compiled command from contract RiffDBOpenFGA.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -572,7 +572,7 @@
       },
       "name": "riffdb_openfga_write_authorization_model",
       "operation_name": "WriteAuthorizationModel",
-      "plan_hash": "101c1bb902fc334e30f73f6cead830f5544b52a0fb2db4a0f5eadb62e59c701c",
+      "plan_hash": "e3c077b2739448ce092d95a89578b384a73958f2dc7a6fdd4f19ebc3505f415a",
       "result_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "oneOf": [
@@ -635,7 +635,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_get_assertion_set",
       "operation_name": "GetAssertionSet",
       "result_schema": {
@@ -721,7 +721,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_get_authorization_model",
       "operation_name": "GetAuthorizationModel",
       "result_schema": {
@@ -807,7 +807,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_get_store",
       "operation_name": "GetStore",
       "result_schema": {
@@ -909,7 +909,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_get_tuple_state",
       "operation_name": "GetTupleState",
       "result_schema": {
@@ -1038,7 +1038,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_latest_authorization_model",
       "operation_name": "LatestAuthorizationModel",
       "result_schema": {
@@ -1126,7 +1126,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_list_authorization_models",
       "operation_name": "ListAuthorizationModels",
       "result_schema": {
@@ -1214,7 +1214,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_list_stores_all",
       "operation_name": "ListStoresAll",
       "result_schema": {
@@ -1315,7 +1315,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_list_stores_by_ids",
       "operation_name": "ListStoresByIds",
       "result_schema": {
@@ -1420,7 +1420,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_list_stores_by_ids_and_name",
       "operation_name": "ListStoresByIdsAndName",
       "result_schema": {
@@ -1516,7 +1516,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_list_stores_by_name",
       "operation_name": "ListStoresByName",
       "result_schema": {
@@ -1608,7 +1608,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_all_tuples",
       "operation_name": "ReadAllTuples",
       "result_schema": {
@@ -1719,7 +1719,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_all_tuples_with_conditions",
       "operation_name": "ReadAllTuplesWithConditions",
       "result_schema": {
@@ -1840,7 +1840,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_changes_asc",
       "operation_name": "ReadChangesAsc",
       "result_schema": {
@@ -1977,7 +1977,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_changes_by_object_asc",
       "operation_name": "ReadChangesByObjectAsc",
       "result_schema": {
@@ -2104,7 +2104,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_changes_by_object_desc",
       "operation_name": "ReadChangesByObjectDesc",
       "result_schema": {
@@ -2227,7 +2227,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_changes_desc",
       "operation_name": "ReadChangesDesc",
       "result_schema": {
@@ -2317,6 +2317,508 @@
         "openWorldHint": false,
         "readOnlyHint": true
       },
+      "description": "Execute the exact ReadStartingWithUser named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "relation",
+          "user"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_starting_with_user",
+      "operation_name": "ReadStartingWithUser",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadStartingWithUser"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadStartingWithUserAndObjects named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "relation",
+          "user",
+          "object_ids"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_starting_with_user_and_objects",
+      "operation_name": "ReadStartingWithUserAndObjects",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadStartingWithUserAndObjects"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadStartingWithUserObjectsCondition named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "condition": {
+            "type": "string"
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 64,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "relation",
+          "user",
+          "object_ids",
+          "condition"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_starting_with_user_objects_condition",
+      "operation_name": "ReadStartingWithUserObjectsCondition",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadStartingWithUserObjectsCondition"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadStartingWithUserWithCondition named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "condition": {
+            "type": "string"
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "relation",
+          "user",
+          "condition"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_starting_with_user_with_condition",
+      "operation_name": "ReadStartingWithUserWithCondition",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadStartingWithUserWithCondition"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
       "description": "Execute the exact ReadTupleExact named query from immutable module riffdb_openfga.",
       "input_schema": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -2347,7 +2849,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuple_exact",
       "operation_name": "ReadTupleExact",
       "result_schema": {
@@ -2468,7 +2970,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuple_exact_with_condition",
       "operation_name": "ReadTupleExactWithCondition",
       "result_schema": {
@@ -2592,7 +3094,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_object",
       "operation_name": "ReadTuplesByObject",
       "result_schema": {
@@ -2711,7 +3213,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_object_relation",
       "operation_name": "ReadTuplesByObjectRelation",
       "result_schema": {
@@ -2834,7 +3336,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_object_relation_with_condition",
       "operation_name": "ReadTuplesByObjectRelationWithCondition",
       "result_schema": {
@@ -2953,7 +3455,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_object_user",
       "operation_name": "ReadTuplesByObjectUser",
       "result_schema": {
@@ -3076,7 +3578,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_object_user_with_condition",
       "operation_name": "ReadTuplesByObjectUserWithCondition",
       "result_schema": {
@@ -3195,7 +3697,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_object_with_condition",
       "operation_name": "ReadTuplesByObjectWithCondition",
       "result_schema": {
@@ -3310,7 +3812,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_relation_user",
       "operation_name": "ReadTuplesByRelationUser",
       "result_schema": {
@@ -3429,7 +3931,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_relation_user_with_condition",
       "operation_name": "ReadTuplesByRelationUserWithCondition",
       "result_schema": {
@@ -3540,7 +4042,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type",
       "operation_name": "ReadTuplesByType",
       "result_schema": {
@@ -3655,7 +4157,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_relation",
       "operation_name": "ReadTuplesByTypeRelation",
       "result_schema": {
@@ -3774,7 +4276,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_relation_user",
       "operation_name": "ReadTuplesByTypeRelationUser",
       "result_schema": {
@@ -3897,7 +4399,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_relation_user_with_condition",
       "operation_name": "ReadTuplesByTypeRelationUserWithCondition",
       "result_schema": {
@@ -4016,7 +4518,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_relation_with_condition",
       "operation_name": "ReadTuplesByTypeRelationWithCondition",
       "result_schema": {
@@ -4131,7 +4633,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_user",
       "operation_name": "ReadTuplesByTypeUser",
       "result_schema": {
@@ -4250,7 +4752,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_user_with_condition",
       "operation_name": "ReadTuplesByTypeUserWithCondition",
       "result_schema": {
@@ -4365,7 +4867,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_type_with_condition",
       "operation_name": "ReadTuplesByTypeWithCondition",
       "result_schema": {
@@ -4476,7 +4978,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_user",
       "operation_name": "ReadTuplesByUser",
       "result_schema": {
@@ -4591,7 +5093,7 @@
         ],
         "type": "object"
       },
-      "module_hash": "471ef7d72c57729537a3d2a751c4f47e3f725f250564a5677a358d7bb994d968",
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
       "name": "riffdb_openfga_read_tuples_by_user_with_condition",
       "operation_name": "ReadTuplesByUserWithCondition",
       "result_schema": {
@@ -4661,6 +5163,522 @@
         ]
       },
       "title": "Run ReadTuplesByUserWithCondition"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadUsersetByKind named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_id": {
+            "type": "string"
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user_kind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "object_id",
+          "relation",
+          "user_kind"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_userset_by_kind",
+      "operation_name": "ReadUsersetByKind",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadUsersetByKind"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadUsersetByKindTypeRelation named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_id": {
+            "type": "string"
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user_kind": {
+            "type": "string"
+          },
+          "user_object_type": {
+            "type": "string"
+          },
+          "user_relation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "object_id",
+          "relation",
+          "user_kind",
+          "user_object_type",
+          "user_relation"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_userset_by_kind_type_relation",
+      "operation_name": "ReadUsersetByKindTypeRelation",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadUsersetByKindTypeRelation"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadUsersetByKindTypeRelationWithCondition named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "condition": {
+            "type": "string"
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_id": {
+            "type": "string"
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user_kind": {
+            "type": "string"
+          },
+          "user_object_type": {
+            "type": "string"
+          },
+          "user_relation": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "object_id",
+          "relation",
+          "user_kind",
+          "user_object_type",
+          "user_relation",
+          "condition"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_userset_by_kind_type_relation_with_condition",
+      "operation_name": "ReadUsersetByKindTypeRelationWithCondition",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadUsersetByKindTypeRelationWithCondition"
+    },
+    {
+      "annotations": {
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false,
+        "readOnlyHint": true
+      },
+      "description": "Execute the exact ReadUsersetByKindWithCondition named query from immutable module riffdb_openfga.",
+      "input_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false,
+        "properties": {
+          "after": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "condition": {
+            "type": "string"
+          },
+          "limit": {
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "object_id": {
+            "type": "string"
+          },
+          "object_type": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "store_id": {
+            "type": "string"
+          },
+          "user_kind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "store_id",
+          "object_type",
+          "object_id",
+          "relation",
+          "user_kind",
+          "condition"
+        ],
+        "type": "object"
+      },
+      "module_hash": "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810",
+      "name": "riffdb_openfga_read_userset_by_kind_with_condition",
+      "operation_name": "ReadUsersetByKindWithCondition",
+      "result_schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "outcome": {
+                "const": "Found",
+                "type": "string"
+              },
+              "tuples": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "condition_context": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "condition_key": {
+                      "type": "string"
+                    },
+                    "inserted_at": {
+                      "type": "string"
+                    },
+                    "object_id": {
+                      "type": "string"
+                    },
+                    "object_type": {
+                      "type": "string"
+                    },
+                    "relation": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "object_type",
+                    "object_id",
+                    "relation",
+                    "user",
+                    "condition_key",
+                    "condition_context",
+                    "inserted_at"
+                  ],
+                  "type": "object"
+                },
+                "maxItems": 50,
+                "type": "array"
+              }
+            },
+            "required": [
+              "outcome",
+              "tuples"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "title": "Run ReadUsersetByKindWithCondition"
     }
   ]
 }

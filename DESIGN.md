@@ -97,6 +97,8 @@ covers:
 - exact tuple identity;
 - partial tuple reads for every upstream-supported object/relation/user shape;
 - conditioned and unconditioned filters;
+- userset filtering by allowed type and relation, including wildcards;
+- reverse reads by user with optional object IDs in ascending order;
 - store lists by optional IDs and name;
 - model history in descending ULID order;
 - exact assertion-set reads; and
@@ -113,11 +115,23 @@ authoritative ordering key.
 Iterators fetch bounded pages lazily and release resources on `Stop` or after
 `ErrIteratorDone`. They never materialize a whole store.
 
-Tuple reads project only the seven fields the adapter consumes. `ReadUsersetTuples`
-and `ReadStartingWithUser` compose a filter over an object/relation read rather
-than dispatching a purpose-built query; the queries that would serve them
-directly were written but never called, and were removed rather than left as
-granted authority for an absent code path.
+Tuple reads project only the seven fields the adapter consumes.
+
+`ReadUsersetTuples` and `ReadStartingWithUser` dispatch purpose-built queries
+rather than filtering an object/relation read in the adapter. Both filters are
+predicates the index can serve, so the scan is bounded by the filter instead of
+by the store.
+
+`GetUserTypeFromUser` classifies both `type:id#relation` and `type:*` as a
+userset, so both are stored with `user_kind = "userset"` and differ only in
+`user_relation`: a userset carries its relation, a wildcard carries the empty
+string. An allowed-type restriction of either kind is therefore the same query
+with a different relation.
+
+A reverse read with object IDs applies `object_id in $object_ids` in the query,
+so the set bounds the scan. Every reverse variant orders by `object_id asc`,
+which is the order `WithResultsSortedAscending` needs, so ordering across users
+is a merge rather than a sort.
 
 Paged queries declare `Limit<MAX>` and the adapter never asks for more than
 `MAX`. Tuple and changelog queries carry `Limit<50>`, matching OpenFGA's own

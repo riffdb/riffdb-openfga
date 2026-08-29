@@ -5,11 +5,11 @@ use riffdb_client_rust::{ApplicationCardinality, ApplicationClientError, Applica
 pub use riffdb_client_rust::QueryOptions;
 use riffdb_client_rust::v1::value::Kind as WireKind;
 
-pub const QUERY_MODULE_HASH: [u8; 32] = [0x47, 0x1e, 0xf7, 0xd7, 0x2c, 0x57, 0x72, 0x95, 0x37, 0xa3, 0xd2, 0xa7, 0x51, 0xc4, 0xf4, 0x7e, 0x3f, 0x72, 0x5f, 0x25, 0x05, 0x64, 0xa5, 0x67, 0x7a, 0x35, 0x8d, 0x7b, 0xb9, 0x94, 0xd9, 0x68];
+pub const QUERY_MODULE_HASH: [u8; 32] = [0x13, 0x7e, 0xf6, 0xb9, 0xf1, 0x26, 0x55, 0xf2, 0x96, 0x89, 0x86, 0x99, 0xef, 0xc3, 0x23, 0x88, 0xad, 0x50, 0x54, 0x21, 0x8c, 0x23, 0xf6, 0x2d, 0x47, 0x03, 0xd5, 0xbb, 0xda, 0x5c, 0x38, 0x10];
 pub const CONTRACT_LINEAGE: &str = "RiffDBOpenFGA";
 pub const CONTRACT_VERSION: u64 = 1;
 
-pub const CONTRACT_BUNDLE_HASH: [u8; 32] = [0x00, 0x5a, 0x97, 0xaa, 0x23, 0xb5, 0xbc, 0x67, 0xf8, 0x45, 0xf3, 0xd5, 0xd5, 0x36, 0xce, 0x87, 0xe9, 0x42, 0xe5, 0x82, 0xc6, 0x8e, 0x42, 0x90, 0x81, 0x61, 0xb6, 0xc5, 0xb7, 0xa1, 0xdd, 0xc8];
+pub const CONTRACT_BUNDLE_HASH: [u8; 32] = [0x67, 0x2e, 0xaa, 0xa0, 0x3f, 0xf5, 0x56, 0xe0, 0x1d, 0xfc, 0x30, 0xf5, 0x68, 0x81, 0x5a, 0xde, 0x52, 0x62, 0xe6, 0xd3, 0xd9, 0xfc, 0xf2, 0xb7, 0xbb, 0x84, 0xfc, 0x92, 0xde, 0xf0, 0xe2, 0x7a];
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct DecimalValue {
@@ -57,7 +57,7 @@ pub enum GetAssertionSetResult {
     NotFound(Box<GetAssertionSetNotFound>),
 }
 
-pub const GET_ASSERTION_SET_QUERY_PLAN_HASH: [u8; 32] = [0x3e, 0x7a, 0x78, 0xc4, 0xec, 0xec, 0xb9, 0x4f, 0xc6, 0x7f, 0xbd, 0xa6, 0x4f, 0x12, 0xdd, 0x20, 0x1b, 0x31, 0x87, 0x53, 0x00, 0x5b, 0x95, 0xca, 0xba, 0xbf, 0x15, 0xc5, 0xe8, 0xd9, 0xf4, 0x99];
+pub const GET_ASSERTION_SET_QUERY_PLAN_HASH: [u8; 32] = [0x5f, 0xc1, 0x7a, 0x4a, 0x31, 0x40, 0x01, 0xa6, 0xd2, 0x77, 0x3f, 0xb6, 0xaa, 0xd5, 0x2f, 0xe3, 0x7e, 0x29, 0x97, 0xb5, 0xbc, 0xa0, 0x8b, 0x88, 0x02, 0x79, 0x45, 0x43, 0x82, 0x69, 0xcb, 0x4c];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetAssertionSetQuery(pub GetAssertionSetParams);
 impl GeneratedQuery for GetAssertionSetQuery {
@@ -141,7 +141,7 @@ pub enum GetAuthorizationModelResult {
     NotFound(Box<GetAuthorizationModelNotFound>),
 }
 
-pub const GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0x19, 0xc6, 0xcf, 0x0a, 0x63, 0x54, 0xad, 0x82, 0x45, 0x1f, 0xb4, 0x4f, 0xdf, 0xcb, 0xd2, 0x03, 0xdc, 0xc1, 0xc6, 0xf7, 0x06, 0x0c, 0xac, 0x9c, 0x40, 0xed, 0xee, 0x3c, 0x5a, 0xb6, 0xb0, 0x1a];
+pub const GET_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0xe8, 0x89, 0xaa, 0xc3, 0x0f, 0x97, 0xe8, 0x1e, 0x97, 0x22, 0xb1, 0x72, 0x84, 0x4a, 0xd6, 0x98, 0xc4, 0x98, 0x7a, 0x92, 0x38, 0xea, 0x6e, 0xa0, 0x75, 0xa3, 0xb4, 0xd1, 0x7b, 0xdc, 0x8d, 0x29];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetAuthorizationModelQuery(pub GetAuthorizationModelParams);
 impl GeneratedQuery for GetAuthorizationModelQuery {
@@ -226,7 +226,7 @@ pub enum GetStoreResult {
     NotFound(Box<GetStoreNotFound>),
 }
 
-pub const GET_STORE_QUERY_PLAN_HASH: [u8; 32] = [0xd3, 0xcb, 0x09, 0xf6, 0x1f, 0x8f, 0x50, 0x82, 0x51, 0x7f, 0x94, 0x46, 0xfd, 0xf4, 0x71, 0x8d, 0xd2, 0x35, 0xb2, 0x39, 0x85, 0x68, 0x4e, 0x93, 0xd1, 0x03, 0xa1, 0x45, 0xc4, 0x70, 0xb3, 0xe3];
+pub const GET_STORE_QUERY_PLAN_HASH: [u8; 32] = [0x6f, 0x1b, 0x44, 0xb1, 0x30, 0x91, 0xf8, 0x0e, 0x91, 0x69, 0x6d, 0x0b, 0xed, 0x83, 0x3c, 0xb3, 0xbd, 0xae, 0x8e, 0xce, 0x8b, 0x41, 0xe9, 0x8b, 0x0f, 0xc8, 0x26, 0x60, 0xac, 0x6b, 0xf6, 0xc1];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetStoreQuery(pub GetStoreParams);
 impl GeneratedQuery for GetStoreQuery {
@@ -324,7 +324,7 @@ pub enum GetTupleStateResult {
     NotFound(Box<GetTupleStateNotFound>),
 }
 
-pub const GET_TUPLE_STATE_QUERY_PLAN_HASH: [u8; 32] = [0xa2, 0x40, 0xf5, 0x56, 0x7e, 0xca, 0x59, 0xfe, 0xf5, 0xe5, 0xc8, 0x5f, 0x42, 0x8a, 0x59, 0xf0, 0x8c, 0x8b, 0x7b, 0xc0, 0xea, 0x42, 0xd3, 0x9f, 0x11, 0x94, 0x18, 0x8d, 0x3c, 0xcb, 0x45, 0x23];
+pub const GET_TUPLE_STATE_QUERY_PLAN_HASH: [u8; 32] = [0x46, 0xf7, 0xed, 0xdb, 0xc0, 0x17, 0xe0, 0x6b, 0xd3, 0xfd, 0x84, 0x85, 0xb8, 0xf2, 0xce, 0x5e, 0x32, 0x37, 0x58, 0x7c, 0x99, 0xfe, 0x1d, 0xb5, 0x3d, 0xc4, 0x58, 0xe4, 0x8f, 0xd0, 0x69, 0x6c];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GetTupleStateQuery(pub GetTupleStateParams);
 impl GeneratedQuery for GetTupleStateQuery {
@@ -415,7 +415,7 @@ pub enum LatestAuthorizationModelResult {
     Found(Box<LatestAuthorizationModelFound>),
 }
 
-pub const LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0x6f, 0x31, 0x67, 0xbc, 0x1f, 0x26, 0x1d, 0x38, 0xd5, 0xa5, 0xe7, 0x07, 0x31, 0x97, 0x13, 0x5b, 0x64, 0xba, 0xb3, 0x37, 0xd6, 0x0c, 0x87, 0x1e, 0x8c, 0x2e, 0xdf, 0xb2, 0x6c, 0x94, 0x20, 0x23];
+pub const LATEST_AUTHORIZATION_MODEL_QUERY_PLAN_HASH: [u8; 32] = [0xea, 0x3e, 0xe6, 0xeb, 0x9a, 0x17, 0xcd, 0x12, 0xd0, 0xa8, 0xbc, 0x66, 0xc1, 0x93, 0xf0, 0xb1, 0x38, 0xde, 0x80, 0x09, 0xda, 0x15, 0x11, 0x0b, 0x78, 0x0c, 0x54, 0x86, 0x65, 0x2f, 0x5d, 0x53];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct LatestAuthorizationModelQuery(pub LatestAuthorizationModelParams);
 impl GeneratedQuery for LatestAuthorizationModelQuery {
@@ -488,7 +488,7 @@ pub enum ListAuthorizationModelsResult {
     Found(Box<ListAuthorizationModelsFound>),
 }
 
-pub const LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: [u8; 32] = [0x87, 0x50, 0xb3, 0x09, 0x44, 0x9f, 0x19, 0xa0, 0x42, 0xbb, 0xbd, 0x98, 0xf8, 0x53, 0x65, 0x36, 0x00, 0xdd, 0xe6, 0xa8, 0x79, 0x46, 0x32, 0xa2, 0x82, 0x2d, 0x12, 0x98, 0x04, 0x91, 0x18, 0x05];
+pub const LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: [u8; 32] = [0x52, 0x5e, 0x94, 0xee, 0x7d, 0xb7, 0x26, 0x6c, 0x25, 0xc9, 0xd1, 0xc3, 0x6f, 0xed, 0xd0, 0x7d, 0xac, 0x34, 0xd5, 0x45, 0x8a, 0x35, 0x27, 0xda, 0x80, 0x61, 0x2b, 0xbc, 0xb6, 0xe6, 0x1e, 0xc5];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListAuthorizationModelsQuery(pub ListAuthorizationModelsParams);
 impl GeneratedQuery for ListAuthorizationModelsQuery {
@@ -566,7 +566,7 @@ pub enum ListStoresAllResult {
     Found(Box<ListStoresAllFound>),
 }
 
-pub const LIST_STORES_ALL_QUERY_PLAN_HASH: [u8; 32] = [0x14, 0x06, 0x0e, 0x59, 0x88, 0x35, 0x8d, 0x58, 0x62, 0x91, 0xa4, 0x38, 0x78, 0x4e, 0xae, 0x4e, 0x5f, 0xc7, 0x3a, 0x0d, 0x4f, 0x8e, 0x7e, 0x9d, 0x01, 0x97, 0xe6, 0x3b, 0x4c, 0x4c, 0x5e, 0x61];
+pub const LIST_STORES_ALL_QUERY_PLAN_HASH: [u8; 32] = [0xb7, 0x83, 0x9a, 0xf4, 0xa8, 0x5b, 0xf0, 0x30, 0x6d, 0xb6, 0xcf, 0x87, 0xb0, 0xcd, 0x6b, 0xf6, 0xc4, 0x00, 0x5a, 0xc1, 0xce, 0x10, 0xa9, 0xf9, 0x70, 0xa6, 0x98, 0xb1, 0x12, 0x71, 0x77, 0x36];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresAllQuery(pub ListStoresAllParams);
 impl GeneratedQuery for ListStoresAllQuery {
@@ -646,7 +646,7 @@ pub enum ListStoresByIdsResult {
     Found(Box<ListStoresByIdsFound>),
 }
 
-pub const LIST_STORES_BY_IDS_QUERY_PLAN_HASH: [u8; 32] = [0x38, 0x2b, 0x5a, 0xc5, 0x0c, 0x82, 0x10, 0x3a, 0xcd, 0x2d, 0x9a, 0xaa, 0x50, 0xab, 0x71, 0x85, 0xde, 0x47, 0x50, 0x74, 0x6a, 0x32, 0xb7, 0x2b, 0xad, 0x26, 0xa0, 0xb0, 0xd5, 0xcb, 0xb4, 0x8a];
+pub const LIST_STORES_BY_IDS_QUERY_PLAN_HASH: [u8; 32] = [0x50, 0x0a, 0x42, 0xeb, 0x9c, 0x95, 0xc0, 0x17, 0xfb, 0xb0, 0xdf, 0x61, 0x2e, 0x79, 0xab, 0x04, 0xa2, 0xd9, 0x42, 0x8d, 0xa3, 0x64, 0x00, 0x33, 0x9d, 0xff, 0xdf, 0xf6, 0x5e, 0x39, 0xa6, 0xf9];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresByIdsQuery(pub ListStoresByIdsParams);
 impl GeneratedQuery for ListStoresByIdsQuery {
@@ -728,7 +728,7 @@ pub enum ListStoresByIdsAndNameResult {
     Found(Box<ListStoresByIdsAndNameFound>),
 }
 
-pub const LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: [u8; 32] = [0xc6, 0x92, 0x9f, 0x5f, 0x19, 0xc7, 0x7a, 0x27, 0x53, 0x72, 0x7e, 0xbf, 0x09, 0x3c, 0xd7, 0x05, 0xe9, 0x4e, 0x6b, 0x60, 0x3d, 0xda, 0xe4, 0x52, 0x74, 0x40, 0xa5, 0xda, 0x7e, 0xa2, 0xa2, 0xe5];
+pub const LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: [u8; 32] = [0x40, 0x63, 0x25, 0x6c, 0xc2, 0x9c, 0x9f, 0x9f, 0x1c, 0x38, 0x0b, 0x3b, 0x66, 0x9b, 0x86, 0xd1, 0x23, 0x01, 0xd2, 0x16, 0xff, 0xfe, 0xef, 0x2e, 0x47, 0x4f, 0x5e, 0x66, 0x94, 0x18, 0xb4, 0xbb];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresByIdsAndNameQuery(pub ListStoresByIdsAndNameParams);
 impl GeneratedQuery for ListStoresByIdsAndNameQuery {
@@ -810,7 +810,7 @@ pub enum ListStoresByNameResult {
     Found(Box<ListStoresByNameFound>),
 }
 
-pub const LIST_STORES_BY_NAME_QUERY_PLAN_HASH: [u8; 32] = [0xb1, 0xf4, 0x81, 0x0e, 0x2d, 0x5a, 0xbc, 0x3c, 0xec, 0x55, 0x15, 0x55, 0xb3, 0xba, 0x05, 0x7c, 0x0f, 0x10, 0x05, 0x23, 0xce, 0xd5, 0x3c, 0xd7, 0x7c, 0xec, 0x41, 0x6c, 0xe8, 0x46, 0xfb, 0x34];
+pub const LIST_STORES_BY_NAME_QUERY_PLAN_HASH: [u8; 32] = [0x92, 0xa4, 0x21, 0x3c, 0x71, 0x8f, 0x0e, 0xad, 0x5d, 0x8e, 0x45, 0x9d, 0xd2, 0xe6, 0xcb, 0xdd, 0x27, 0xd9, 0x47, 0xe6, 0x3c, 0x9b, 0x8d, 0xa5, 0xb6, 0x6e, 0xfc, 0x35, 0xcb, 0x2d, 0x4d, 0x5d];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ListStoresByNameQuery(pub ListStoresByNameParams);
 impl GeneratedQuery for ListStoresByNameQuery {
@@ -892,7 +892,7 @@ pub enum ReadAllTuplesResult {
     Found(Box<ReadAllTuplesFound>),
 }
 
-pub const READ_ALL_TUPLES_QUERY_PLAN_HASH: [u8; 32] = [0x91, 0x88, 0xb2, 0xaf, 0x9b, 0x51, 0x16, 0x83, 0xe6, 0xe4, 0xb3, 0x4b, 0xe7, 0xe4, 0x0d, 0xf8, 0xc0, 0x30, 0xf4, 0x49, 0x64, 0x0e, 0xfe, 0x2c, 0x38, 0xea, 0xd7, 0x2c, 0xcf, 0xdf, 0x6c, 0x96];
+pub const READ_ALL_TUPLES_QUERY_PLAN_HASH: [u8; 32] = [0x75, 0x3a, 0xf3, 0x68, 0xcc, 0xa8, 0xc0, 0x8f, 0x3e, 0x9d, 0xc6, 0xe1, 0xa7, 0x64, 0x65, 0x65, 0x5f, 0x95, 0x80, 0x15, 0xc4, 0x26, 0x28, 0x88, 0xec, 0xf8, 0xf6, 0x00, 0x26, 0x91, 0x74, 0xd5];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadAllTuplesQuery(pub ReadAllTuplesParams);
 impl GeneratedQuery for ReadAllTuplesQuery {
@@ -976,7 +976,7 @@ pub enum ReadAllTuplesWithConditionsResult {
     Found(Box<ReadAllTuplesWithConditionsFound>),
 }
 
-pub const READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: [u8; 32] = [0xae, 0x27, 0x24, 0xc6, 0x0b, 0x0d, 0x59, 0xcc, 0x59, 0x71, 0x50, 0xdf, 0x9e, 0x56, 0xc7, 0x10, 0xb5, 0x0d, 0x5d, 0xa2, 0x35, 0x4f, 0xf1, 0x4c, 0xe0, 0x6c, 0x04, 0xd4, 0x98, 0x26, 0x85, 0x26];
+pub const READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: [u8; 32] = [0x70, 0x0b, 0x4a, 0xdb, 0xd3, 0x97, 0xd0, 0xaf, 0xde, 0x39, 0x00, 0x47, 0x0d, 0x13, 0x92, 0x3f, 0x61, 0xa8, 0xe5, 0xd2, 0x32, 0x75, 0xef, 0x17, 0x17, 0xbf, 0x17, 0xaa, 0xaf, 0xe4, 0xc0, 0x59];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadAllTuplesWithConditionsQuery(pub ReadAllTuplesWithConditionsParams);
 impl GeneratedQuery for ReadAllTuplesWithConditionsQuery {
@@ -1065,7 +1065,7 @@ pub enum ReadChangesAscResult {
     Found(Box<ReadChangesAscFound>),
 }
 
-pub const READ_CHANGES_ASC_QUERY_PLAN_HASH: [u8; 32] = [0xd2, 0x4d, 0x84, 0xbe, 0xf2, 0x70, 0x7b, 0x39, 0xdb, 0x1d, 0x6b, 0x37, 0xd1, 0x2f, 0x75, 0x06, 0x62, 0xd0, 0x59, 0x2b, 0xc7, 0x10, 0xd1, 0xa2, 0xf4, 0x0e, 0xc9, 0x20, 0xf7, 0x08, 0x85, 0x62];
+pub const READ_CHANGES_ASC_QUERY_PLAN_HASH: [u8; 32] = [0xeb, 0x72, 0x74, 0x19, 0x0d, 0xed, 0x33, 0x00, 0x15, 0xe1, 0x0c, 0x36, 0xfb, 0x79, 0xe1, 0xe8, 0xdf, 0x30, 0xb5, 0xbb, 0x2e, 0x25, 0x7b, 0x81, 0x50, 0x65, 0x38, 0xcf, 0x40, 0x31, 0x5b, 0x89];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesAscQuery(pub ReadChangesAscParams);
 impl GeneratedQuery for ReadChangesAscQuery {
@@ -1159,7 +1159,7 @@ pub enum ReadChangesByObjectAscResult {
     Found(Box<ReadChangesByObjectAscFound>),
 }
 
-pub const READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: [u8; 32] = [0x85, 0x15, 0xd0, 0x23, 0x36, 0x0b, 0x01, 0xee, 0x48, 0xbe, 0x0a, 0x56, 0x59, 0x08, 0x14, 0xcb, 0xe1, 0xa9, 0xf3, 0x46, 0x0d, 0x77, 0xda, 0x00, 0x0b, 0xc3, 0x46, 0x3b, 0x44, 0xe0, 0x5e, 0xa8];
+pub const READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: [u8; 32] = [0x67, 0x9b, 0xa1, 0xdb, 0xc6, 0x00, 0xbf, 0x23, 0x0a, 0xe7, 0xc2, 0x9b, 0x16, 0x14, 0x54, 0x5b, 0xd9, 0xe2, 0x9d, 0xf1, 0x02, 0x3f, 0x0b, 0xbe, 0x63, 0x4e, 0x97, 0xd6, 0x60, 0x81, 0xd6, 0xce];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesByObjectAscQuery(pub ReadChangesByObjectAscParams);
 impl GeneratedQuery for ReadChangesByObjectAscQuery {
@@ -1253,7 +1253,7 @@ pub enum ReadChangesByObjectDescResult {
     Found(Box<ReadChangesByObjectDescFound>),
 }
 
-pub const READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: [u8; 32] = [0xfa, 0x73, 0xe5, 0xf8, 0x08, 0x74, 0x02, 0xb0, 0x43, 0xce, 0xa3, 0xf8, 0x63, 0xf4, 0x54, 0x78, 0x1d, 0x40, 0x73, 0x98, 0x86, 0xad, 0x25, 0xa0, 0x10, 0x87, 0x5d, 0xa8, 0x2f, 0x5e, 0xcc, 0x7e];
+pub const READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: [u8; 32] = [0x84, 0xde, 0xdf, 0x83, 0x52, 0x24, 0x23, 0x6a, 0x25, 0x82, 0xb5, 0xfe, 0x1f, 0xb3, 0xb3, 0xee, 0xe0, 0x0f, 0x6e, 0x1a, 0x38, 0xe4, 0xcd, 0x08, 0x76, 0xa1, 0xb1, 0x38, 0x44, 0x2a, 0x4f, 0x64];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesByObjectDescQuery(pub ReadChangesByObjectDescParams);
 impl GeneratedQuery for ReadChangesByObjectDescQuery {
@@ -1345,7 +1345,7 @@ pub enum ReadChangesDescResult {
     Found(Box<ReadChangesDescFound>),
 }
 
-pub const READ_CHANGES_DESC_QUERY_PLAN_HASH: [u8; 32] = [0xd1, 0x92, 0x04, 0x3d, 0xad, 0x86, 0x4b, 0x94, 0xba, 0xc3, 0x86, 0x8d, 0xb7, 0x61, 0x26, 0xfb, 0xfc, 0x83, 0x78, 0x09, 0x7c, 0x81, 0x5d, 0xbe, 0xde, 0xe8, 0x6b, 0x65, 0x1a, 0xba, 0xae, 0xbb];
+pub const READ_CHANGES_DESC_QUERY_PLAN_HASH: [u8; 32] = [0x12, 0x87, 0xfe, 0xf3, 0x5e, 0x4c, 0x1a, 0x45, 0x95, 0xd7, 0xdf, 0x90, 0xf7, 0xed, 0xe8, 0xe1, 0x04, 0xe0, 0xc6, 0x5a, 0x47, 0x98, 0xc4, 0x37, 0x82, 0x8c, 0xc6, 0x44, 0x27, 0x04, 0x3e, 0x97];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadChangesDescQuery(pub ReadChangesDescParams);
 impl GeneratedQuery for ReadChangesDescQuery {
@@ -1405,6 +1405,370 @@ fn decode_read_changes_desc_found_changes_record(mut record: ApplicationRecord) 
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub relation: String,
+    pub user: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserFound {
+    pub tuples: Vec<ReadStartingWithUserFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadStartingWithUserResult {
+    Found(Box<ReadStartingWithUserFound>),
+}
+
+pub const READ_STARTING_WITH_USER_QUERY_PLAN_HASH: [u8; 32] = [0x61, 0xcc, 0xbf, 0xa5, 0x56, 0x5d, 0x72, 0x2d, 0x83, 0x8c, 0xa0, 0x39, 0xf9, 0x1c, 0x85, 0xa5, 0x46, 0x5f, 0xe6, 0xcb, 0xbb, 0x2a, 0x41, 0x7b, 0x21, 0x2b, 0xdd, 0x70, 0x4c, 0x5b, 0x1a, 0x32];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserQuery(pub ReadStartingWithUserParams);
+impl GeneratedQuery for ReadStartingWithUserQuery {
+    type Output = ReadStartingWithUserResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadStartingWithUser",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_STARTING_WITH_USER_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadStartingWithUserFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_starting_with_user_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadStartingWithUserResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_starting_with_user_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadStartingWithUserFoundTuples, ApplicationClientError> {
+    let value = ReadStartingWithUserFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserAndObjectsParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub relation: String,
+    pub user: String,
+    pub object_ids: Vec<String>,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserAndObjectsFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserAndObjectsFound {
+    pub tuples: Vec<ReadStartingWithUserAndObjectsFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadStartingWithUserAndObjectsResult {
+    Found(Box<ReadStartingWithUserAndObjectsFound>),
+}
+
+pub const READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: [u8; 32] = [0x62, 0x3d, 0xe0, 0xee, 0xe5, 0x83, 0xdd, 0x79, 0xd3, 0xf1, 0x4b, 0x46, 0x78, 0x0f, 0x2d, 0x52, 0xd6, 0xda, 0x38, 0x0a, 0xa8, 0xe1, 0x7a, 0x1c, 0xe2, 0x60, 0xec, 0xd9, 0xe2, 0xb0, 0x00, 0x08];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserAndObjectsQuery(pub ReadStartingWithUserAndObjectsParams);
+impl GeneratedQuery for ReadStartingWithUserAndObjectsQuery {
+    type Output = ReadStartingWithUserAndObjectsResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
+        parameters.insert("object_ids".to_owned(), ApplicationValue::List(self.0.object_ids.into_iter().map(ApplicationValue::String).collect()));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadStartingWithUserAndObjects",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadStartingWithUserAndObjectsFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_starting_with_user_and_objects_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadStartingWithUserAndObjectsResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_starting_with_user_and_objects_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadStartingWithUserAndObjectsFoundTuples, ApplicationClientError> {
+    let value = ReadStartingWithUserAndObjectsFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserObjectsConditionParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub relation: String,
+    pub user: String,
+    pub object_ids: Vec<String>,
+    pub condition: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserObjectsConditionFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserObjectsConditionFound {
+    pub tuples: Vec<ReadStartingWithUserObjectsConditionFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadStartingWithUserObjectsConditionResult {
+    Found(Box<ReadStartingWithUserObjectsConditionFound>),
+}
+
+pub const READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xe0, 0xfe, 0x08, 0x71, 0x61, 0xb6, 0x2c, 0x25, 0x2d, 0x97, 0x5b, 0x6b, 0xf6, 0x61, 0xd8, 0x56, 0x1a, 0x3b, 0xac, 0x86, 0x0d, 0xa2, 0x26, 0x01, 0x17, 0x2f, 0x45, 0xaf, 0x8c, 0x8e, 0x6e, 0xce];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserObjectsConditionQuery(pub ReadStartingWithUserObjectsConditionParams);
+impl GeneratedQuery for ReadStartingWithUserObjectsConditionQuery {
+    type Output = ReadStartingWithUserObjectsConditionResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
+        parameters.insert("object_ids".to_owned(), ApplicationValue::List(self.0.object_ids.into_iter().map(ApplicationValue::String).collect()));
+        parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadStartingWithUserObjectsCondition",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadStartingWithUserObjectsConditionFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_starting_with_user_objects_condition_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadStartingWithUserObjectsConditionResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_starting_with_user_objects_condition_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadStartingWithUserObjectsConditionFoundTuples, ApplicationClientError> {
+    let value = ReadStartingWithUserObjectsConditionFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserWithConditionParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub relation: String,
+    pub user: String,
+    pub condition: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserWithConditionFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserWithConditionFound {
+    pub tuples: Vec<ReadStartingWithUserWithConditionFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadStartingWithUserWithConditionResult {
+    Found(Box<ReadStartingWithUserWithConditionFound>),
+}
+
+pub const READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x1c, 0xf2, 0xec, 0xf3, 0x30, 0x09, 0x08, 0x23, 0xc0, 0x1c, 0xef, 0x88, 0x4f, 0x31, 0x1f, 0x70, 0x9e, 0x42, 0xe4, 0xa8, 0x22, 0xc5, 0x10, 0x3e, 0x88, 0xc3, 0x0e, 0xa6, 0x56, 0xa7, 0xc3, 0x81];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadStartingWithUserWithConditionQuery(pub ReadStartingWithUserWithConditionParams);
+impl GeneratedQuery for ReadStartingWithUserWithConditionQuery {
+    type Output = ReadStartingWithUserWithConditionResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user".to_owned(), ApplicationValue::String(self.0.user));
+        parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadStartingWithUserWithCondition",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadStartingWithUserWithConditionFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_starting_with_user_with_condition_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadStartingWithUserWithConditionResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_starting_with_user_with_condition_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadStartingWithUserWithConditionFoundTuples, ApplicationClientError> {
+    let value = ReadStartingWithUserWithConditionFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTupleExactParams {
     pub store_id: String,
     pub object_type: String,
@@ -1439,7 +1803,7 @@ pub enum ReadTupleExactResult {
     NotFound(Box<ReadTupleExactNotFound>),
 }
 
-pub const READ_TUPLE_EXACT_QUERY_PLAN_HASH: [u8; 32] = [0xc8, 0x70, 0x97, 0x09, 0x84, 0x17, 0x20, 0xe4, 0x47, 0xc9, 0xa8, 0xa8, 0x98, 0x50, 0xd5, 0x61, 0x3f, 0x4b, 0xa1, 0x80, 0x74, 0xb9, 0x72, 0x9d, 0x93, 0x3b, 0xd6, 0x13, 0xc5, 0x11, 0x76, 0xc4];
+pub const READ_TUPLE_EXACT_QUERY_PLAN_HASH: [u8; 32] = [0x5d, 0xfa, 0xaa, 0x7c, 0xac, 0x93, 0xb0, 0x8b, 0x0e, 0x69, 0xf1, 0x8e, 0x03, 0xa6, 0x8c, 0xe4, 0xf0, 0x6e, 0x52, 0x5f, 0x02, 0xea, 0x99, 0x69, 0x74, 0xff, 0xd0, 0x0f, 0xa2, 0xd6, 0xdd, 0xb9];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTupleExactQuery(pub ReadTupleExactParams);
 impl GeneratedQuery for ReadTupleExactQuery {
@@ -1536,7 +1900,7 @@ pub enum ReadTupleExactWithConditionResult {
     NotFound(Box<ReadTupleExactWithConditionNotFound>),
 }
 
-pub const READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x94, 0xac, 0xba, 0x29, 0x8d, 0x23, 0x6d, 0x99, 0x96, 0x8c, 0xc5, 0x8f, 0x71, 0x42, 0x75, 0x88, 0xbc, 0xf6, 0x2b, 0xa4, 0xc5, 0x47, 0xd8, 0x0c, 0x2f, 0x84, 0xd8, 0x01, 0x91, 0xb8, 0x82, 0x35];
+pub const READ_TUPLE_EXACT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x48, 0x49, 0x10, 0xc7, 0x3c, 0x9f, 0x21, 0xf8, 0x94, 0x17, 0x87, 0xfe, 0x84, 0x60, 0x51, 0x3a, 0x38, 0x26, 0xf5, 0x97, 0x40, 0x0a, 0x65, 0x07, 0x03, 0x81, 0xc0, 0x96, 0x63, 0xa4, 0xa8, 0x59];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTupleExactWithConditionQuery(pub ReadTupleExactWithConditionParams);
 impl GeneratedQuery for ReadTupleExactWithConditionQuery {
@@ -1628,7 +1992,7 @@ pub enum ReadTuplesByObjectResult {
     Found(Box<ReadTuplesByObjectFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: [u8; 32] = [0x2c, 0xc1, 0x8a, 0x37, 0xfb, 0x76, 0x0e, 0xc6, 0x15, 0x1b, 0x82, 0x56, 0xad, 0x93, 0xb6, 0xee, 0x4d, 0xcd, 0x48, 0x28, 0x19, 0x94, 0x46, 0xa3, 0xeb, 0x24, 0xd3, 0x63, 0x57, 0x1d, 0x61, 0x4c];
+pub const READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: [u8; 32] = [0xfa, 0xaf, 0x93, 0x8e, 0x84, 0xcf, 0x29, 0xdf, 0x04, 0x67, 0x4d, 0xfb, 0x7a, 0xcf, 0x81, 0x3e, 0x8c, 0xe1, 0xae, 0xbb, 0x26, 0x37, 0xe1, 0xc8, 0xce, 0x76, 0x72, 0x0e, 0x58, 0xc1, 0xaa, 0xd8];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectQuery(pub ReadTuplesByObjectParams);
 impl GeneratedQuery for ReadTuplesByObjectQuery {
@@ -1716,7 +2080,7 @@ pub enum ReadTuplesByObjectRelationResult {
     Found(Box<ReadTuplesByObjectRelationFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x10, 0x17, 0xda, 0xb6, 0x40, 0xdc, 0x20, 0x1c, 0x05, 0x1c, 0x27, 0xbf, 0x7a, 0x88, 0x19, 0xdd, 0xf8, 0xeb, 0xe7, 0x41, 0x45, 0x3f, 0xeb, 0xb3, 0xb1, 0xf3, 0x3b, 0x19, 0x2f, 0x08, 0x3c, 0x8a];
+pub const READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x1c, 0x27, 0x63, 0x09, 0xbe, 0xe8, 0x49, 0x0a, 0xd0, 0xd3, 0x8f, 0x95, 0xca, 0xe4, 0x05, 0x99, 0xbf, 0x7e, 0x6e, 0x82, 0x7c, 0xed, 0xf2, 0x54, 0x96, 0x39, 0x15, 0x35, 0xe8, 0xa5, 0x91, 0x39];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectRelationQuery(pub ReadTuplesByObjectRelationParams);
 impl GeneratedQuery for ReadTuplesByObjectRelationQuery {
@@ -1806,7 +2170,7 @@ pub enum ReadTuplesByObjectRelationWithConditionResult {
     Found(Box<ReadTuplesByObjectRelationWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xfd, 0xdf, 0x91, 0x33, 0xc2, 0x25, 0x91, 0x74, 0xe4, 0xfc, 0x1a, 0x31, 0xe1, 0x03, 0x12, 0xdd, 0x66, 0x9b, 0xe0, 0x6b, 0x7d, 0x5a, 0xb8, 0xfc, 0x45, 0x1d, 0x04, 0x3f, 0xff, 0xb9, 0xc5, 0x8a];
+pub const READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xb7, 0x7a, 0x48, 0xfb, 0x37, 0x4e, 0x17, 0x3c, 0xdd, 0x4d, 0xd9, 0xc3, 0xec, 0xd5, 0x4c, 0x06, 0x86, 0x8a, 0xb7, 0xfd, 0xf8, 0x37, 0xe7, 0x03, 0x66, 0x31, 0x39, 0xea, 0xe6, 0xe2, 0xfd, 0x47];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectRelationWithConditionQuery(pub ReadTuplesByObjectRelationWithConditionParams);
 impl GeneratedQuery for ReadTuplesByObjectRelationWithConditionQuery {
@@ -1896,7 +2260,7 @@ pub enum ReadTuplesByObjectUserResult {
     Found(Box<ReadTuplesByObjectUserFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: [u8; 32] = [0x98, 0x9e, 0x65, 0x9b, 0x97, 0xe6, 0x04, 0x37, 0x48, 0x89, 0xed, 0xd2, 0xc4, 0x81, 0x35, 0x38, 0x8d, 0x29, 0x95, 0xd4, 0x66, 0x06, 0xf4, 0xbe, 0xb8, 0xf9, 0x6c, 0xbc, 0x2e, 0x5f, 0xa9, 0x12];
+pub const READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: [u8; 32] = [0xa7, 0x61, 0x54, 0xf2, 0xa8, 0xc0, 0x74, 0x41, 0x65, 0x10, 0x3f, 0xdd, 0xb2, 0x23, 0xe6, 0xa2, 0x92, 0x78, 0x3d, 0xf1, 0xff, 0xde, 0xb3, 0x2d, 0x17, 0x7f, 0x68, 0xe7, 0xcd, 0xf5, 0x53, 0x92];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectUserQuery(pub ReadTuplesByObjectUserParams);
 impl GeneratedQuery for ReadTuplesByObjectUserQuery {
@@ -1986,7 +2350,7 @@ pub enum ReadTuplesByObjectUserWithConditionResult {
     Found(Box<ReadTuplesByObjectUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x7d, 0xff, 0x87, 0x7e, 0x5f, 0x19, 0xa0, 0xba, 0x29, 0x10, 0xa8, 0xdf, 0xbf, 0xa6, 0x46, 0xa5, 0x81, 0xc5, 0xb0, 0x51, 0x0a, 0x2f, 0x43, 0xa9, 0x5b, 0x35, 0x60, 0x39, 0x40, 0xba, 0x4d, 0xc5];
+pub const READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x09, 0x5b, 0x5d, 0x00, 0x32, 0xc1, 0xc7, 0x83, 0xaa, 0xab, 0x94, 0x37, 0x65, 0xe7, 0xfd, 0x3e, 0x06, 0xc4, 0x04, 0x1d, 0xa8, 0x88, 0x5f, 0x3a, 0x32, 0x62, 0x02, 0xf7, 0xfd, 0x7f, 0xdd, 0x6a];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectUserWithConditionQuery(pub ReadTuplesByObjectUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByObjectUserWithConditionQuery {
@@ -2076,7 +2440,7 @@ pub enum ReadTuplesByObjectWithConditionResult {
     Found(Box<ReadTuplesByObjectWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xd4, 0x7f, 0xfa, 0x06, 0x44, 0x6d, 0xe9, 0x3d, 0xa4, 0xb4, 0x5f, 0x28, 0x15, 0xb2, 0x5c, 0x67, 0xf7, 0x80, 0xd2, 0xbc, 0x0d, 0xdf, 0xd3, 0x42, 0x8c, 0x79, 0x63, 0x99, 0x3d, 0xe5, 0x65, 0xc2];
+pub const READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x92, 0xb4, 0xcf, 0x62, 0x54, 0x9c, 0xdd, 0x49, 0x26, 0x53, 0x6c, 0xd0, 0xb8, 0xa3, 0x9f, 0x1b, 0xf2, 0x37, 0xcd, 0x38, 0xce, 0xff, 0x5a, 0x03, 0xa5, 0x1a, 0x77, 0xe5, 0x6b, 0x10, 0x5f, 0x03];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByObjectWithConditionQuery(pub ReadTuplesByObjectWithConditionParams);
 impl GeneratedQuery for ReadTuplesByObjectWithConditionQuery {
@@ -2164,7 +2528,7 @@ pub enum ReadTuplesByRelationUserResult {
     Found(Box<ReadTuplesByRelationUserFound>),
 }
 
-pub const READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0xde, 0x20, 0x87, 0xd7, 0x70, 0x7f, 0x82, 0xc2, 0x12, 0x65, 0xd9, 0x94, 0x28, 0x1a, 0xd4, 0x22, 0x51, 0x86, 0x51, 0xa3, 0xc2, 0xe2, 0x64, 0xec, 0x64, 0xf6, 0x2d, 0xfa, 0x54, 0xed, 0xa2, 0xf3];
+pub const READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0x67, 0x4c, 0x27, 0x7b, 0x9b, 0xdd, 0x00, 0xdd, 0xb3, 0xae, 0xc3, 0x31, 0x97, 0x2d, 0x01, 0x4e, 0x58, 0xd2, 0x3f, 0x36, 0xa2, 0x27, 0x61, 0xbb, 0x2a, 0x80, 0x69, 0x99, 0x2a, 0x0d, 0x90, 0xa3];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByRelationUserQuery(pub ReadTuplesByRelationUserParams);
 impl GeneratedQuery for ReadTuplesByRelationUserQuery {
@@ -2252,7 +2616,7 @@ pub enum ReadTuplesByRelationUserWithConditionResult {
     Found(Box<ReadTuplesByRelationUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xfd, 0x3b, 0x49, 0x78, 0x62, 0xf9, 0xec, 0x3d, 0xd0, 0xbd, 0xf1, 0xc5, 0x8d, 0xee, 0xb1, 0xc7, 0x75, 0x16, 0xfa, 0x79, 0xc4, 0x2d, 0x79, 0x4e, 0xb6, 0x9b, 0x26, 0x78, 0xcc, 0x2c, 0xb0, 0x4c];
+pub const READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xe9, 0x91, 0x77, 0xf0, 0x61, 0x1f, 0xde, 0xd6, 0x78, 0x59, 0x8c, 0x95, 0x64, 0x40, 0xb1, 0x21, 0x04, 0x20, 0x2f, 0x32, 0xb6, 0x63, 0x8b, 0xc4, 0x9d, 0xea, 0x21, 0x48, 0xb3, 0x0a, 0x9a, 0x1b];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByRelationUserWithConditionQuery(pub ReadTuplesByRelationUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByRelationUserWithConditionQuery {
@@ -2339,7 +2703,7 @@ pub enum ReadTuplesByTypeResult {
     Found(Box<ReadTuplesByTypeFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: [u8; 32] = [0x9c, 0xf3, 0xc6, 0x16, 0x0c, 0x86, 0x86, 0x1b, 0x84, 0x3e, 0xb1, 0x26, 0xf2, 0x83, 0xa0, 0xb8, 0x94, 0x63, 0x08, 0x37, 0xb0, 0x54, 0x68, 0x3a, 0xcf, 0x27, 0xb8, 0x95, 0xd4, 0x7d, 0xf0, 0x98];
+pub const READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: [u8; 32] = [0x0c, 0x51, 0x34, 0x33, 0xe5, 0x56, 0xd7, 0xf3, 0xe1, 0xf6, 0x1c, 0x05, 0xa3, 0x91, 0x32, 0xfd, 0x14, 0xcd, 0xc5, 0xa0, 0x86, 0x00, 0x07, 0x67, 0x6d, 0x43, 0x56, 0xa8, 0xa2, 0x00, 0xab, 0x0d];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeQuery(pub ReadTuplesByTypeParams);
 impl GeneratedQuery for ReadTuplesByTypeQuery {
@@ -2425,7 +2789,7 @@ pub enum ReadTuplesByTypeRelationResult {
     Found(Box<ReadTuplesByTypeRelationFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x26, 0x4a, 0x76, 0x2a, 0x06, 0xc1, 0xbf, 0x5a, 0xb0, 0xfe, 0xd6, 0x40, 0x0d, 0x70, 0xb8, 0xc3, 0xea, 0x94, 0xdd, 0x8e, 0x4e, 0x04, 0x81, 0xdc, 0x90, 0xae, 0x25, 0x26, 0xaa, 0xe3, 0x77, 0xda];
+pub const READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0xb2, 0x2b, 0xfc, 0xaa, 0x96, 0x7b, 0x7f, 0x0a, 0x44, 0xef, 0xcb, 0x33, 0x62, 0x0c, 0x27, 0x67, 0xa5, 0x41, 0x21, 0x27, 0xee, 0x4c, 0x1b, 0x35, 0x66, 0xfc, 0x65, 0xa0, 0x04, 0x3c, 0xef, 0xb6];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationQuery(pub ReadTuplesByTypeRelationParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationQuery {
@@ -2513,7 +2877,7 @@ pub enum ReadTuplesByTypeRelationUserResult {
     Found(Box<ReadTuplesByTypeRelationUserFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0x8a, 0x05, 0x24, 0xfc, 0x0b, 0xa3, 0x70, 0x22, 0x7e, 0xa4, 0xe1, 0xfe, 0x98, 0x93, 0x04, 0x50, 0xa6, 0x5d, 0x33, 0x19, 0xda, 0x98, 0x36, 0x9c, 0x22, 0xe5, 0x0b, 0xfe, 0xda, 0xca, 0x99, 0xaa];
+pub const READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: [u8; 32] = [0x1e, 0x2f, 0x3d, 0xfd, 0x1d, 0x49, 0xf4, 0x5b, 0x5d, 0x08, 0xb7, 0x6c, 0x0c, 0xe9, 0x80, 0x81, 0xb0, 0x51, 0x59, 0x39, 0x7c, 0xc9, 0x1e, 0x44, 0xa2, 0x19, 0x3d, 0xdc, 0xbe, 0xb7, 0x42, 0xae];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationUserQuery(pub ReadTuplesByTypeRelationUserParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationUserQuery {
@@ -2603,7 +2967,7 @@ pub enum ReadTuplesByTypeRelationUserWithConditionResult {
     Found(Box<ReadTuplesByTypeRelationUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x2d, 0x52, 0x7a, 0x1e, 0xaa, 0x6f, 0xe5, 0x92, 0x87, 0x9b, 0xbb, 0x6c, 0x69, 0x4c, 0x89, 0x87, 0x1e, 0x67, 0x15, 0xaf, 0x90, 0xdb, 0x99, 0x23, 0x3f, 0x94, 0x40, 0x75, 0x15, 0xd6, 0xa2, 0xb4];
+pub const READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x94, 0xb5, 0xb9, 0xc9, 0x27, 0x30, 0x9b, 0xf7, 0x8b, 0x65, 0x25, 0x22, 0x58, 0xe6, 0xfb, 0xdd, 0x4f, 0x16, 0xac, 0xd3, 0x2d, 0xcc, 0x86, 0xbf, 0x72, 0x88, 0xb5, 0xe0, 0xc3, 0x9d, 0x6d, 0x1c];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationUserWithConditionQuery(pub ReadTuplesByTypeRelationUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationUserWithConditionQuery {
@@ -2693,7 +3057,7 @@ pub enum ReadTuplesByTypeRelationWithConditionResult {
     Found(Box<ReadTuplesByTypeRelationWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xc7, 0x83, 0x6e, 0x73, 0x31, 0x7b, 0xeb, 0x19, 0xfa, 0x9e, 0xcb, 0xac, 0x76, 0xab, 0x1f, 0xc3, 0x94, 0xbb, 0x03, 0x99, 0x4b, 0xfe, 0xb6, 0xad, 0x12, 0x15, 0xbe, 0xc2, 0xab, 0xe7, 0x7a, 0xf5];
+pub const READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xc5, 0xb0, 0x05, 0x63, 0x62, 0xde, 0x67, 0xba, 0x9c, 0xdd, 0xb4, 0x8a, 0xf6, 0x7e, 0xa5, 0xe6, 0xe8, 0x62, 0x18, 0xb7, 0x4b, 0x5c, 0x77, 0x67, 0xc3, 0xf4, 0xeb, 0x5b, 0x00, 0xd9, 0x4c, 0xc8];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeRelationWithConditionQuery(pub ReadTuplesByTypeRelationWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeRelationWithConditionQuery {
@@ -2781,7 +3145,7 @@ pub enum ReadTuplesByTypeUserResult {
     Found(Box<ReadTuplesByTypeUserFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: [u8; 32] = [0x4f, 0xee, 0xf6, 0x7e, 0xff, 0x4a, 0x5a, 0x11, 0x09, 0xe6, 0x57, 0x24, 0x4d, 0x73, 0x58, 0xc1, 0x6e, 0x52, 0x61, 0xc3, 0xc8, 0x9a, 0xbc, 0x5e, 0x45, 0x28, 0x6a, 0xf2, 0xc5, 0xa2, 0xdb, 0x47];
+pub const READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: [u8; 32] = [0x1c, 0xfb, 0xa0, 0xbb, 0x73, 0xa4, 0x45, 0x14, 0xbf, 0xb1, 0x13, 0xf1, 0x00, 0x1c, 0x28, 0xc7, 0xcb, 0x5c, 0xdb, 0x6d, 0xdb, 0x0a, 0x39, 0xb0, 0xcc, 0xa7, 0x95, 0x67, 0x81, 0x3d, 0x8c, 0x60];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeUserQuery(pub ReadTuplesByTypeUserParams);
 impl GeneratedQuery for ReadTuplesByTypeUserQuery {
@@ -2869,7 +3233,7 @@ pub enum ReadTuplesByTypeUserWithConditionResult {
     Found(Box<ReadTuplesByTypeUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x9c, 0x6e, 0x90, 0xcd, 0x8c, 0x59, 0x4f, 0x27, 0x5d, 0x8e, 0xba, 0x34, 0xfc, 0xf0, 0x37, 0xac, 0x67, 0xfa, 0xa2, 0xde, 0x41, 0x8a, 0x8d, 0x98, 0x21, 0xf7, 0xcb, 0x72, 0xb5, 0xbc, 0xee, 0x1c];
+pub const READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xd9, 0x4c, 0xdf, 0x09, 0x61, 0xba, 0x51, 0xcd, 0x63, 0xb2, 0x0d, 0xe6, 0xa5, 0x86, 0x1f, 0x70, 0xba, 0xde, 0x55, 0xf7, 0xae, 0x9b, 0xe7, 0x50, 0x51, 0x48, 0x38, 0xad, 0x5b, 0xfd, 0x8e, 0x7a];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeUserWithConditionQuery(pub ReadTuplesByTypeUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeUserWithConditionQuery {
@@ -2957,7 +3321,7 @@ pub enum ReadTuplesByTypeWithConditionResult {
     Found(Box<ReadTuplesByTypeWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x44, 0x4f, 0x21, 0xf8, 0xeb, 0xa4, 0x9d, 0x43, 0x8f, 0x01, 0x84, 0xf1, 0xe0, 0x44, 0xf1, 0xb2, 0x53, 0x44, 0x82, 0x25, 0xd5, 0xec, 0x42, 0x37, 0x31, 0x96, 0xd1, 0x50, 0x56, 0xa3, 0xdb, 0x0b];
+pub const READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xbb, 0x6e, 0x73, 0xd3, 0x0d, 0x3e, 0x99, 0x10, 0x82, 0xf6, 0x54, 0x76, 0x70, 0x28, 0x54, 0x1a, 0x60, 0x0d, 0x6b, 0x36, 0x4b, 0x19, 0x43, 0xa1, 0x8d, 0x1f, 0x7c, 0x9b, 0x50, 0xf3, 0xa9, 0x05];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByTypeWithConditionQuery(pub ReadTuplesByTypeWithConditionParams);
 impl GeneratedQuery for ReadTuplesByTypeWithConditionQuery {
@@ -3043,7 +3407,7 @@ pub enum ReadTuplesByUserResult {
     Found(Box<ReadTuplesByUserFound>),
 }
 
-pub const READ_TUPLES_BY_USER_QUERY_PLAN_HASH: [u8; 32] = [0x3a, 0x2a, 0x0b, 0x39, 0x59, 0x51, 0xdc, 0x2c, 0xc3, 0x2d, 0x9e, 0xa6, 0x49, 0x9b, 0xea, 0x2d, 0x73, 0x07, 0x2f, 0x2e, 0x6e, 0xa8, 0xf5, 0x62, 0x60, 0x07, 0xf7, 0xc4, 0x08, 0x8e, 0x1b, 0x82];
+pub const READ_TUPLES_BY_USER_QUERY_PLAN_HASH: [u8; 32] = [0xb8, 0x2d, 0x6d, 0xd7, 0xa2, 0xb3, 0x54, 0xf8, 0x18, 0xa6, 0xcf, 0xcf, 0x3f, 0xeb, 0xf7, 0x80, 0xba, 0x24, 0x1b, 0xac, 0x3f, 0xcb, 0x9d, 0x7e, 0x0a, 0x8c, 0x15, 0x3b, 0x53, 0xfd, 0x68, 0x30];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByUserQuery(pub ReadTuplesByUserParams);
 impl GeneratedQuery for ReadTuplesByUserQuery {
@@ -3129,7 +3493,7 @@ pub enum ReadTuplesByUserWithConditionResult {
     Found(Box<ReadTuplesByUserWithConditionFound>),
 }
 
-pub const READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xbb, 0x72, 0x3a, 0xde, 0x54, 0x34, 0xd1, 0xf8, 0x53, 0x30, 0x61, 0x8c, 0xb4, 0xdb, 0x5b, 0xc5, 0xf0, 0x49, 0xe7, 0x74, 0xa7, 0x50, 0x2b, 0x4e, 0xfe, 0x51, 0x26, 0x62, 0x20, 0x46, 0xbf, 0x0c];
+pub const READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xe9, 0xd8, 0xf9, 0x07, 0x29, 0x54, 0x82, 0xe0, 0xd1, 0x78, 0xf7, 0x1d, 0x53, 0x06, 0x60, 0x63, 0x57, 0x27, 0x51, 0xba, 0x48, 0xe0, 0x88, 0x6b, 0xa4, 0x58, 0x6e, 0x7c, 0xfd, 0x06, 0x3f, 0x4b];
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ReadTuplesByUserWithConditionQuery(pub ReadTuplesByUserWithConditionParams);
 impl GeneratedQuery for ReadTuplesByUserWithConditionQuery {
@@ -3174,6 +3538,382 @@ impl GeneratedQuery for ReadTuplesByUserWithConditionQuery {
 
 fn decode_read_tuples_by_user_with_condition_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadTuplesByUserWithConditionFoundTuples, ApplicationClientError> {
     let value = ReadTuplesByUserWithConditionFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user_kind: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindFound {
+    pub tuples: Vec<ReadUsersetByKindFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadUsersetByKindResult {
+    Found(Box<ReadUsersetByKindFound>),
+}
+
+pub const READ_USERSET_BY_KIND_QUERY_PLAN_HASH: [u8; 32] = [0xaf, 0x6e, 0xd9, 0x1f, 0x00, 0x69, 0xb2, 0x3b, 0xb4, 0xce, 0xfb, 0xfb, 0xfa, 0xf7, 0x09, 0x51, 0x38, 0xd9, 0x0b, 0x96, 0x09, 0x38, 0x9b, 0xab, 0x2e, 0x9a, 0x16, 0xb2, 0xf2, 0x0b, 0x6f, 0xe4];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindQuery(pub ReadUsersetByKindParams);
+impl GeneratedQuery for ReadUsersetByKindQuery {
+    type Output = ReadUsersetByKindResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadUsersetByKind",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_USERSET_BY_KIND_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadUsersetByKindFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_userset_by_kind_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadUsersetByKindResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_userset_by_kind_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadUsersetByKindFoundTuples, ApplicationClientError> {
+    let value = ReadUsersetByKindFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user_kind: String,
+    pub user_object_type: String,
+    pub user_relation: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationFound {
+    pub tuples: Vec<ReadUsersetByKindTypeRelationFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadUsersetByKindTypeRelationResult {
+    Found(Box<ReadUsersetByKindTypeRelationFound>),
+}
+
+pub const READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: [u8; 32] = [0x64, 0xad, 0xb1, 0x7a, 0x14, 0x48, 0x7b, 0xf6, 0x78, 0x57, 0xca, 0x12, 0xdd, 0xbd, 0xf2, 0x35, 0x02, 0x18, 0x96, 0xd3, 0x3c, 0xe8, 0xeb, 0xf8, 0x06, 0xc9, 0x42, 0xaf, 0x98, 0x3a, 0x92, 0xf1];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationQuery(pub ReadUsersetByKindTypeRelationParams);
+impl GeneratedQuery for ReadUsersetByKindTypeRelationQuery {
+    type Output = ReadUsersetByKindTypeRelationResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
+        parameters.insert("user_object_type".to_owned(), ApplicationValue::String(self.0.user_object_type));
+        parameters.insert("user_relation".to_owned(), ApplicationValue::String(self.0.user_relation));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadUsersetByKindTypeRelation",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadUsersetByKindTypeRelationFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_userset_by_kind_type_relation_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadUsersetByKindTypeRelationResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_userset_by_kind_type_relation_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadUsersetByKindTypeRelationFoundTuples, ApplicationClientError> {
+    let value = ReadUsersetByKindTypeRelationFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationWithConditionParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user_kind: String,
+    pub user_object_type: String,
+    pub user_relation: String,
+    pub condition: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationWithConditionFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationWithConditionFound {
+    pub tuples: Vec<ReadUsersetByKindTypeRelationWithConditionFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadUsersetByKindTypeRelationWithConditionResult {
+    Found(Box<ReadUsersetByKindTypeRelationWithConditionFound>),
+}
+
+pub const READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0x99, 0x4e, 0x55, 0x97, 0x65, 0xe5, 0x76, 0x5a, 0xb7, 0x49, 0xfc, 0x43, 0xae, 0x44, 0x41, 0x82, 0x50, 0xe1, 0x07, 0xc9, 0x2c, 0x58, 0xc3, 0xd9, 0xa4, 0xcb, 0x07, 0x30, 0xd2, 0x36, 0x15, 0x54];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindTypeRelationWithConditionQuery(pub ReadUsersetByKindTypeRelationWithConditionParams);
+impl GeneratedQuery for ReadUsersetByKindTypeRelationWithConditionQuery {
+    type Output = ReadUsersetByKindTypeRelationWithConditionResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
+        parameters.insert("user_object_type".to_owned(), ApplicationValue::String(self.0.user_object_type));
+        parameters.insert("user_relation".to_owned(), ApplicationValue::String(self.0.user_relation));
+        parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadUsersetByKindTypeRelationWithCondition",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadUsersetByKindTypeRelationWithConditionFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_userset_by_kind_type_relation_with_condition_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadUsersetByKindTypeRelationWithConditionResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_userset_by_kind_type_relation_with_condition_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadUsersetByKindTypeRelationWithConditionFoundTuples, ApplicationClientError> {
+    let value = ReadUsersetByKindTypeRelationWithConditionFoundTuples {
+        object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
+        object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
+        relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
+        user: application_string(take_application_value(&mut record.fields, "user")?)?,
+        condition_key: application_string(take_application_value(&mut record.fields, "condition_key")?)?,
+        condition_context: match take_application_value(&mut record.fields, "condition_context")? { ApplicationValue::Null => None, value => Some(application_bytes(value)?) },
+        inserted_at: application_timestamp(take_application_value(&mut record.fields, "inserted_at")?)?,
+    };
+    if !record.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+    Ok(value)
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindWithConditionParams {
+    pub store_id: String,
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user_kind: String,
+    pub condition: String,
+    pub limit: u64,
+    pub after: Option<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindWithConditionFoundTuples {
+    pub object_type: String,
+    pub object_id: String,
+    pub relation: String,
+    pub user: String,
+    pub condition_key: String,
+    pub condition_context: Option<Vec<u8>>,
+    pub inserted_at: TimestampValue,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindWithConditionFound {
+    pub tuples: Vec<ReadUsersetByKindWithConditionFoundTuples>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum ReadUsersetByKindWithConditionResult {
+    Found(Box<ReadUsersetByKindWithConditionFound>),
+}
+
+pub const READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: [u8; 32] = [0xe8, 0x2d, 0x77, 0x17, 0x58, 0xad, 0x86, 0xe5, 0x2c, 0xc1, 0x30, 0x62, 0x6b, 0x61, 0x8a, 0xb7, 0xc9, 0x2d, 0x92, 0x11, 0xcb, 0x98, 0xc6, 0xce, 0xc3, 0x4c, 0x83, 0xe7, 0x6d, 0x5e, 0xcc, 0x3f];
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ReadUsersetByKindWithConditionQuery(pub ReadUsersetByKindWithConditionParams);
+impl GeneratedQuery for ReadUsersetByKindWithConditionQuery {
+    type Output = ReadUsersetByKindWithConditionResult;
+
+    fn named_query(self, options: QueryOptions) -> Result<NamedQuery, ApplicationClientError> {
+        let mut parameters = BTreeMap::new();
+        if self.0.limit == 0 || self.0.limit > 50 { return Err(ApplicationClientError::InvalidInput); }
+        let generated_cursor = self.0.after;
+        parameters.insert("store_id".to_owned(), ApplicationValue::String(self.0.store_id));
+        parameters.insert("object_type".to_owned(), ApplicationValue::String(self.0.object_type));
+        parameters.insert("object_id".to_owned(), ApplicationValue::String(self.0.object_id));
+        parameters.insert("relation".to_owned(), ApplicationValue::String(self.0.relation));
+        parameters.insert("user_kind".to_owned(), ApplicationValue::String(self.0.user_kind));
+        parameters.insert("condition".to_owned(), ApplicationValue::String(self.0.condition));
+        parameters.insert("limit".to_owned(), ApplicationValue::U64(self.0.limit));
+        let options = options.with_generated_cursor(generated_cursor)?;
+        NamedQuery::new(
+            ApplicationContract::Exact {
+                lineage: CONTRACT_LINEAGE.to_owned(),
+                version: CONTRACT_VERSION,
+                bundle_hash: Some(CONTRACT_BUNDLE_HASH),
+            },
+            "ReadUsersetByKindWithCondition",
+            Some(QUERY_MODULE_HASH),
+            parameters,
+            None,
+        )?.expect_plan_hash(READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH).with_options(options)
+    }
+
+    fn decode_result(mut response: NamedQueryResult) -> Result<Self::Output, ApplicationClientError> {
+        let outcome = response.outcome.clone();
+        match outcome.as_str() {
+            "Found" => {
+                let decoded = ReadUsersetByKindWithConditionFound {
+                    tuples: many_result_records(take_result_field(&mut response.fields, "tuples")?)?.into_iter().map(decode_read_userset_by_kind_with_condition_found_tuples_record).collect::<Result<Vec<_>, _>>()?,
+                };
+                if !response.fields.is_empty() { return Err(ApplicationClientError::InvalidResponse); }
+                Ok(ReadUsersetByKindWithConditionResult::Found(Box::new(decoded)))
+            },
+            _ => Err(ApplicationClientError::InvalidResponse),
+        }
+    }
+}
+
+fn decode_read_userset_by_kind_with_condition_found_tuples_record(mut record: ApplicationRecord) -> Result<ReadUsersetByKindWithConditionFoundTuples, ApplicationClientError> {
+    let value = ReadUsersetByKindWithConditionFoundTuples {
         object_type: application_string(take_application_value(&mut record.fields, "object_type")?)?,
         object_id: application_string(take_application_value(&mut record.fields, "object_id")?)?,
         relation: application_string(take_application_value(&mut record.fields, "relation")?)?,
@@ -3499,7 +4239,7 @@ pub enum ApplyTupleMutationsOutcome {
     TupleChangeAlreadyExists,
 }
 
-const APPLY_TUPLE_MUTATIONS_PLAN_HASH: [u8; 32] = [0x3a, 0x3a, 0x8f, 0x4a, 0x8e, 0x76, 0x8d, 0xa6, 0x55, 0x8b, 0xa1, 0x76, 0x4a, 0x7f, 0xba, 0xe8, 0xfe, 0x32, 0xf8, 0xb6, 0x92, 0xd0, 0xfa, 0x49, 0xd1, 0x4d, 0x28, 0xd9, 0x86, 0xa8, 0x44, 0xee];
+const APPLY_TUPLE_MUTATIONS_PLAN_HASH: [u8; 32] = [0x37, 0x42, 0x17, 0x07, 0x20, 0xe3, 0x25, 0x8e, 0xc2, 0x56, 0x93, 0xe0, 0x88, 0xd8, 0xbd, 0x72, 0x99, 0x66, 0xc5, 0x13, 0xe2, 0xd9, 0xd4, 0x4a, 0xe1, 0x89, 0x38, 0xa5, 0x8f, 0x3e, 0xa3, 0x32];
 impl GeneratedCommand for ApplyTupleMutationsInput {
     type Outcome = ApplyTupleMutationsOutcome;
 
@@ -3787,7 +4527,7 @@ pub enum WriteAuthorizationModelOutcome {
     ModelAlreadyExists,
 }
 
-const WRITE_AUTHORIZATION_MODEL_PLAN_HASH: [u8; 32] = [0x10, 0x1c, 0x1b, 0xb9, 0x02, 0xfc, 0x33, 0x4e, 0x30, 0xf7, 0x3f, 0x6c, 0xea, 0xd8, 0x30, 0xf5, 0x54, 0x4b, 0x52, 0xa0, 0xfb, 0x2d, 0xb4, 0xa0, 0xf5, 0xea, 0xdb, 0x62, 0xe5, 0x9c, 0x70, 0x1c];
+const WRITE_AUTHORIZATION_MODEL_PLAN_HASH: [u8; 32] = [0xe3, 0xc0, 0x77, 0xb2, 0x73, 0x94, 0x48, 0xce, 0x09, 0x2d, 0x95, 0xa8, 0x95, 0x78, 0xb3, 0x84, 0xa7, 0x39, 0x58, 0xf2, 0xdc, 0x7a, 0x6f, 0xdd, 0x4f, 0x19, 0xeb, 0xc3, 0x50, 0x5f, 0x41, 0x5a];
 impl GeneratedCommand for WriteAuthorizationModelInput {
     type Outcome = WriteAuthorizationModelOutcome;
 
@@ -4053,6 +4793,58 @@ impl RiffDBOpenFGAClient {
         self.client.execute_generated_query(ReadChangesDescQuery(parameters), options, &self.metadata).await
     }
 
+    /// Executes the generated `ReadStartingWithUser` named query.
+    pub async fn read_starting_with_user(&mut self, parameters: ReadStartingWithUserParams) -> Result<ReadStartingWithUserResult, ApplicationClientError> {
+        Ok(self.read_starting_with_user_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadStartingWithUser` against a snapshot at or after the supplied command commit.
+    pub async fn read_starting_with_user_after_commit(&mut self, parameters: ReadStartingWithUserParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadStartingWithUserResult>, ApplicationClientError> {
+        self.read_starting_with_user_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadStartingWithUser` with generated pagination or read-fence options.
+    pub async fn read_starting_with_user_with_options(&mut self, parameters: ReadStartingWithUserParams, options: QueryOptions) -> Result<TypedQueryResult<ReadStartingWithUserResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadStartingWithUserQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadStartingWithUserAndObjects` named query.
+    pub async fn read_starting_with_user_and_objects(&mut self, parameters: ReadStartingWithUserAndObjectsParams) -> Result<ReadStartingWithUserAndObjectsResult, ApplicationClientError> {
+        Ok(self.read_starting_with_user_and_objects_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadStartingWithUserAndObjects` against a snapshot at or after the supplied command commit.
+    pub async fn read_starting_with_user_and_objects_after_commit(&mut self, parameters: ReadStartingWithUserAndObjectsParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadStartingWithUserAndObjectsResult>, ApplicationClientError> {
+        self.read_starting_with_user_and_objects_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadStartingWithUserAndObjects` with generated pagination or read-fence options.
+    pub async fn read_starting_with_user_and_objects_with_options(&mut self, parameters: ReadStartingWithUserAndObjectsParams, options: QueryOptions) -> Result<TypedQueryResult<ReadStartingWithUserAndObjectsResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadStartingWithUserAndObjectsQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadStartingWithUserObjectsCondition` named query.
+    pub async fn read_starting_with_user_objects_condition(&mut self, parameters: ReadStartingWithUserObjectsConditionParams) -> Result<ReadStartingWithUserObjectsConditionResult, ApplicationClientError> {
+        Ok(self.read_starting_with_user_objects_condition_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadStartingWithUserObjectsCondition` against a snapshot at or after the supplied command commit.
+    pub async fn read_starting_with_user_objects_condition_after_commit(&mut self, parameters: ReadStartingWithUserObjectsConditionParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadStartingWithUserObjectsConditionResult>, ApplicationClientError> {
+        self.read_starting_with_user_objects_condition_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadStartingWithUserObjectsCondition` with generated pagination or read-fence options.
+    pub async fn read_starting_with_user_objects_condition_with_options(&mut self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions) -> Result<TypedQueryResult<ReadStartingWithUserObjectsConditionResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadStartingWithUserObjectsConditionQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadStartingWithUserWithCondition` named query.
+    pub async fn read_starting_with_user_with_condition(&mut self, parameters: ReadStartingWithUserWithConditionParams) -> Result<ReadStartingWithUserWithConditionResult, ApplicationClientError> {
+        Ok(self.read_starting_with_user_with_condition_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadStartingWithUserWithCondition` against a snapshot at or after the supplied command commit.
+    pub async fn read_starting_with_user_with_condition_after_commit(&mut self, parameters: ReadStartingWithUserWithConditionParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadStartingWithUserWithConditionResult>, ApplicationClientError> {
+        self.read_starting_with_user_with_condition_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadStartingWithUserWithCondition` with generated pagination or read-fence options.
+    pub async fn read_starting_with_user_with_condition_with_options(&mut self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions) -> Result<TypedQueryResult<ReadStartingWithUserWithConditionResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadStartingWithUserWithConditionQuery(parameters), options, &self.metadata).await
+    }
+
     /// Executes the generated `ReadTupleExact` named query.
     pub async fn read_tuple_exact(&mut self, parameters: ReadTupleExactParams) -> Result<ReadTupleExactResult, ApplicationClientError> {
         Ok(self.read_tuple_exact_with_options(parameters, QueryOptions::new()).await?.value)
@@ -4311,6 +5103,58 @@ impl RiffDBOpenFGAClient {
     /// Executes `ReadTuplesByUserWithCondition` with generated pagination or read-fence options.
     pub async fn read_tuples_by_user_with_condition_with_options(&mut self, parameters: ReadTuplesByUserWithConditionParams, options: QueryOptions) -> Result<TypedQueryResult<ReadTuplesByUserWithConditionResult>, ApplicationClientError> {
         self.client.execute_generated_query(ReadTuplesByUserWithConditionQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadUsersetByKind` named query.
+    pub async fn read_userset_by_kind(&mut self, parameters: ReadUsersetByKindParams) -> Result<ReadUsersetByKindResult, ApplicationClientError> {
+        Ok(self.read_userset_by_kind_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadUsersetByKind` against a snapshot at or after the supplied command commit.
+    pub async fn read_userset_by_kind_after_commit(&mut self, parameters: ReadUsersetByKindParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadUsersetByKindResult>, ApplicationClientError> {
+        self.read_userset_by_kind_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadUsersetByKind` with generated pagination or read-fence options.
+    pub async fn read_userset_by_kind_with_options(&mut self, parameters: ReadUsersetByKindParams, options: QueryOptions) -> Result<TypedQueryResult<ReadUsersetByKindResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadUsersetByKindQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadUsersetByKindTypeRelation` named query.
+    pub async fn read_userset_by_kind_type_relation(&mut self, parameters: ReadUsersetByKindTypeRelationParams) -> Result<ReadUsersetByKindTypeRelationResult, ApplicationClientError> {
+        Ok(self.read_userset_by_kind_type_relation_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadUsersetByKindTypeRelation` against a snapshot at or after the supplied command commit.
+    pub async fn read_userset_by_kind_type_relation_after_commit(&mut self, parameters: ReadUsersetByKindTypeRelationParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadUsersetByKindTypeRelationResult>, ApplicationClientError> {
+        self.read_userset_by_kind_type_relation_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadUsersetByKindTypeRelation` with generated pagination or read-fence options.
+    pub async fn read_userset_by_kind_type_relation_with_options(&mut self, parameters: ReadUsersetByKindTypeRelationParams, options: QueryOptions) -> Result<TypedQueryResult<ReadUsersetByKindTypeRelationResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadUsersetByKindTypeRelationQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadUsersetByKindTypeRelationWithCondition` named query.
+    pub async fn read_userset_by_kind_type_relation_with_condition(&mut self, parameters: ReadUsersetByKindTypeRelationWithConditionParams) -> Result<ReadUsersetByKindTypeRelationWithConditionResult, ApplicationClientError> {
+        Ok(self.read_userset_by_kind_type_relation_with_condition_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadUsersetByKindTypeRelationWithCondition` against a snapshot at or after the supplied command commit.
+    pub async fn read_userset_by_kind_type_relation_with_condition_after_commit(&mut self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadUsersetByKindTypeRelationWithConditionResult>, ApplicationClientError> {
+        self.read_userset_by_kind_type_relation_with_condition_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadUsersetByKindTypeRelationWithCondition` with generated pagination or read-fence options.
+    pub async fn read_userset_by_kind_type_relation_with_condition_with_options(&mut self, parameters: ReadUsersetByKindTypeRelationWithConditionParams, options: QueryOptions) -> Result<TypedQueryResult<ReadUsersetByKindTypeRelationWithConditionResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadUsersetByKindTypeRelationWithConditionQuery(parameters), options, &self.metadata).await
+    }
+
+    /// Executes the generated `ReadUsersetByKindWithCondition` named query.
+    pub async fn read_userset_by_kind_with_condition(&mut self, parameters: ReadUsersetByKindWithConditionParams) -> Result<ReadUsersetByKindWithConditionResult, ApplicationClientError> {
+        Ok(self.read_userset_by_kind_with_condition_with_options(parameters, QueryOptions::new()).await?.value)
+    }
+    /// Executes `ReadUsersetByKindWithCondition` against a snapshot at or after the supplied command commit.
+    pub async fn read_userset_by_kind_with_condition_after_commit(&mut self, parameters: ReadUsersetByKindWithConditionParams, commit_sequence: u64) -> Result<TypedQueryResult<ReadUsersetByKindWithConditionResult>, ApplicationClientError> {
+        self.read_userset_by_kind_with_condition_with_options(parameters, QueryOptions::new().read_after_commit(commit_sequence)).await
+    }
+    /// Executes `ReadUsersetByKindWithCondition` with generated pagination or read-fence options.
+    pub async fn read_userset_by_kind_with_condition_with_options(&mut self, parameters: ReadUsersetByKindWithConditionParams, options: QueryOptions) -> Result<TypedQueryResult<ReadUsersetByKindWithConditionResult>, ApplicationClientError> {
+        self.client.execute_generated_query(ReadUsersetByKindWithConditionQuery(parameters), options, &self.metadata).await
     }
 
     pub async fn apply_tuple_mutations(&mut self, input: ApplyTupleMutationsInput) -> Result<TypedCommandResult<ApplyTupleMutationsOutcome>, ApplicationClientError> {

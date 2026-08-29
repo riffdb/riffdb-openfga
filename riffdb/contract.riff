@@ -103,6 +103,24 @@ contract RiffDBOpenFGA version 1 {
       store_id, active, condition_key, relation, user, object_type, object_id
     ) text_key(object_type, binary_utf8_v1)
       text_key(object_id, binary_utf8_v1)
+    index reverse_by_user (
+      store_id, active, object_type, relation, user, object_id
+    ) text_key(object_id, binary_utf8_v1)
+    index userset_by_type (
+      store_id, active, object_type, object_id, relation,
+      user_kind, user_object_type, user_relation, user
+    ) text_key(user_object_type, binary_utf8_v1)
+      text_key(user_relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
+    index userset_by_condition (
+      store_id, active, condition_key, object_type, object_id, relation,
+      user_kind, user_object_type, user_relation, user
+    ) text_key(user_object_type, binary_utf8_v1)
+      text_key(user_relation, binary_utf8_v1)
+      text_key(user, binary_utf8_v1)
+    index reverse_by_condition (
+      store_id, active, condition_key, object_type, relation, user, object_id
+    ) text_key(object_id, binary_utf8_v1)
   }
 
   entity TupleChange {
