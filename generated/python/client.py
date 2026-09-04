@@ -25,6 +25,18 @@ CONTRACT_VERSION: Final[int] = 1
 CONTRACT_BUNDLE_HASH: Final[str] = "672eaaa03ff556e01dfc30f568815ade5262e6d3d9fcf2b7bb84fc92def0e27a"
 QUERY_MODULE_HASH: Final[str] = "137ef6b9f12655f296898699efc32388ad5054218c23f62d4703d5bbda5c3810"
 
+COLLECTION_COUNT: Final[str] = "collection_count"
+INDIVIDUAL_VALUE_BYTES: Final[str] = "individual_value_bytes"
+AGGREGATE_CANONICAL_ELEMENT_BYTES: Final[str] = "aggregate_canonical_element_bytes"
+
+class InputBudgetError(ValueError):
+    def __init__(self, cause: str, collection: str, index: int | None = None, leaf: str | None = None) -> None:
+        self.cause = cause
+        self.collection = collection
+        self.index = index
+        self.leaf = leaf
+        super().__init__("generated command input exceeds its compiled budget")
+
 class TupleOperation(StrEnum):
     WRITE = "Write"
     DELETE = "Delete"
@@ -2326,10 +2338,35 @@ class RiffDBOpenFGAClient:
 
     def apply_tuple_mutations(self, input: ApplyTupleMutationsInput) -> TypedCommandResult[ApplyTupleMutationsOutcome]:
         if not 1 <= len(input.mutations) <= 100:
-            raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+            raise InputBudgetError(COLLECTION_COUNT, "mutations")
+        for index, item in enumerate(input.mutations):
+            if len(item.user.encode("utf-8")) > 512:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user")
+            if len(item.relation.encode("utf-8")) > 50:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "relation")
+            if len(item.store_id.encode("utf-8")) > 26:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "store_id")
+            if len(item.change_id.encode("utf-8")) > 26:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "change_id")
+            if len(item.object_id.encode("utf-8")) > 256:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_id")
+            if len(item.user_kind.encode("utf-8")) > 7:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_kind")
+            if len(item.object_type.encode("utf-8")) > 128:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_type")
+            if len(item.condition_key.encode("utf-8")) > 256:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_key")
+            if len(item.user_relation.encode("utf-8")) > 50:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_relation")
+            if len(item.user_object_id.encode("utf-8")) > 256:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_id")
+            if len(item.user_object_type.encode("utf-8")) > 128:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_type")
+            if item.condition_context is not None and len(item.condition_context) > 32768:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_context")
         aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
         if aggregate_element_bytes > 900000:
-            raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
+            raise InputBudgetError(AGGREGATE_CANONICAL_ELEMENT_BYTES, "mutations")
         raw = self._transport._execute_command(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             command_name="ApplyTupleMutations", plan_hash=APPLY_TUPLE_MUTATIONS_PLAN_HASH,
@@ -2347,11 +2384,37 @@ class RiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[ApplyTupleMutationsOutcome]:
         for input in inputs:
+
             if not 1 <= len(input.mutations) <= 100:
-                raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+                raise InputBudgetError(COLLECTION_COUNT, "mutations")
+            for index, item in enumerate(input.mutations):
+                if len(item.user.encode("utf-8")) > 512:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user")
+                if len(item.relation.encode("utf-8")) > 50:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "relation")
+                if len(item.store_id.encode("utf-8")) > 26:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "store_id")
+                if len(item.change_id.encode("utf-8")) > 26:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "change_id")
+                if len(item.object_id.encode("utf-8")) > 256:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_id")
+                if len(item.user_kind.encode("utf-8")) > 7:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_kind")
+                if len(item.object_type.encode("utf-8")) > 128:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_type")
+                if len(item.condition_key.encode("utf-8")) > 256:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_key")
+                if len(item.user_relation.encode("utf-8")) > 50:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_relation")
+                if len(item.user_object_id.encode("utf-8")) > 256:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_id")
+                if len(item.user_object_type.encode("utf-8")) > 128:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_type")
+                if item.condition_context is not None and len(item.condition_context) > 32768:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_context")
             aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
             if aggregate_element_bytes > 900000:
-                raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
+                raise InputBudgetError(AGGREGATE_CANONICAL_ELEMENT_BYTES, "mutations")
         return self._transport._command_batch(inputs, options, self.apply_tuple_mutations, progress)
 
     def create_assertion_set(self, input: CreateAssertionSetInput) -> TypedCommandResult[CreateAssertionSetOutcome]:
@@ -3320,10 +3383,35 @@ class AsyncRiffDBOpenFGAClient:
 
     async def apply_tuple_mutations(self, input: ApplyTupleMutationsInput) -> TypedCommandResult[ApplyTupleMutationsOutcome]:
         if not 1 <= len(input.mutations) <= 100:
-            raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+            raise InputBudgetError(COLLECTION_COUNT, "mutations")
+        for index, item in enumerate(input.mutations):
+            if len(item.user.encode("utf-8")) > 512:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user")
+            if len(item.relation.encode("utf-8")) > 50:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "relation")
+            if len(item.store_id.encode("utf-8")) > 26:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "store_id")
+            if len(item.change_id.encode("utf-8")) > 26:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "change_id")
+            if len(item.object_id.encode("utf-8")) > 256:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_id")
+            if len(item.user_kind.encode("utf-8")) > 7:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_kind")
+            if len(item.object_type.encode("utf-8")) > 128:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_type")
+            if len(item.condition_key.encode("utf-8")) > 256:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_key")
+            if len(item.user_relation.encode("utf-8")) > 50:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_relation")
+            if len(item.user_object_id.encode("utf-8")) > 256:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_id")
+            if len(item.user_object_type.encode("utf-8")) > 128:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_type")
+            if item.condition_context is not None and len(item.condition_context) > 32768:
+                raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_context")
         aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
         if aggregate_element_bytes > 900000:
-            raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
+            raise InputBudgetError(AGGREGATE_CANONICAL_ELEMENT_BYTES, "mutations")
         raw = await self._transport._execute_command(
             contract_lineage=CONTRACT_LINEAGE, contract_version=CONTRACT_VERSION,
             command_name="ApplyTupleMutations", plan_hash=APPLY_TUPLE_MUTATIONS_PLAN_HASH,
@@ -3341,11 +3429,37 @@ class AsyncRiffDBOpenFGAClient:
         progress: Callable[[CommandBatchProgress], None] | None = None,
     ) -> CommandBatchResult[ApplyTupleMutationsOutcome]:
         for input in inputs:
+
             if not 1 <= len(input.mutations) <= 100:
-                raise ValueError("invalid bounded collection length for ApplyTupleMutations.mutations")
+                raise InputBudgetError(COLLECTION_COUNT, "mutations")
+            for index, item in enumerate(input.mutations):
+                if len(item.user.encode("utf-8")) > 512:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user")
+                if len(item.relation.encode("utf-8")) > 50:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "relation")
+                if len(item.store_id.encode("utf-8")) > 26:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "store_id")
+                if len(item.change_id.encode("utf-8")) > 26:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "change_id")
+                if len(item.object_id.encode("utf-8")) > 256:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_id")
+                if len(item.user_kind.encode("utf-8")) > 7:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_kind")
+                if len(item.object_type.encode("utf-8")) > 128:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "object_type")
+                if len(item.condition_key.encode("utf-8")) > 256:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_key")
+                if len(item.user_relation.encode("utf-8")) > 50:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_relation")
+                if len(item.user_object_id.encode("utf-8")) > 256:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_id")
+                if len(item.user_object_type.encode("utf-8")) > 128:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "user_object_type")
+                if item.condition_context is not None and len(item.condition_context) > 32768:
+                    raise InputBudgetError(INDIVIDUAL_VALUE_BYTES, "mutations", index, "condition_context")
             aggregate_element_bytes = sum(canonical_value_encoded_length(encode_value(item, TupleMutationInput)) for item in input.mutations)
             if aggregate_element_bytes > 900000:
-                raise ValueError("invalid aggregate collection bytes for ApplyTupleMutations.mutations")
+                raise InputBudgetError(AGGREGATE_CANONICAL_ELEMENT_BYTES, "mutations")
         return await self._transport._command_batch(inputs, options, self.apply_tuple_mutations, progress)
 
     async def create_assertion_set(self, input: CreateAssertionSetInput) -> TypedCommandResult[CreateAssertionSetOutcome]:

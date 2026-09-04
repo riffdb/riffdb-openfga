@@ -4245,12 +4245,28 @@ impl GeneratedCommand for ApplyTupleMutationsInput {
 
     fn idempotent_command(&self) -> Result<IdempotentCommand, GeneratedCommandError> {
 
-        if self.mutations.is_empty() || self.mutations.len() > 100 { return Err(GeneratedCommandError::InvalidInputShape); }
+        if self.mutations.is_empty() || self.mutations.len() > 100 { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::CollectionCount, "mutations", None, None)); }
+
+        for (index, value) in self.mutations.iter().enumerate() {
+            if value.user.len() > 512usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("user"))); }
+            if value.relation.len() > 50usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("relation"))); }
+            if value.store_id.len() > 26usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("store_id"))); }
+            if value.change_id.len() > 26usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("change_id"))); }
+            if value.object_id.len() > 256usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("object_id"))); }
+            if value.user_kind.len() > 7usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("user_kind"))); }
+            if value.object_type.len() > 128usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("object_type"))); }
+            if value.condition_key.len() > 256usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("condition_key"))); }
+            if value.user_relation.len() > 50usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("user_relation"))); }
+            if value.user_object_id.len() > 256usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("user_object_id"))); }
+            if value.user_object_type.len() > 128usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("user_object_type"))); }
+            if let Some(leaf) = value.condition_context.as_ref() && leaf.len() > 32768usize { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::IndividualValueBytes, "mutations", Some(index), Some("condition_context"))); }
+        }
+
         let mut aggregate_element_bytes = 0usize;
         for value in &self.mutations {
             let encoded = encode_tuple_mutation_input_entity(value)?;
-            aggregate_element_bytes = aggregate_element_bytes.checked_add(wire_canonical_value_encoded_len(&encoded)?).ok_or(GeneratedCommandError::InvalidInputShape)?;
-            if aggregate_element_bytes > 900000 { return Err(GeneratedCommandError::InvalidInputShape); }
+            aggregate_element_bytes = aggregate_element_bytes.checked_add(wire_canonical_value_encoded_len(&encoded)?).ok_or(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::AggregateCanonicalElementBytes, "mutations", None, None))?;
+            if aggregate_element_bytes > 900000 { return Err(GeneratedCommandError::input_budget(riffdb_client_rust::generated::GeneratedInputBudgetCause::AggregateCanonicalElementBytes, "mutations", None, None)); }
         }
         let fields = vec![
             wire_named_field("mutations", v1::Value { kind: Some(WireKind::ListValue(v1::ValueList { values: (self.mutations).iter().map(encode_tuple_mutation_input_entity).collect::<Result<Vec<_>, GeneratedCommandError>>()? })) }),
