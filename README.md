@@ -62,3 +62,16 @@ global Go configuration is modified.
 
 See [DESIGN.md](./DESIGN.md) for the semantic inventory and
 [PLAN.md](./PLAN.md) for the implementation sequence and stop gates.
+
+
+## RiffDB compatibility CI
+
+This adapter owns its RiffDB compatibility checks. Pull requests compile the
+application sources and verify existing locks and generated artifacts against
+the full commit in `.github/riffdb-revision`. Scheduled checks use RiffDB
+`main`; manual dispatch accepts a full commit or `main`. Failures are reported
+here and do not block RiffDB itself. Framework conformance remains separate.
+
+To upgrade, update the pin, migrate sources as needed, review the result of
+`riffdb application lock --write`, and verify with `riffdb application check`.
+Commit the pin and migration together in this repository.
