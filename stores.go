@@ -38,7 +38,7 @@ func (datastore *Datastore) CreateStore(ctx context.Context, store *openfgav1.St
 		return nil, errors.New("riffdb-openfga: store id and name are required")
 	}
 	result, err := datastore.commandClient().CreateStore(ctx, generated.CreateStoreInput{
-		RegistryId: registryID, StoreId: store.GetId(), Name: store.GetName(),
+		RegistryId: registryID, StoreId: store.GetId(), Name: store.GetName(), RequestId: uuid.NewString(),
 	})
 	if err != nil {
 		return nil, mapError(ctx, err)

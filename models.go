@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/google/uuid"
 	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 	"github.com/openfga/openfga/pkg/storage"
 	generated "github.com/riffdb/riffdb-openfga/generated/go"
@@ -40,7 +41,7 @@ func (datastore *Datastore) WriteAuthorizationModel(ctx context.Context, store s
 		return err
 	}
 	result, err := datastore.commandClient().WriteAuthorizationModel(ctx, generated.WriteAuthorizationModelInput{
-		StoreId: store, ModelId: model.GetId(), SchemaVersion: model.GetSchemaVersion(), SerializedProtobuf: encoded,
+		StoreId: store, ModelId: model.GetId(), SchemaVersion: model.GetSchemaVersion(), SerializedProtobuf: encoded, RequestId: uuid.NewString(),
 	})
 	if err != nil {
 		return mapError(ctx, err)

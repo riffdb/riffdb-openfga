@@ -7,6 +7,7 @@ import (
 	"io"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/oklog/ulid/v2"
 	openfgav1 "github.com/openfga/api/proto/openfga/v1"
 	"github.com/openfga/openfga/pkg/storage"
@@ -343,7 +344,7 @@ func (datastore *Datastore) applyTupleMutations(ctx context.Context, mutations [
 	if len(mutations) == 0 {
 		return nil
 	}
-	result, err := datastore.commandClient().ApplyTupleMutations(ctx, generated.ApplyTupleMutationsInput{Mutations: mutations})
+	result, err := datastore.commandClient().ApplyTupleMutations(ctx, generated.ApplyTupleMutationsInput{Mutations: mutations, RequestId: uuid.NewString()})
 	if err != nil {
 		return mapError(ctx, err)
 	}
