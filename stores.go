@@ -37,8 +37,8 @@ func (datastore *Datastore) CreateStore(ctx context.Context, store *openfgav1.St
 	if store == nil || store.GetId() == "" || store.GetName() == "" {
 		return nil, errors.New("riffdb-openfga: store id and name are required")
 	}
-	result, err := datastore.client.CreateStore(ctx, generated.CreateStoreInput{
-		RegistryId: registryID, StoreId: store.GetId(), Name: store.GetName(), RequestId: uuid.NewString(),
+	result, err := datastore.commandClient().CreateStore(ctx, generated.CreateStoreInput{
+		RegistryId: registryID, StoreId: store.GetId(), Name: store.GetName(),
 	})
 	if err != nil {
 		return nil, mapError(ctx, err)
@@ -62,7 +62,7 @@ func (datastore *Datastore) DeleteStore(ctx context.Context, id string) error {
 		if err != nil {
 			return err
 		}
-		result, err := datastore.client.DeleteStore(ctx, generated.DeleteStoreInput{
+		result, err := datastore.commandClient().DeleteStore(ctx, generated.DeleteStoreInput{
 			RegistryId: registryID, StoreId: id, ExpectedRevision: revision, RequestId: uuid.NewString(),
 		})
 		if err != nil {

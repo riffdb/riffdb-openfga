@@ -34,7 +34,7 @@ def granted() -> tuple[set[str], set[str]]:
 def called() -> set[str]:
     """Every generated client symbol the adapter's own Go sources invoke."""
     invoked: set[str] = set()
-    pattern = re.compile(r"\bclient\.([A-Za-z][A-Za-z0-9]*)\(")
+    pattern = re.compile(r"\b(?:client|commandClient\(\))\.([A-Za-z][A-Za-z0-9]*)\(")
     for path in ROOT.glob("*.go"):
         if path.name.endswith("_test.go"):
             continue

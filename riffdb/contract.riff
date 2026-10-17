@@ -8,8 +8,8 @@ contract RiffDBOpenFGA version 1 {
     field updated_at: timestamp
     field deleted_at: optional<timestamp>
     field revision: u64
-    index active_by_id (registry_id, deleted_at, store_id) presence(deleted_at)
-    index active_by_name (registry_id, deleted_at, name, store_id) presence(deleted_at)
+    index active_by_id (registry_id, deleted_at, store_id) presence(deleted_at) cover(name, created_at, updated_at, revision)
+    index active_by_name (registry_id, deleted_at, name, store_id) presence(deleted_at) cover(created_at, updated_at, revision)
   }
 
   entity AuthorizationModel {
@@ -280,14 +280,14 @@ contract RiffDBOpenFGA version 1 {
         when state.active != mutation.next_active => apply {
           create TupleChange(mutation.store_id, mutation.change_id) as change
             else TupleChangeAlreadyExists {}
-          set state.user_object_type = mutation.user_object_type
-          set state.user_object_id = mutation.user_object_id
-          set state.user_relation = mutation.user_relation
-          set state.user_kind = mutation.user_kind
-          set state.condition_key = mutation.condition_key
-          set state.condition_context = mutation.condition_context
-          set state.inserted_at = mutation.inserted_at
-          set state.active = mutation.next_active
+          overwrite state.user_object_type = mutation.user_object_type
+          overwrite state.user_object_id = mutation.user_object_id
+          overwrite state.user_relation = mutation.user_relation
+          overwrite state.user_kind = mutation.user_kind
+          overwrite state.condition_key = mutation.condition_key
+          overwrite state.condition_context = mutation.condition_context
+          overwrite state.inserted_at = mutation.inserted_at
+          overwrite state.active = mutation.next_active
           set state.revision = state.revision + 1
           set change.object_type = mutation.object_type
           set change.object_id = mutation.object_id

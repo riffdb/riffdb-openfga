@@ -46,7 +46,7 @@ func (datastore *Datastore) WriteAssertions(ctx context.Context, store, modelID 
 		}
 		switch found := current.Value.(type) {
 		case generated.GetAssertionSetNotFound:
-			created, err := datastore.client.CreateAssertionSet(ctx, generated.CreateAssertionSetInput{StoreId: store, ModelId: modelID, SerializedProtobuf: encoded, RequestId: uuid.NewString()})
+			created, err := datastore.commandClient().CreateAssertionSet(ctx, generated.CreateAssertionSetInput{StoreId: store, ModelId: modelID, SerializedProtobuf: encoded, RequestId: uuid.NewString()})
 			if err != nil {
 				return mapError(ctx, err)
 			}
@@ -59,7 +59,7 @@ func (datastore *Datastore) WriteAssertions(ctx context.Context, store, modelID 
 				return errors.New("riffdb-openfga: unknown CreateAssertionSet outcome")
 			}
 		case generated.GetAssertionSetFound:
-			updated, err := datastore.client.UpdateAssertionSet(ctx, generated.UpdateAssertionSetInput{StoreId: store, ModelId: modelID, ExpectedRevision: found.Assertions.Revision, SerializedProtobuf: encoded, RequestId: uuid.NewString()})
+			updated, err := datastore.commandClient().UpdateAssertionSet(ctx, generated.UpdateAssertionSetInput{StoreId: store, ModelId: modelID, ExpectedRevision: found.Assertions.Revision, SerializedProtobuf: encoded, RequestId: uuid.NewString()})
 			if err != nil {
 				return mapError(ctx, err)
 			}

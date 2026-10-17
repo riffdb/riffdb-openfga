@@ -40,6 +40,10 @@ func (datastore *Datastore) Close() {
 	})
 }
 
+func (datastore *Datastore) commandClient() *generated.Client {
+	return datastore.client.WithReadAfterCommit(nil)
+}
+
 // IsReady proves that the compiled query path can reach RiffDB.
 func (datastore *Datastore) IsReady(ctx context.Context) (storage.ReadinessStatus, error) {
 	_, err := datastore.client.GetStore(ctx, generated.GetStoreParams{

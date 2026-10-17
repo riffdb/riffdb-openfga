@@ -45,7 +45,7 @@ while each RiffDB query uses a finite internal page bound.
 ## Local development
 
 RiffDB's Go runtime is pinned to the immutable local development publication
-`v0.1.0-dev.18`. With the local registries running and the matching RiffDB CLI
+`v0.1.0-dev.19`. With the local registries running and the matching RiffDB CLI
 available as `riffdb`:
 
 ```bash
