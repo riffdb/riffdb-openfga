@@ -1,0 +1,140 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag to verify (for example v0.2.0)'
+        required: false
+        default: 'v0.2.0'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CARGO_INCREMENTAL: '0'
+  CARGO_TARGET_DIR: ${{ github.workspace }}/riffdb/target
+
+jobs:
+  verify-and-package:
+    name: Verify Go adapter and package release archive
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      release_tag: ${{ steps.meta.outputs.release_tag }}
+      version: ${{ steps.meta.outputs.version }}
+      revision: ${{ steps.meta.outputs.revision }}
+    steps:
+      - name: Check out adapter
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: adapter
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve release metadata
+        id: meta
+        working-directory: adapter
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            release_tag="${GITHUB_REF_NAME}"
+          else
+            release_tag="${{ inputs.release_tag || 'v0.2.0' }}"
+          fi
+          [[ "$release_tag" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]
+          version="${BASH_REMATCH[1]}"
+          grep -qF "RiffDBDriverVersion = \"${release_tag}\"" config.go
+          grep -qF "riffdb.dev/application ${release_tag}" go.mod
+          riffdb_rev="$(cat .github/riffdb-revision)"
+          [[ "$riffdb_rev" =~ ^[0-9a-f]{40}$ ]]
+          printf 'release_tag=%s\n' "$release_tag" >>"$GITHUB_OUTPUT"
+          printf 'version=%s\n' "$version" >>"$GITHUB_OUTPUT"
+          printf 'revision=%s\n' "$riffdb_rev" >>"$GITHUB_OUTPUT"
+      - name: Check out RiffDB
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: riffdb/riffdb
+          ref: ${{ steps.meta.outputs.revision }}
+          path: riffdb
+          persist-credentials: false
+      - name: Install Rust toolchain
+        run: rustup toolchain install 1.98.1 --profile minimal
+      - name: Cache Cargo sources
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: cargo-release-${{ runner.os }}-${{ hashFiles('riffdb/Cargo.lock') }}
+      - name: Install Go toolchain
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: adapter/go.mod
+          cache-dependency-path: adapter/go.sum
+      - name: Build pinned RiffDB CLI and verify application lock
+        run: |
+          cargo build --locked --release --manifest-path riffdb/Cargo.toml -p riffdb-cli --bin riffdb
+          (cd adapter && ../riffdb/target/release/riffdb application check)
+      - name: Bootstrap, test, and package Go module archive
+        working-directory: adapter
+        run: |
+          make bootstrap RIFFDB_VERSION="${{ steps.meta.outputs.release_tag }}"
+          make check
+          mkdir -p "$RUNNER_TEMP/release-out"
+          archive="riffdb-openfga-${{ steps.meta.outputs.version }}.tar.gz"
+          git archive --format=tar.gz --prefix="riffdb-openfga-${{ steps.meta.outputs.version }}/" -o "$RUNNER_TEMP/release-out/$archive" HEAD
+          (
+            cd "$RUNNER_TEMP/release-out"
+            sha256sum "$archive" >SHA256SUMS
+          )
+      - name: Upload verified release artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: riffdb-openfga-release
+          path: ${{ runner.temp }}/release-out/*
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: [verify-and-package]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Check out adapter
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Download verified release artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: riffdb-openfga-release
+          path: release-out
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@c074443f1aee8d4db6bf3b48c6047fb2ceb53f3d # v2.4.0
+        with:
+          subject-path: |
+            release-out/riffdb-openfga-${{ needs.verify-and-package.outputs.version }}.tar.gz
+            release-out/SHA256SUMS
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ needs.verify-and-package.outputs.release_tag }}"
+          version="${{ needs.verify-and-package.outputs.version }}"
+          notes="Compiled RiffDB datastore adapter for OpenFGA v1.18.3, release ${tag} (pinned to RiffDB \`${{ needs.verify-and-package.outputs.revision }}\` and \`riffdb.dev/application@${tag}\`)."
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" release-out/* --clobber
+          else
+            gh release create "$tag" release-out/* \
+              --title "riffdb-openfga ${tag}" \
+              --notes "$notes" \
+              --verify-tag
+          fi

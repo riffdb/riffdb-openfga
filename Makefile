@@ -1,11 +1,20 @@
 GO ?= go
 RIFFDB ?= riffdb
-GO_PROXY ?= http://127.0.0.1:4874/go,https://proxy.golang.org,direct
+RIFFDB_VERSION ?= v0.2.0
+LOCAL_GO_PROXY := $(CURDIR)/.cache/go-proxy
+GO_PROXY ?= file://$(LOCAL_GO_PROXY),https://proxy.golang.org,direct
 GO_NO_SUMDB ?= riffdb.dev/*
 
 .PHONY: bootstrap check fmt test vet conformance authority
 
 bootstrap:
+	mkdir -p "$(LOCAL_GO_PROXY)/riffdb.dev/application/@v"
+	for ext in info mod zip; do \
+		target="$(LOCAL_GO_PROXY)/riffdb.dev/application/@v/$(RIFFDB_VERSION).$$ext"; \
+		if [ ! -s "$$target" ]; then \
+			curl -fsSL "https://github.com/riffdb/riffdb/releases/download/$(RIFFDB_VERSION)/$(RIFFDB_VERSION).$$ext" -o "$$target"; \
+		fi; \
+	done
 	GONOSUMDB=$(GO_NO_SUMDB) GOPROXY=$(GO_PROXY) $(GO) mod download
 
 fmt:

@@ -14,9 +14,9 @@ const (
 	// contract this module targets.
 	OpenFGAVersion = "v1.18.3"
 
-	// RiffDBDriverVersion is the immutable development driver publication used
-	// to generate and verify this adapter.
-	RiffDBDriverVersion = "v0.1.0-dev.19"
+	// RiffDBDriverVersion is the immutable RiffDB Go driver release used to
+	// generate and verify this adapter.
+	RiffDBDriverVersion = "v0.2.0"
 
 	// MaxTuplesPerWrite matches OpenFGA's default atomic write bound. The
 	// compiled profile separately proves a bounded aggregate byte budget.

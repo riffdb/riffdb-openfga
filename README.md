@@ -3,9 +3,9 @@
 A standalone Go implementation of OpenFGA's datastore interface backed by a
 compiled RiffDB application.
 
-Status: the complete pinned OpenFGA datastore interface is implemented. The
-official `storage/test.RunAllTests` suite passes against a real RiffDB
-loopback service. The module remains an unpublished development package.
+Status: v0.2.0. The complete pinned OpenFGA datastore interface is implemented
+and the official `storage/test.RunAllTests` suite passes against a real RiffDB
+loopback service.
 
 ## Boundary
 
@@ -44,9 +44,8 @@ while each RiffDB query uses a finite internal page bound.
 
 ## Local development
 
-RiffDB's Go runtime is pinned to the immutable local development publication
-`v0.1.0-dev.19`. With the local registries running and the matching RiffDB CLI
-available as `riffdb`:
+RiffDB's Go runtime is pinned to the `v0.2.0` release. With the matching RiffDB
+CLI available as `riffdb`:
 
 ```bash
 make bootstrap
@@ -54,9 +53,9 @@ make check
 make conformance
 ```
 
-`make bootstrap` resolves `riffdb.dev/application` through
-`http://127.0.0.1:4874/go` and resolves public dependencies through the public
-Go proxy. `make conformance` launches the compiled application and runs the
+`make bootstrap` fetches `riffdb.dev/application@v0.2.0` from the signed RiffDB
+GitHub release into `.cache/go-proxy` and resolves public dependencies through
+the public Go proxy. `make conformance` launches the compiled application and runs the
 official OpenFGA datastore suite through the real Go driver transport. No
 global Go configuration is modified.
 
