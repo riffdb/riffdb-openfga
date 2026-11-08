@@ -30,3 +30,31 @@ func TestConfigValidate(t *testing.T) {
 		})
 	}
 }
+
+func TestDefaultIdentityAndConnectConfig(t *testing.T) {
+	identity := DefaultIdentity("", "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef")
+	if identity.Database != DefaultDatabase {
+		t.Fatalf("Database = %q, want %q", identity.Database, DefaultDatabase)
+	}
+	if identity.ApplicationManifestHash != ApplicationManifestHash {
+		t.Fatalf("ApplicationManifestHash = %q, want %q", identity.ApplicationManifestHash, ApplicationManifestHash)
+	}
+	if identity.Role != DefaultRole || identity.RoleDefinitionHash != DefaultRoleDefinitionHash {
+		t.Fatalf("Role/Hash = %q/%q", identity.Role, identity.RoleDefinitionHash)
+	}
+	if got := NormalizeSocketPath("unix:///tmp/riffdb.sock"); got != "/tmp/riffdb.sock" {
+		t.Fatalf("NormalizeSocketPath = %q, want /tmp/riffdb.sock", got)
+	}
+
+	t.Setenv("OPENFGA_RIFFDB_SOCKET", "unix:///tmp/env.sock")
+	t.Setenv("OPENFGA_RIFFDB_DATABASE", "custom-db")
+	t.Setenv("OPENFGA_RIFFDB_REMOTE_IDENTITY_HASH", "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210")
+
+	cfg, err := ConnectConfigFromEnv()
+	if err != nil {
+		t.Fatalf("ConnectConfigFromEnv() error = %v", err)
+	}
+	if cfg.SocketPath != "/tmp/env.sock" || cfg.Database != "custom-db" {
+		t.Fatalf("unexpected ConnectConfigFromEnv: %+v", cfg)
+	}
+}

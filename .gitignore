@@ -2,4 +2,5 @@
 .riffdb/
 bin/
 coverage.out
+/openfga-riffdb
 

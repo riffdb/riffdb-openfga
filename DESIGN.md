@@ -165,6 +165,22 @@ semantics. Any per-call read-after-commit fence must be backed by a durable
 RiffDB token, not process-local assumptions. Unsupported preferences fail
 closed.
 
+## Standalone server and exported identity helpers
+
+Because upstream OpenFGA's `cmd/run` hardcodes its datastore engine switch
+(`memory`, `postgres`, `mysql`, `sqlite`), this repository exports:
+
+1. Locked compile-time identity constants and session helpers in `identity.go`
+   (`DefaultIdentity`, `ConnectConfigFromEnv`, `Connect`) verified against
+   `riffdb.application.lock.json` by `TestLockedIdentityConstantsMatchLockFile`.
+2. A standalone OpenFGA CLI and server runner (`cmd/openfga-riffdb` backed by
+   `internal/openfgarun`) supporting `run`, `validate-models`, and `version`,
+   all stock `openfga run` flags, `OPENFGA_*` environment variables,
+   `config.yaml`, authentication (`none`, `preshared`, `oidc`), Prometheus
+   `/metrics` and RPC latency histograms, the embedded OpenFGA Playground,
+   HTTP/REST `grpc-gateway` and HTTP/2 gRPC listeners, TLS live certificate
+   reloading, OTLP tracing, `pprof`, and `riffdb dev --run`.
+
 ## Error mapping
 
 The mapping layer distinguishes not-found, collision, invalid

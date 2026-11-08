@@ -55,21 +55,23 @@ Status: complete.
 
 ## WP-006 — Full OpenFGA conformance and launcher
 
-Status: complete for the datastore package and conformance harness.
+Status: complete.
 
 - Run `storage/test.RunAllTests` against a real RiffDB service.
-- Provide a repeatable real-driver conformance runner.
+- Provide a repeatable real-driver conformance runner (`cmd/conformance`).
+- Export locked application identity constants and `Connect` helpers (`identity.go`).
+- Provide a standalone CLI and container runner (`cmd/openfga-riffdb` and `Dockerfile`)
+  supporting the stock OpenFGA CLI flags, `OPENFGA_*` environment variables,
+  `config.yaml`, authentication (`none`, `preshared`, `oidc`), Prometheus
+  `/metrics`, OpenFGA Playground, HTTP/REST `grpc-gateway`, TLS certificate
+  hot-reloading, OTLP tracing, `pprof`, and `riffdb dev --run`.
 - Document supported configuration and explicit limits.
-
-The deployable OpenFGA process that supplies the authenticated RiffDB session
-is intentionally an application concern. The adapter exports the standard
-`OpenFGADatastore` implementation needed by `server.WithDatastore`; it does not
-claim a stock OpenFGA datastore-engine flag.
 
 ## WP-007 — Release readiness
 
-Status: deferred; publishing is out of scope for now.
+Status: complete.
 
-- Add compatibility policy, changelog, package metadata, CI, and release
-  provenance.
-- Do not publish until the conformance and loopback gates are green.
+- Add compatibility policy, package metadata, RiffDB compatibility CI, upstream
+  OpenFGA compatibility CI, prebuilt `openfga-riffdb` release binary packaging,
+  and release provenance.
+- Verify both `make check` and `make conformance` gates are green.

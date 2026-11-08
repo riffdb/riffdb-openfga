@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"os"
-	"strconv"
 	"testing"
 	"time"
 
@@ -12,29 +11,17 @@ import (
 	storagetest "github.com/openfga/openfga/pkg/storage/test"
 	"github.com/openfga/openfga/pkg/tuple"
 	generated "github.com/riffdb/riffdb-openfga/generated/go"
-	riffdb "riffdb.dev/application"
 )
 
 func TestLoopbackConformance(t *testing.T) {
-	socket := os.Getenv("RIFFDB_LOOPBACK_SOCKET")
-	if socket == "" {
-		t.Skip("run through riffdb dev --run with the loopback test shim")
+	if os.Getenv("RIFFDB_LOOPBACK_SOCKET") == "" && os.Getenv("RIFFDB_DRIVER_SOCKET") == "" {
+		t.Skip("run through riffdb dev with the loopback test shim")
 	}
-	version, err := strconv.ParseUint(os.Getenv("RIFFDB_LOOPBACK_VERSION"), 10, 64)
-	if err != nil || version == 0 {
-		t.Fatal("invalid loopback contract version")
+	connCfg, err := ConnectConfigFromEnv()
+	if err != nil {
+		t.Fatal(err)
 	}
-	session, err := riffdb.Connect(context.Background(), socket, riffdb.Identity{
-		ApplicationManifestHash: os.Getenv("RIFFDB_LOOPBACK_MANIFEST_HASH"),
-		OperationCatalogHash:    os.Getenv("RIFFDB_LOOPBACK_CATALOG_HASH"),
-		Database:                os.Getenv("RIFFDB_LOOPBACK_DATABASE"),
-		Role:                    os.Getenv("RIFFDB_LOOPBACK_ROLE"),
-		RoleDefinitionHash:      os.Getenv("RIFFDB_LOOPBACK_ROLE_HASH"),
-		RemoteIdentityHash:      os.Getenv("RIFFDB_LOOPBACK_REMOTE_HASH"),
-		ContractLineage:         os.Getenv("RIFFDB_LOOPBACK_LINEAGE"),
-		ContractVersion:         version,
-		ContractBundleHash:      os.Getenv("RIFFDB_LOOPBACK_BUNDLE_HASH"),
-	})
+	session, err := Connect(context.Background(), connCfg)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -43,7 +30,7 @@ func TestLoopbackConformance(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Cleanup(datastore.Close)
-	if generated.ContractLineage != os.Getenv("RIFFDB_LOOPBACK_LINEAGE") {
+	if generated.ContractLineage != connCfg.ContractLineage {
 		t.Fatal("generated contract lineage mismatch")
 	}
 	t.Run("RiffDBEmptyConditionContextRoundTrip", func(t *testing.T) {

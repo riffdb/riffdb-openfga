@@ -1,0 +1,73 @@
+name: OpenFGA Upstream Compatibility
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      openfga_version:
+        description: 'OpenFGA version tag to test (defaults to latest upstream release)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openfga-compatibility-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-openfga-release:
+    name: Verify compatibility with upstream OpenFGA release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out adapter
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install Go toolchain
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+      - name: Download pinned RiffDB release bundle
+        id: riffdb
+        run: |
+          riffdb_tag="$(sed -n 's/.*RiffDBDriverVersion = "\(v[0-9.]*\)"/\1/p' config.go)"
+          [[ "$riffdb_tag" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]
+          riffdb_version="${BASH_REMATCH[1]}"
+          riffdb_rev="$(cat .github/riffdb-revision)"
+          bundle="riffdb-${riffdb_version}-x86_64-unknown-linux-gnu.tar.gz"
+          base_url="https://github.com/riffdb/riffdb/releases/download/${riffdb_tag}"
+          mkdir -p "$RUNNER_TEMP/riffdb-release"
+          curl -fsSL "$base_url/release-provenance-v1.json" -o "$RUNNER_TEMP/riffdb-release/release-provenance-v1.json"
+          curl -fsSL "$base_url/$bundle" -o "$RUNNER_TEMP/riffdb-release/$bundle"
+          expected_sha="$(jq -r '.bundle_archive.sha256' "$RUNNER_TEMP/riffdb-release/release-provenance-v1.json")"
+          echo "${expected_sha}  $RUNNER_TEMP/riffdb-release/$bundle" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/riffdb-release/$bundle" -C "$RUNNER_TEMP/riffdb-release"
+          bundle_dir="$RUNNER_TEMP/riffdb-release/riffdb-${riffdb_version}-x86_64-unknown-linux-gnu"
+          [[ "$(tr -d '\n' < "$bundle_dir/REVISION")" == "$riffdb_rev" ]]
+          "$bundle_dir/bin/riffdb" application check
+      - name: Resolve target OpenFGA version and verify surface, build, and tests
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          make bootstrap
+          target_version="${{ inputs.openfga_version }}"
+          if [[ -z "$target_version" ]]; then
+            target_version="$(gh api repos/openfga/openfga/releases/latest --jq '.tag_name')"
+          fi
+          echo "Testing against github.com/openfga/openfga@${target_version}"
+          GONOSUMDB="riffdb.dev/*" GOPROXY="file://$(pwd)/.cache/go-proxy,https://proxy.golang.org,direct" \
+            go get "github.com/openfga/openfga@${target_version}"
+          GONOSUMDB="riffdb.dev/*" GOPROXY="file://$(pwd)/.cache/go-proxy,https://proxy.golang.org,direct" \
+            go mod tidy
+          sed -i -E "s/OpenFGAVersion = \"[^\"]+\"/OpenFGAVersion = \"${target_version}\"/" config.go
+          sed -i -E "s/Version = \"[^\"]+\"/Version = \"${target_version}\"/" internal/openfgarun/server.go
+          make build
+          make vet
+          make test
+          make authority

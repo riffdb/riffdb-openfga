@@ -10,6 +10,10 @@ import (
 )
 
 const (
+	// AdapterVersion is the release version of this riffdb-openfga module and
+	// standalone server binary.
+	AdapterVersion = "v0.3.0"
+
 	// OpenFGAVersion is the exact upstream server version whose datastore
 	// contract this module targets.
 	OpenFGAVersion = "v1.18.3"

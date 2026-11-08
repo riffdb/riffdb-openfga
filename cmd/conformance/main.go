@@ -4,35 +4,24 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	riffdbopenfga "github.com/riffdb/riffdb-openfga"
 )
 
-var loopbackEnvironment = [...]string{
-	"RIFFDB_LOOPBACK_SOCKET",
-	"RIFFDB_LOOPBACK_MANIFEST_HASH",
-	"RIFFDB_LOOPBACK_CATALOG_HASH",
-	"RIFFDB_LOOPBACK_DATABASE",
-	"RIFFDB_LOOPBACK_ROLE",
-	"RIFFDB_LOOPBACK_ROLE_HASH",
-	"RIFFDB_LOOPBACK_REMOTE_HASH",
-	"RIFFDB_LOOPBACK_LINEAGE",
-	"RIFFDB_LOOPBACK_VERSION",
-	"RIFFDB_LOOPBACK_BUNDLE_HASH",
-}
-
 func main() {
-	if len(os.Args) != len(loopbackEnvironment)+1 {
-		fmt.Fprintf(os.Stderr, "riffdb-openfga conformance runner: got %d identity arguments, want %d\n", len(os.Args)-1, len(loopbackEnvironment))
-		os.Exit(2)
-	}
-
 	environment := os.Environ()
-	for index, name := range loopbackEnvironment {
-		environment = append(environment, name+"="+os.Args[index+1])
+	if len(os.Args) == len(riffdbopenfga.LoopbackEnvironmentVariables)+1 {
+		for index, name := range riffdbopenfga.LoopbackEnvironmentVariables {
+			environment = append(environment, name+"="+os.Args[index+1])
+		}
+	} else if len(os.Args) != 1 || (os.Getenv("RIFFDB_LOOPBACK_SOCKET") == "" && os.Getenv("RIFFDB_DRIVER_SOCKET") == "") {
+		fmt.Fprintf(os.Stderr, "riffdb-openfga conformance runner: got %d identity arguments, want %d (or RIFFDB_DRIVER_SOCKET in env)\n", len(os.Args)-1, len(riffdbopenfga.LoopbackEnvironmentVariables))
+		os.Exit(2)
 	}
 
 	testPattern := os.Getenv("RIFFDB_OPENFGA_TEST_RUN")
 	if testPattern == "" {
-		testPattern = "^TestLoopbackConformance$"
+		testPattern = "^TestLoopbackConformance"
 	}
 	command := exec.Command("go", "test", "-v", "-run", testPattern, "-count=1", "-timeout=20m", ".")
 	command.Env = environment
