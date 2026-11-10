@@ -1,6 +1,6 @@
 GO ?= go
 RIFFDB ?= $(shell if [ -x "$(CURDIR)/../riffdb/target/release/riffdb" ]; then echo "$(CURDIR)/../riffdb/target/release/riffdb"; else echo riffdb; fi)
-RIFFDB_VERSION ?= v0.2.0
+RIFFDB_VERSION ?= v0.2.1
 LOCAL_GO_PROXY := $(CURDIR)/.cache/go-proxy
 GO_PROXY ?= file://$(LOCAL_GO_PROXY),https://proxy.golang.org,direct
 GO_NO_SUMDB ?= riffdb.dev/*

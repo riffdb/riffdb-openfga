@@ -3,6 +3,25 @@ export const QUERY_MODULE_HASH = "72993bd22227fd89861cafff86d73cd8affd96050cc89d
 export const CONTRACT_LINEAGE = "RiffDBOpenFGA" as const;
 export const CONTRACT_VERSION = 1 as const;
 export const CONTRACT_BUNDLE_HASH = "b92b7c4fa3fbc9b598d91e58a472a896ea83367dd5354768052546ae2c71ec8c" as const;
+export interface ContractDriverIdentity {
+  readonly contractLineage: typeof CONTRACT_LINEAGE;
+  readonly contractVersion: bigint;
+  readonly contractBundleHash: typeof CONTRACT_BUNDLE_HASH;
+  readonly role: string;
+  readonly database?: string;
+  readonly applicationManifestHash?: string;
+  readonly operationCatalogHash?: string;
+  readonly roleDefinitionHash?: string;
+  readonly remoteIdentityHash?: string;
+}
+export const CONTRACT_DRIVER_IDENTITY = {
+  contractLineage: CONTRACT_LINEAGE,
+  contractVersion: BigInt(CONTRACT_VERSION),
+  contractBundleHash: CONTRACT_BUNDLE_HASH,
+} as const;
+export function driverIdentity(role: string, database?: string): ContractDriverIdentity {
+  return database === undefined ? { ...CONTRACT_DRIVER_IDENTITY, role } : { ...CONTRACT_DRIVER_IDENTITY, role, database };
+}
 
 export const APPLICATION_ERROR_REGISTRY = {
   "RDB-APP-0001": ["application request is structurally invalid", "input", "correct_request", ["correct_input"]],
@@ -388,6 +407,7 @@ export function listStoresAll(parameters: ListStoresAllParams): NamedQueryReques
 }
 
 export const LIST_STORES_BY_IDS_QUERY_PLAN_HASH = "be34f0cfb066973c4076ee5045e2850a378c531a89d118cc13464294997761b1" as const;
+export const LIST_STORES_BY_IDS_IDS_MAX_ITEMS = 200 as const;
 export interface ListStoresByIdsParams {
   readonly registry_id: string;
   readonly ids: ReadonlyArray<string>;
@@ -418,6 +438,7 @@ export function listStoresByIds(parameters: ListStoresByIdsParams): NamedQueryRe
 }
 
 export const LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH = "090794f2b8b5c85a0db615b2921c5b64e77c80edec0dec2ce457fbc398544bfa" as const;
+export const LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS = 200 as const;
 export interface ListStoresByIdsAndNameParams {
   readonly registry_id: string;
   readonly ids: ReadonlyArray<string>;
@@ -694,6 +715,7 @@ export function readStartingWithUser(parameters: ReadStartingWithUserParams): Na
 }
 
 export const READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH = "d8b9f27d3a8ce4ff7b00cdc56d29c0d41528de31d18d5eb133ceda78095a14ba" as const;
+export const READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS = 200 as const;
 export interface ReadStartingWithUserAndObjectsParams {
   readonly store_id: string;
   readonly object_type: string;
@@ -727,6 +749,7 @@ export function readStartingWithUserAndObjects(parameters: ReadStartingWithUserA
 }
 
 export const READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH = "1d3198fac0e66662bced1e381fb1815c008625c619c92ab40198a6e02a114fa6" as const;
+export const READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS = 200 as const;
 export interface ReadStartingWithUserObjectsConditionParams {
   readonly store_id: string;
   readonly object_type: string;
@@ -1751,6 +1774,29 @@ export class RiffDBOpenFGAClient {
     return new RiffDBOpenFGAClient(transport, commandAttemptBudget);
   }
 
+  public static driverIdentity(role: string, database?: string): ContractDriverIdentity {
+    return driverIdentity(role, database);
+  }
+
+  public static async connect(
+    driver: { connect(config: { readonly socketPath: string; readonly identity: ContractDriverIdentity }): Promise<ApplicationTransport> } | ((config: { readonly socketPath: string; readonly identity: ContractDriverIdentity }) => Promise<ApplicationTransport>),
+    options: { readonly socketPath: string; readonly role: string; readonly database?: string; readonly commandAttemptBudget?: number },
+  ): Promise<RiffDBOpenFGAClient> {
+    const identity = driverIdentity(options.role, options.database);
+    const transport = typeof driver === "function" ? await driver({ socketPath: options.socketPath, identity }) : await driver.connect({ socketPath: options.socketPath, identity });
+    return new RiffDBOpenFGAClient(transport, options.commandAttemptBudget ?? DEFAULT_COMMAND_ATTEMPT_BUDGET);
+  }
+
+  public static async connectFromEnv(
+    driver: { connectFromEnv(options: { readonly socketPath?: string; readonly role?: string; readonly database?: string; readonly tenant?: string; readonly prefix?: string; readonly envPrefix?: string; readonly identity: typeof CONTRACT_DRIVER_IDENTITY }): Promise<ApplicationTransport> } | ((options: { readonly socketPath?: string; readonly role?: string; readonly database?: string; readonly tenant?: string; readonly prefix?: string; readonly envPrefix?: string; readonly identity: typeof CONTRACT_DRIVER_IDENTITY }) => Promise<ApplicationTransport>),
+    options: { readonly socketPath?: string; readonly role?: string; readonly database?: string; readonly tenant?: string; readonly prefix?: string; readonly envPrefix?: string; readonly commandAttemptBudget?: number } = {},
+  ): Promise<RiffDBOpenFGAClient> {
+    const { commandAttemptBudget, ...envOptions } = options;
+    const connectInput = { ...envOptions, identity: CONTRACT_DRIVER_IDENTITY };
+    const transport = typeof driver === "function" ? await driver(connectInput) : await driver.connectFromEnv(connectInput);
+    return new RiffDBOpenFGAClient(transport, commandAttemptBudget ?? DEFAULT_COMMAND_ATTEMPT_BUDGET);
+  }
+
   public withReadAfterCommit(commitSequence: bigint | undefined): RiffDBOpenFGAClient {
     return new RiffDBOpenFGAClient(this.transport, this.commandAttemptBudget, commitSequence, this.trackCausalWrites);
   }
@@ -1910,6 +1956,36 @@ export class RiffDBOpenFGAClient {
     }
   }
 
+  public async listStoresByIdsAll(parameters: ListStoresByIdsParams, maxPages: number = 64, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByIdsFound>> {
+    if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > 1024) throw new RangeError("maxPages must be an integer from 1 through 1024");
+    if (options.cursor !== undefined || parameters.after != null) throw new Error("listStoresByIdsAll does not accept an initial cursor");
+    const items = Array.from(new Set(parameters.ids));
+    if (items.length === 0) throw new RangeError("ids must contain at least 1 item");
+    const merged: Array<ListStoresByIdsFound["stores"][number]> = [];
+    let latestIdentity: QueryResponseIdentity | undefined;
+    let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
+    let highestHead = 0n;
+    let pagesRemaining = maxPages;
+    for (let offset = 0; offset < items.length; offset += LIST_STORES_BY_IDS_IDS_MAX_ITEMS) {
+      const chunk = items.slice(offset, offset + LIST_STORES_BY_IDS_IDS_MAX_ITEMS);
+      let chunkCursor: string | undefined = undefined;
+      while (true) {
+        if (pagesRemaining < 1) throw new RangeError("listStoresByIdsAll exceeded maxPages (1..=1024)");
+        pagesRemaining -= 1;
+        const chunkOptions: QueryOptions = { ...options, ...(pinnedHead === undefined ? {} : { readAfterCommit: pinnedHead }), ...(chunkCursor === undefined ? {} : { cursor: chunkCursor }) };
+        const page = await this.listStoresByIds({ ...parameters, after: null, ids: chunk }, chunkOptions);
+        const found = unwrapListStoresByIdsFound(page);
+        merged.push(...found.stores);
+        latestIdentity = page.identity;
+        if (page.applicationHead > highestHead) highestHead = page.applicationHead;
+        if (pinnedHead === undefined || page.applicationHead > pinnedHead) pinnedHead = page.applicationHead;
+        if (page.nextCursor === undefined) break;
+        chunkCursor = page.nextCursor;
+      }
+    }
+    return { identity: latestIdentity!, value: { outcome: "Found", stores: merged }, applicationHead: highestHead };
+  }
+
   public async listStoresByIdsAndName(parameters: ListStoresByIdsAndNameParams, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByIdsAndNameResult>> {
     const effectiveOptions: QueryOptions = this.lastCommitSeq !== undefined && options.readAfterCommit === undefined ? { ...options, readAfterCommit: this.lastCommitSeq } : options;
     const { after: generatedCursor, ...routedParameters } = parameters;
@@ -1937,6 +2013,36 @@ export class RiffDBOpenFGAClient {
       currentParameters = restParameters as unknown as ListStoresByIdsAndNameParams;
       currentOptions = { ...currentOptions, cursor: page.nextCursor };
     }
+  }
+
+  public async listStoresByIdsAndNameAll(parameters: ListStoresByIdsAndNameParams, maxPages: number = 64, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByIdsAndNameFound>> {
+    if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > 1024) throw new RangeError("maxPages must be an integer from 1 through 1024");
+    if (options.cursor !== undefined || parameters.after != null) throw new Error("listStoresByIdsAndNameAll does not accept an initial cursor");
+    const items = Array.from(new Set(parameters.ids));
+    if (items.length === 0) throw new RangeError("ids must contain at least 1 item");
+    const merged: Array<ListStoresByIdsAndNameFound["stores"][number]> = [];
+    let latestIdentity: QueryResponseIdentity | undefined;
+    let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
+    let highestHead = 0n;
+    let pagesRemaining = maxPages;
+    for (let offset = 0; offset < items.length; offset += LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS) {
+      const chunk = items.slice(offset, offset + LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS);
+      let chunkCursor: string | undefined = undefined;
+      while (true) {
+        if (pagesRemaining < 1) throw new RangeError("listStoresByIdsAndNameAll exceeded maxPages (1..=1024)");
+        pagesRemaining -= 1;
+        const chunkOptions: QueryOptions = { ...options, ...(pinnedHead === undefined ? {} : { readAfterCommit: pinnedHead }), ...(chunkCursor === undefined ? {} : { cursor: chunkCursor }) };
+        const page = await this.listStoresByIdsAndName({ ...parameters, after: null, ids: chunk }, chunkOptions);
+        const found = unwrapListStoresByIdsAndNameFound(page);
+        merged.push(...found.stores);
+        latestIdentity = page.identity;
+        if (page.applicationHead > highestHead) highestHead = page.applicationHead;
+        if (pinnedHead === undefined || page.applicationHead > pinnedHead) pinnedHead = page.applicationHead;
+        if (page.nextCursor === undefined) break;
+        chunkCursor = page.nextCursor;
+      }
+    }
+    return { identity: latestIdentity!, value: { outcome: "Found", stores: merged }, applicationHead: highestHead };
   }
 
   public async listStoresByName(parameters: ListStoresByNameParams, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByNameResult>> {
@@ -2200,6 +2306,36 @@ export class RiffDBOpenFGAClient {
     }
   }
 
+  public async readStartingWithUserAndObjectsAll(parameters: ReadStartingWithUserAndObjectsParams, maxPages: number = 64, options: QueryOptions = {}): Promise<TypedQueryResult<ReadStartingWithUserAndObjectsFound>> {
+    if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > 1024) throw new RangeError("maxPages must be an integer from 1 through 1024");
+    if (options.cursor !== undefined || parameters.after != null) throw new Error("readStartingWithUserAndObjectsAll does not accept an initial cursor");
+    const items = Array.from(new Set(parameters.object_ids));
+    if (items.length === 0) throw new RangeError("object_ids must contain at least 1 item");
+    const merged: Array<ReadStartingWithUserAndObjectsFound["tuples"][number]> = [];
+    let latestIdentity: QueryResponseIdentity | undefined;
+    let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
+    let highestHead = 0n;
+    let pagesRemaining = maxPages;
+    for (let offset = 0; offset < items.length; offset += READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS) {
+      const chunk = items.slice(offset, offset + READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS);
+      let chunkCursor: string | undefined = undefined;
+      while (true) {
+        if (pagesRemaining < 1) throw new RangeError("readStartingWithUserAndObjectsAll exceeded maxPages (1..=1024)");
+        pagesRemaining -= 1;
+        const chunkOptions: QueryOptions = { ...options, ...(pinnedHead === undefined ? {} : { readAfterCommit: pinnedHead }), ...(chunkCursor === undefined ? {} : { cursor: chunkCursor }) };
+        const page = await this.readStartingWithUserAndObjects({ ...parameters, after: null, object_ids: chunk }, chunkOptions);
+        const found = unwrapReadStartingWithUserAndObjectsFound(page);
+        merged.push(...found.tuples);
+        latestIdentity = page.identity;
+        if (page.applicationHead > highestHead) highestHead = page.applicationHead;
+        if (pinnedHead === undefined || page.applicationHead > pinnedHead) pinnedHead = page.applicationHead;
+        if (page.nextCursor === undefined) break;
+        chunkCursor = page.nextCursor;
+      }
+    }
+    return { identity: latestIdentity!, value: { outcome: "Found", tuples: merged }, applicationHead: highestHead };
+  }
+
   public async readStartingWithUserObjectsCondition(parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = {}): Promise<TypedQueryResult<ReadStartingWithUserObjectsConditionResult>> {
     const effectiveOptions: QueryOptions = this.lastCommitSeq !== undefined && options.readAfterCommit === undefined ? { ...options, readAfterCommit: this.lastCommitSeq } : options;
     const { after: generatedCursor, ...routedParameters } = parameters;
@@ -2227,6 +2363,36 @@ export class RiffDBOpenFGAClient {
       currentParameters = restParameters as unknown as ReadStartingWithUserObjectsConditionParams;
       currentOptions = { ...currentOptions, cursor: page.nextCursor };
     }
+  }
+
+  public async readStartingWithUserObjectsConditionAll(parameters: ReadStartingWithUserObjectsConditionParams, maxPages: number = 64, options: QueryOptions = {}): Promise<TypedQueryResult<ReadStartingWithUserObjectsConditionFound>> {
+    if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > 1024) throw new RangeError("maxPages must be an integer from 1 through 1024");
+    if (options.cursor !== undefined || parameters.after != null) throw new Error("readStartingWithUserObjectsConditionAll does not accept an initial cursor");
+    const items = Array.from(new Set(parameters.object_ids));
+    if (items.length === 0) throw new RangeError("object_ids must contain at least 1 item");
+    const merged: Array<ReadStartingWithUserObjectsConditionFound["tuples"][number]> = [];
+    let latestIdentity: QueryResponseIdentity | undefined;
+    let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
+    let highestHead = 0n;
+    let pagesRemaining = maxPages;
+    for (let offset = 0; offset < items.length; offset += READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS) {
+      const chunk = items.slice(offset, offset + READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS);
+      let chunkCursor: string | undefined = undefined;
+      while (true) {
+        if (pagesRemaining < 1) throw new RangeError("readStartingWithUserObjectsConditionAll exceeded maxPages (1..=1024)");
+        pagesRemaining -= 1;
+        const chunkOptions: QueryOptions = { ...options, ...(pinnedHead === undefined ? {} : { readAfterCommit: pinnedHead }), ...(chunkCursor === undefined ? {} : { cursor: chunkCursor }) };
+        const page = await this.readStartingWithUserObjectsCondition({ ...parameters, after: null, object_ids: chunk }, chunkOptions);
+        const found = unwrapReadStartingWithUserObjectsConditionFound(page);
+        merged.push(...found.tuples);
+        latestIdentity = page.identity;
+        if (page.applicationHead > highestHead) highestHead = page.applicationHead;
+        if (pinnedHead === undefined || page.applicationHead > pinnedHead) pinnedHead = page.applicationHead;
+        if (page.nextCursor === undefined) break;
+        chunkCursor = page.nextCursor;
+      }
+    }
+    return { identity: latestIdentity!, value: { outcome: "Found", tuples: merged }, applicationHead: highestHead };
   }
 
   public async readStartingWithUserWithCondition(parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = {}): Promise<TypedQueryResult<ReadStartingWithUserWithConditionResult>> {
@@ -2934,7 +3100,7 @@ export class RiffDBOpenFGAClient {
     const start = options.checkpoint ?? 0;
     if (!Number.isInteger(start) || start < 0 || start > inputs.length) throw new Error("invalid command batch checkpoint");
     if (start === inputs.length) return { items: [], checkpoint: start };
-    if (this.transport.executeCommandBatch !== undefined) { const result = await this.transport.executeCommandBatch(applyTupleMutations(inputs[start]!), inputs, options.concurrency, start, this.commandAttemptBudget); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return result; }
+    if (this.transport.executeCommandBatch !== undefined) { const normalizedInputs = inputs.map((input) => applyTupleMutations(input).input); const result = await this.transport.executeCommandBatch(applyTupleMutations(normalizedInputs[start]!), normalizedInputs, options.concurrency, start, this.commandAttemptBudget); const items = result.items.map((item) => { if (item.result === undefined) return item; if (item.result.contractVersion !== CONTRACT_VERSION || item.result.planHash !== APPLY_TUPLE_MUTATIONS_PLAN_HASH) throw new Error("RiffDB application identity mismatch"); if (this.trackCausalWrites && item.result.commitSequence !== undefined && item.result.commitSequence > 0n && (this.lastCommitSeq === undefined || item.result.commitSequence > this.lastCommitSeq)) { this.lastCommitSeq = item.result.commitSequence; } return item; }); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return { items, checkpoint: result.checkpoint }; }
     const items: CommandBatchItem<ApplyTupleMutationsOutcome>[] = [];
     let next = start;
     let completed = start;
@@ -2960,7 +3126,7 @@ export class RiffDBOpenFGAClient {
     const start = options.checkpoint ?? 0;
     if (!Number.isInteger(start) || start < 0 || start > inputs.length) throw new Error("invalid command batch checkpoint");
     if (start === inputs.length) return { items: [], checkpoint: start };
-    if (this.transport.executeCommandBatch !== undefined) { const result = await this.transport.executeCommandBatch(createAssertionSet(inputs[start]!), inputs, options.concurrency, start, this.commandAttemptBudget); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return result; }
+    if (this.transport.executeCommandBatch !== undefined) { const normalizedInputs = inputs.map((input) => createAssertionSet(input).input); const result = await this.transport.executeCommandBatch(createAssertionSet(normalizedInputs[start]!), normalizedInputs, options.concurrency, start, this.commandAttemptBudget); const items = result.items.map((item) => { if (item.result === undefined) return item; if (item.result.contractVersion !== CONTRACT_VERSION || item.result.planHash !== CREATE_ASSERTION_SET_PLAN_HASH) throw new Error("RiffDB application identity mismatch"); if (this.trackCausalWrites && item.result.commitSequence !== undefined && item.result.commitSequence > 0n && (this.lastCommitSeq === undefined || item.result.commitSequence > this.lastCommitSeq)) { this.lastCommitSeq = item.result.commitSequence; } return item; }); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return { items, checkpoint: result.checkpoint }; }
     const items: CommandBatchItem<CreateAssertionSetOutcome>[] = [];
     let next = start;
     let completed = start;
@@ -2986,7 +3152,7 @@ export class RiffDBOpenFGAClient {
     const start = options.checkpoint ?? 0;
     if (!Number.isInteger(start) || start < 0 || start > inputs.length) throw new Error("invalid command batch checkpoint");
     if (start === inputs.length) return { items: [], checkpoint: start };
-    if (this.transport.executeCommandBatch !== undefined) { const result = await this.transport.executeCommandBatch(createStore(inputs[start]!), inputs, options.concurrency, start, this.commandAttemptBudget); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return result; }
+    if (this.transport.executeCommandBatch !== undefined) { const normalizedInputs = inputs.map((input) => createStore(input).input); const result = await this.transport.executeCommandBatch(createStore(normalizedInputs[start]!), normalizedInputs, options.concurrency, start, this.commandAttemptBudget); const items = result.items.map((item) => { if (item.result === undefined) return item; if (item.result.contractVersion !== CONTRACT_VERSION || item.result.planHash !== CREATE_STORE_PLAN_HASH) throw new Error("RiffDB application identity mismatch"); if (this.trackCausalWrites && item.result.commitSequence !== undefined && item.result.commitSequence > 0n && (this.lastCommitSeq === undefined || item.result.commitSequence > this.lastCommitSeq)) { this.lastCommitSeq = item.result.commitSequence; } return item; }); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return { items, checkpoint: result.checkpoint }; }
     const items: CommandBatchItem<CreateStoreOutcome>[] = [];
     let next = start;
     let completed = start;
@@ -3012,7 +3178,7 @@ export class RiffDBOpenFGAClient {
     const start = options.checkpoint ?? 0;
     if (!Number.isInteger(start) || start < 0 || start > inputs.length) throw new Error("invalid command batch checkpoint");
     if (start === inputs.length) return { items: [], checkpoint: start };
-    if (this.transport.executeCommandBatch !== undefined) { const result = await this.transport.executeCommandBatch(deleteStore(inputs[start]!), inputs, options.concurrency, start, this.commandAttemptBudget); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return result; }
+    if (this.transport.executeCommandBatch !== undefined) { const normalizedInputs = inputs.map((input) => deleteStore(input).input); const result = await this.transport.executeCommandBatch(deleteStore(normalizedInputs[start]!), normalizedInputs, options.concurrency, start, this.commandAttemptBudget); const items = result.items.map((item) => { if (item.result === undefined) return item; if (item.result.contractVersion !== CONTRACT_VERSION || item.result.planHash !== DELETE_STORE_PLAN_HASH) throw new Error("RiffDB application identity mismatch"); if (this.trackCausalWrites && item.result.commitSequence !== undefined && item.result.commitSequence > 0n && (this.lastCommitSeq === undefined || item.result.commitSequence > this.lastCommitSeq)) { this.lastCommitSeq = item.result.commitSequence; } return item; }); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return { items, checkpoint: result.checkpoint }; }
     const items: CommandBatchItem<DeleteStoreOutcome>[] = [];
     let next = start;
     let completed = start;
@@ -3038,7 +3204,7 @@ export class RiffDBOpenFGAClient {
     const start = options.checkpoint ?? 0;
     if (!Number.isInteger(start) || start < 0 || start > inputs.length) throw new Error("invalid command batch checkpoint");
     if (start === inputs.length) return { items: [], checkpoint: start };
-    if (this.transport.executeCommandBatch !== undefined) { const result = await this.transport.executeCommandBatch(updateAssertionSet(inputs[start]!), inputs, options.concurrency, start, this.commandAttemptBudget); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return result; }
+    if (this.transport.executeCommandBatch !== undefined) { const normalizedInputs = inputs.map((input) => updateAssertionSet(input).input); const result = await this.transport.executeCommandBatch(updateAssertionSet(normalizedInputs[start]!), normalizedInputs, options.concurrency, start, this.commandAttemptBudget); const items = result.items.map((item) => { if (item.result === undefined) return item; if (item.result.contractVersion !== CONTRACT_VERSION || item.result.planHash !== UPDATE_ASSERTION_SET_PLAN_HASH) throw new Error("RiffDB application identity mismatch"); if (this.trackCausalWrites && item.result.commitSequence !== undefined && item.result.commitSequence > 0n && (this.lastCommitSeq === undefined || item.result.commitSequence > this.lastCommitSeq)) { this.lastCommitSeq = item.result.commitSequence; } return item; }); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return { items, checkpoint: result.checkpoint }; }
     const items: CommandBatchItem<UpdateAssertionSetOutcome>[] = [];
     let next = start;
     let completed = start;
@@ -3064,7 +3230,7 @@ export class RiffDBOpenFGAClient {
     const start = options.checkpoint ?? 0;
     if (!Number.isInteger(start) || start < 0 || start > inputs.length) throw new Error("invalid command batch checkpoint");
     if (start === inputs.length) return { items: [], checkpoint: start };
-    if (this.transport.executeCommandBatch !== undefined) { const result = await this.transport.executeCommandBatch(writeAuthorizationModel(inputs[start]!), inputs, options.concurrency, start, this.commandAttemptBudget); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return result; }
+    if (this.transport.executeCommandBatch !== undefined) { const normalizedInputs = inputs.map((input) => writeAuthorizationModel(input).input); const result = await this.transport.executeCommandBatch(writeAuthorizationModel(normalizedInputs[start]!), normalizedInputs, options.concurrency, start, this.commandAttemptBudget); const items = result.items.map((item) => { if (item.result === undefined) return item; if (item.result.contractVersion !== CONTRACT_VERSION || item.result.planHash !== WRITE_AUTHORIZATION_MODEL_PLAN_HASH) throw new Error("RiffDB application identity mismatch"); if (this.trackCausalWrites && item.result.commitSequence !== undefined && item.result.commitSequence > 0n && (this.lastCommitSeq === undefined || item.result.commitSequence > this.lastCommitSeq)) { this.lastCommitSeq = item.result.commitSequence; } return item; }); options.onProgress?.({ completed: result.checkpoint, total: inputs.length, checkpoint: result.checkpoint }); return { items, checkpoint: result.checkpoint }; }
     const items: CommandBatchItem<WriteAuthorizationModelOutcome>[] = [];
     let next = start;
     let completed = start;

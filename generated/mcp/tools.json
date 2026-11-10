@@ -113,6 +113,7 @@
           "openWorldHint": false,
           "readOnlyHint": false
         },
+        "description": "Executes RiffDB command riffdbopenfga/applytuplemutations (inputs: mutations, request_id; outcomes: TupleStateUnexpected, TupleMutationsApplied, TupleChangeAlreadyExists).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -470,7 +471,8 @@
             }
           ],
           "type": "object"
-        }
+        },
+        "title": "Command riffdbopenfga/applytuplemutations"
       },
       "mcp_identity": {
         "command_id": 5,
@@ -561,7 +563,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run ApplyTupleMutations"
     },
@@ -607,6 +610,7 @@
           "openWorldHint": false,
           "readOnlyHint": false
         },
+        "description": "Executes RiffDB command riffdbopenfga/createassertionset (inputs: model_id, request_id, serialized_protobuf, store_id; outcomes: AssertionSetCreated, AssertionSetAlreadyExists).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -826,7 +830,8 @@
             }
           ],
           "type": "object"
-        }
+        },
+        "title": "Command riffdbopenfga/createassertionset"
       },
       "mcp_identity": {
         "command_id": 3,
@@ -884,7 +889,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run CreateAssertionSet"
     },
@@ -929,6 +935,7 @@
           "openWorldHint": false,
           "readOnlyHint": false
         },
+        "description": "Executes RiffDB command riffdbopenfga/createstore (inputs: name, registry_id, request_id, store_id; outcomes: StoreCreated, StoreAlreadyExists).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -1247,7 +1254,8 @@
             }
           ],
           "type": "object"
-        }
+        },
+        "title": "Command riffdbopenfga/createstore"
       },
       "mcp_identity": {
         "command_id": 1,
@@ -1349,7 +1357,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run CreateStore"
     },
@@ -1394,6 +1403,7 @@
           "openWorldHint": false,
           "readOnlyHint": false
         },
+        "description": "Executes RiffDB command riffdbopenfga/deletestore (inputs: expected_revision, registry_id, request_id, store_id; outcomes: StoreChanged, StoreDeleted, StoreMissing).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -1625,7 +1635,8 @@
             }
           ],
           "type": "object"
-        }
+        },
+        "title": "Command riffdbopenfga/deletestore"
       },
       "mcp_identity": {
         "command_id": 2,
@@ -1696,7 +1707,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run DeleteStore"
     },
@@ -1746,6 +1758,7 @@
           "openWorldHint": false,
           "readOnlyHint": false
         },
+        "description": "Executes RiffDB command riffdbopenfga/updateassertionset (inputs: expected_revision, model_id, request_id, serialized_protobuf, store_id; outcomes: AssertionSetChanged, AssertionSetMissing, Asserti...",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -1983,7 +1996,8 @@
             }
           ],
           "type": "object"
-        }
+        },
+        "title": "Command riffdbopenfga/updateassertionset"
       },
       "mcp_identity": {
         "command_id": 4,
@@ -2054,7 +2068,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run UpdateAssertionSet"
     },
@@ -2104,6 +2119,7 @@
           "openWorldHint": false,
           "readOnlyHint": false
         },
+        "description": "Executes RiffDB command riffdbopenfga/writeauthorizationmodel (inputs: model_id, request_id, schema_version, serialized_protobuf, store_id; outcomes: ModelWritten, ModelAlreadyExists).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -2328,7 +2344,8 @@
             }
           ],
           "type": "object"
-        }
+        },
+        "title": "Command riffdbopenfga/writeauthorizationmodel"
       },
       "mcp_identity": {
         "command_id": 6,
@@ -2386,7 +2403,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run WriteAuthorizationModel"
     }
@@ -2427,6 +2445,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_get_assertion_set (inputs: model_id, store_id; outcomes: Found, NotFound).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -2458,9 +2477,10 @@
                       "type": "string"
                     },
                     "revision": {
-                      "type": "string"
+                      "type": "integer"
                     },
                     "serialized_protobuf": {
+                      "contentEncoding": "base64",
                       "type": "string"
                     },
                     "store_id": {
@@ -2499,8 +2519,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_get_assertion_set"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_get_assertion_set",
@@ -2518,9 +2540,10 @@
                     "type": "string"
                   },
                   "revision": {
-                    "type": "string"
+                    "type": "integer"
                   },
                   "serialized_protobuf": {
+                    "contentEncoding": "base64",
                     "type": "string"
                   },
                   "store_id": {
@@ -2559,7 +2582,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run GetAssertionSet"
     },
@@ -2595,6 +2619,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_get_authorization_model (inputs: model_id, store_id; outcomes: Found, NotFound).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -2629,6 +2654,7 @@
                       "type": "string"
                     },
                     "serialized_protobuf": {
+                      "contentEncoding": "base64",
                       "type": "string"
                     },
                     "store_id": {
@@ -2667,8 +2693,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_get_authorization_model"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_get_authorization_model",
@@ -2689,6 +2717,7 @@
                     "type": "string"
                   },
                   "serialized_protobuf": {
+                    "contentEncoding": "base64",
                     "type": "string"
                   },
                   "store_id": {
@@ -2727,7 +2756,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run GetAuthorizationModel"
     },
@@ -2763,6 +2793,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_get_store (inputs: registry_id, store_id; outcomes: Found, NotFound).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -2801,7 +2832,7 @@
                       "type": "string"
                     },
                     "revision": {
-                      "type": "string"
+                      "type": "integer"
                     },
                     "store_id": {
                       "type": "string"
@@ -2839,8 +2870,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_get_store"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_get_store",
@@ -2865,7 +2898,7 @@
                     "type": "string"
                   },
                   "revision": {
-                    "type": "string"
+                    "type": "integer"
                   },
                   "store_id": {
                     "type": "string"
@@ -2903,7 +2936,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run GetStore"
     },
@@ -2951,6 +2985,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_get_tuple_state (inputs: object_id, object_type, relation, store_id, user; outcomes: Found, NotFound).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -2995,11 +3030,12 @@
                   "additionalProperties": false,
                   "properties": {
                     "active": {
-                      "type": "string"
+                      "type": "boolean"
                     },
                     "condition_context": {
                       "anyOf": [
                         {
+                          "contentEncoding": "base64",
                           "type": "string"
                         },
                         {
@@ -3023,7 +3059,7 @@
                       "type": "string"
                     },
                     "revision": {
-                      "type": "string"
+                      "type": "integer"
                     },
                     "store_id": {
                       "type": "string"
@@ -3082,8 +3118,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_get_tuple_state"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_get_tuple_state",
@@ -3102,11 +3140,12 @@
                 "additionalProperties": false,
                 "properties": {
                   "active": {
-                    "type": "string"
+                    "type": "boolean"
                   },
                   "condition_context": {
                     "anyOf": [
                       {
+                        "contentEncoding": "base64",
                         "type": "string"
                       },
                       {
@@ -3130,7 +3169,7 @@
                     "type": "string"
                   },
                   "revision": {
-                    "type": "string"
+                    "type": "integer"
                   },
                   "store_id": {
                     "type": "string"
@@ -3189,7 +3228,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run GetTupleState"
     },
@@ -3221,6 +3261,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_latest_authorization_model (inputs: store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -3252,6 +3293,7 @@
                         "type": "string"
                       },
                       "serialized_protobuf": {
+                        "contentEncoding": "base64",
                         "type": "string"
                       },
                       "store_id": {
@@ -3280,8 +3322,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_latest_authorization_model"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_latest_authorization_model",
@@ -3303,6 +3347,7 @@
                       "type": "string"
                     },
                     "serialized_protobuf": {
+                      "contentEncoding": "base64",
                       "type": "string"
                     },
                     "store_id": {
@@ -3331,7 +3376,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run LatestAuthorizationModel"
     },
@@ -3382,6 +3428,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_list_authorization_models (inputs: after, limit, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -3457,6 +3504,7 @@
                             "type": "string"
                           },
                           "serialized_protobuf": {
+                            "contentEncoding": "base64",
                             "type": "string"
                           },
                           "store_id": {
@@ -3494,7 +3542,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_list_authorization_models"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_list_authorization_models",
@@ -3541,6 +3590,7 @@
                           "type": "string"
                         },
                         "serialized_protobuf": {
+                          "contentEncoding": "base64",
                           "type": "string"
                         },
                         "store_id": {
@@ -3628,6 +3678,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_list_stores_all (inputs: after, limit, registry_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -3707,7 +3758,7 @@
                             "type": "string"
                           },
                           "revision": {
-                            "type": "string"
+                            "type": "integer"
                           },
                           "store_id": {
                             "type": "string"
@@ -3744,7 +3795,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_list_stores_all"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_list_stores_all",
@@ -3795,7 +3847,7 @@
                           "type": "string"
                         },
                         "revision": {
-                          "type": "string"
+                          "type": "integer"
                         },
                         "store_id": {
                           "type": "string"
@@ -3891,6 +3943,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_list_stores_by_ids (inputs: after, ids, limit, registry_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -3979,7 +4032,7 @@
                             "type": "string"
                           },
                           "revision": {
-                            "type": "string"
+                            "type": "integer"
                           },
                           "store_id": {
                             "type": "string"
@@ -4016,7 +4069,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_list_stores_by_ids"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_list_stores_by_ids",
@@ -4067,7 +4121,7 @@
                           "type": "string"
                         },
                         "revision": {
-                          "type": "string"
+                          "type": "integer"
                         },
                         "store_id": {
                           "type": "string"
@@ -4167,6 +4221,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_list_stores_by_ids_and_name (inputs: after, ids, limit, name, registry_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -4259,7 +4314,7 @@
                             "type": "string"
                           },
                           "revision": {
-                            "type": "string"
+                            "type": "integer"
                           },
                           "store_id": {
                             "type": "string"
@@ -4296,7 +4351,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_list_stores_by_ids_and_name"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_list_stores_by_ids_and_name",
@@ -4347,7 +4403,7 @@
                           "type": "string"
                         },
                         "revision": {
-                          "type": "string"
+                          "type": "integer"
                         },
                         "store_id": {
                           "type": "string"
@@ -4438,6 +4494,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_list_stores_by_name (inputs: after, limit, name, registry_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -4521,7 +4578,7 @@
                             "type": "string"
                           },
                           "revision": {
-                            "type": "string"
+                            "type": "integer"
                           },
                           "store_id": {
                             "type": "string"
@@ -4558,7 +4615,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_list_stores_by_name"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_list_stores_by_name",
@@ -4609,7 +4667,7 @@
                           "type": "string"
                         },
                         "revision": {
-                          "type": "string"
+                          "type": "integer"
                         },
                         "store_id": {
                           "type": "string"
@@ -4696,6 +4754,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_all_tuples (inputs: after, limit, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -4771,6 +4830,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -4827,7 +4887,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_all_tuples"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_all_tuples",
@@ -4874,6 +4935,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -4984,6 +5046,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_all_tuples_with_conditions (inputs: after, condition, limit, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -5063,6 +5126,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -5119,7 +5183,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_all_tuples_with_conditions"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_all_tuples_with_conditions",
@@ -5166,6 +5231,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -5286,6 +5352,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_changes_asc (inputs: after, horizon, limit, start, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -5374,6 +5441,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -5443,7 +5511,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_changes_asc"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_changes_asc",
@@ -5489,6 +5558,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -5626,6 +5696,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_changes_by_object_asc (inputs: after, horizon, limit, object_type, start, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -5718,6 +5789,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -5787,7 +5859,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_changes_by_object_asc"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_changes_by_object_asc",
@@ -5833,6 +5906,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -5960,6 +6034,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_changes_by_object_desc (inputs: after, horizon, limit, object_type, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -6042,6 +6117,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -6111,7 +6187,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_changes_by_object_desc"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_changes_by_object_desc",
@@ -6157,6 +6234,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -6280,6 +6358,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_changes_desc (inputs: after, horizon, limit, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -6358,6 +6437,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -6427,7 +6507,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_changes_desc"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_changes_desc",
@@ -6473,6 +6554,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -6604,6 +6686,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_starting_with_user (inputs: after, limit, object_type, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -6691,6 +6774,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -6747,7 +6831,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_starting_with_user"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_starting_with_user",
@@ -6794,6 +6879,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -6921,6 +7007,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_starting_with_user_and_objects (inputs: after, limit, object_ids, object_type, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -7017,6 +7104,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -7073,7 +7161,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_starting_with_user_and_objects"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_starting_with_user_and_objects",
@@ -7120,6 +7209,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -7251,6 +7341,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_starting_with_user_objects_condition (inputs: after, condition, limit, object_ids, object_type, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -7351,6 +7442,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -7407,7 +7499,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_starting_with_user_objects_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_starting_with_user_objects_condition",
@@ -7454,6 +7547,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -7576,6 +7670,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_starting_with_user_with_condition (inputs: after, condition, limit, object_type, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -7667,6 +7762,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -7723,7 +7819,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_starting_with_user_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_starting_with_user_with_condition",
@@ -7770,6 +7867,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -7873,6 +7971,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuple_exact (inputs: object_id, object_type, relation, store_id, user; outcomes: Found, NotFound).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -7919,6 +8018,7 @@
                     "condition_context": {
                       "anyOf": [
                         {
+                          "contentEncoding": "base64",
                           "type": "string"
                         },
                         {
@@ -7976,8 +8076,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_read_tuple_exact"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuple_exact",
@@ -7998,6 +8100,7 @@
                   "condition_context": {
                     "anyOf": [
                       {
+                        "contentEncoding": "base64",
                         "type": "string"
                       },
                       {
@@ -8055,7 +8158,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run ReadTupleExact"
     },
@@ -8107,6 +8211,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuple_exact_with_condition (inputs: condition, object_id, object_type, relation, store_id, user; outcomes: Found, NotFound).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -8157,6 +8262,7 @@
                     "condition_context": {
                       "anyOf": [
                         {
+                          "contentEncoding": "base64",
                           "type": "string"
                         },
                         {
@@ -8214,8 +8320,10 @@
               ],
               "type": "object"
             }
-          ]
-        }
+          ],
+          "type": "object"
+        },
+        "title": "Query riffdb/openfga_read_tuple_exact_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuple_exact_with_condition",
@@ -8236,6 +8344,7 @@
                   "condition_context": {
                     "anyOf": [
                       {
+                        "contentEncoding": "base64",
                         "type": "string"
                       },
                       {
@@ -8293,7 +8402,8 @@
             ],
             "type": "object"
           }
-        ]
+        ],
+        "type": "object"
       },
       "title": "Run ReadTupleExactWithCondition"
     },
@@ -8352,6 +8462,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_object (inputs: after, limit, object_id, object_type, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -8435,6 +8546,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -8491,7 +8603,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_object"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_object",
@@ -8538,6 +8651,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -8656,6 +8770,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_object_relation (inputs: after, limit, object_id, object_type, relation, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -8743,6 +8858,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -8799,7 +8915,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_object_relation"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_object_relation",
@@ -8846,6 +8963,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -8968,6 +9086,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_object_relation_with_condition (inputs: after, condition, limit, object_id, object_type, relation, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -9059,6 +9178,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -9115,7 +9235,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_object_relation_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_object_relation_with_condition",
@@ -9162,6 +9283,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -9280,6 +9402,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_object_user (inputs: after, limit, object_id, object_type, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -9367,6 +9490,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -9423,7 +9547,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_object_user"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_object_user",
@@ -9470,6 +9595,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -9592,6 +9718,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_object_user_with_condition (inputs: after, condition, limit, object_id, object_type, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -9683,6 +9810,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -9739,7 +9867,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_object_user_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_object_user_with_condition",
@@ -9786,6 +9915,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -9904,6 +10034,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_object_with_condition (inputs: after, condition, limit, object_id, object_type, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -9991,6 +10122,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -10047,7 +10179,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_object_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_object_with_condition",
@@ -10094,6 +10227,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -10208,6 +10342,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_relation_user (inputs: after, limit, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -10291,6 +10426,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -10347,7 +10483,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_relation_user"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_relation_user",
@@ -10394,6 +10531,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -10512,6 +10650,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_relation_user_with_condition (inputs: after, condition, limit, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -10599,6 +10738,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -10655,7 +10795,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_relation_user_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_relation_user_with_condition",
@@ -10702,6 +10843,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -10812,6 +10954,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type (inputs: after, limit, object_type, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -10891,6 +11034,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -10947,7 +11091,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type",
@@ -10994,6 +11139,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -11108,6 +11254,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_relation (inputs: after, limit, object_type, relation, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -11191,6 +11338,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -11247,7 +11395,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_relation"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_relation",
@@ -11294,6 +11443,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -11412,6 +11562,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_relation_user (inputs: after, limit, object_type, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -11499,6 +11650,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -11555,7 +11707,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_relation_user"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_relation_user",
@@ -11602,6 +11755,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -11724,6 +11878,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_relation_user_with_condition (inputs: after, condition, limit, object_type, relation, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -11815,6 +11970,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -11871,7 +12027,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_relation_user_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_relation_user_with_condition",
@@ -11918,6 +12075,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -12036,6 +12194,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_relation_with_condition (inputs: after, condition, limit, object_type, relation, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -12123,6 +12282,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -12179,7 +12339,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_relation_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_relation_with_condition",
@@ -12226,6 +12387,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -12340,6 +12502,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_user (inputs: after, limit, object_type, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -12423,6 +12586,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -12479,7 +12643,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_user"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_user",
@@ -12526,6 +12691,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -12644,6 +12810,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_user_with_condition (inputs: after, condition, limit, object_type, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -12731,6 +12898,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -12787,7 +12955,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_user_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_user_with_condition",
@@ -12834,6 +13003,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -12948,6 +13118,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_type_with_condition (inputs: after, condition, limit, object_type, store_id; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -13031,6 +13202,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -13087,7 +13259,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_type_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_type_with_condition",
@@ -13134,6 +13307,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -13244,6 +13418,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_user (inputs: after, limit, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -13323,6 +13498,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -13379,7 +13555,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_user"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_user",
@@ -13426,6 +13603,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -13540,6 +13718,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_tuples_by_user_with_condition (inputs: after, condition, limit, store_id, user; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -13623,6 +13802,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -13679,7 +13859,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_tuples_by_user_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_tuples_by_user_with_condition",
@@ -13726,6 +13907,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -13848,6 +14030,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_userset_by_kind (inputs: after, limit, object_id, object_type, relation, store_id, user_kind; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -13939,6 +14122,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -13995,7 +14179,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_userset_by_kind"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_userset_by_kind",
@@ -14042,6 +14227,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -14172,6 +14358,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_userset_by_kind_type_relation (inputs: after, limit, object_id, object_type, relation, store_id, user_kind, user_object_type, user_relation...",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -14271,6 +14458,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -14327,7 +14515,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_userset_by_kind_type_relation"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_userset_by_kind_type_relation",
@@ -14374,6 +14563,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -14508,6 +14698,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_userset_by_kind_type_relation_with_condition (inputs: after, condition, limit, object_id, object_type, relation, store_id, user_kind, user_...",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -14611,6 +14802,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -14667,7 +14859,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_userset_by_kind_type_relation_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_userset_by_kind_type_relation_with_condition",
@@ -14714,6 +14907,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {
@@ -14840,6 +15034,7 @@
           "openWorldHint": false,
           "readOnlyHint": true
         },
+        "description": "Executes read-only RiffDB named query riffdb/openfga_read_userset_by_kind_with_condition (inputs: after, condition, limit, object_id, object_type, relation, store_id, user_kind; outcomes: Found).",
         "inputSchema": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "additionalProperties": false,
@@ -14935,6 +15130,7 @@
                           "condition_context": {
                             "anyOf": [
                               {
+                                "contentEncoding": "base64",
                                 "type": "string"
                               },
                               {
@@ -14991,7 +15187,8 @@
           ],
           "type": "object",
           "x-riffdb-resultProfile": "paginated-envelope-v1"
-        }
+        },
+        "title": "Query riffdb/openfga_read_userset_by_kind_with_condition"
       },
       "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
       "name": "riffdb_openfga_read_userset_by_kind_with_condition",
@@ -15038,6 +15235,7 @@
                         "condition_context": {
                           "anyOf": [
                             {
+                              "contentEncoding": "base64",
                               "type": "string"
                             },
                             {

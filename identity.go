@@ -19,7 +19,7 @@ const (
 	// OperationCatalogHash is the exact operation catalog (MCP tools.json)
 	// content hash recorded in riffdb.application.lock.json for this
 	// compiled application.
-	OperationCatalogHash = "7c3d8faabe8621f6f32a5af88422d3c67e2f47837625e7462fe9660f7141c83d"
+	OperationCatalogHash = "950b0670c6d7080352fbb7766b79184f352c96625401fdcdce6f40290fd03b30"
 
 	// QueryModuleHash is the compiled RiffQL query module hash for this
 	// application.

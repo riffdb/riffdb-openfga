@@ -387,6 +387,7 @@ class ListStoresAllFound:
 ListStoresAllResult: TypeAlias = ListStoresAllFound
 
 LIST_STORES_BY_IDS_QUERY_PLAN_HASH: Final[str] = "be34f0cfb066973c4076ee5045e2850a378c531a89d118cc13464294997761b1"
+LIST_STORES_BY_IDS_IDS_MAX_ITEMS: Final[int] = 200
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsParams:
@@ -417,6 +418,7 @@ class ListStoresByIdsFound:
 ListStoresByIdsResult: TypeAlias = ListStoresByIdsFound
 
 LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH: Final[str] = "090794f2b8b5c85a0db615b2921c5b64e77c80edec0dec2ce457fbc398544bfa"
+LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS: Final[int] = 200
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListStoresByIdsAndNameParams:
@@ -719,6 +721,7 @@ class ReadStartingWithUserFound:
 ReadStartingWithUserResult: TypeAlias = ReadStartingWithUserFound
 
 READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "d8b9f27d3a8ce4ff7b00cdc56d29c0d41528de31d18d5eb133ceda78095a14ba"
+READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS: Final[int] = 200
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserAndObjectsParams:
@@ -754,6 +757,7 @@ class ReadStartingWithUserAndObjectsFound:
 ReadStartingWithUserAndObjectsResult: TypeAlias = ReadStartingWithUserAndObjectsFound
 
 READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "1d3198fac0e66662bced1e381fb1815c008625c619c92ab40198a6e02a114fa6"
+READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS: Final[int] = 200
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserObjectsConditionParams:
@@ -2153,6 +2157,41 @@ class RiffDBOpenFGAClient:
             cursor = page.next_cursor
         return pages
 
+    def list_stores_by_ids_all(self, parameters: ListStoresByIdsParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("list_stores_by_ids_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.ids))
+        if not items:
+            raise ValueError("ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ListStoresByIdsFoundStores] = []
+        latest_page: TypedQueryResult[ListStoresByIdsResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), LIST_STORES_BY_IDS_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + LIST_STORES_BY_IDS_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("list_stores_by_ids_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ListStoresByIdsParams(registry_id=parameters.registry_id, ids=chunk, limit=parameters.limit, after=None)
+                page = self.list_stores_by_ids(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.stores)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ListStoresByIdsFound(stores=tuple(merged)), application_head=highest_head, next_cursor=None)
+
     def list_stores_by_ids_and_name(self, parameters: ListStoresByIdsAndNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
             raise ValueError("limit must be an integer from 1 through 50")
@@ -2194,6 +2233,41 @@ class RiffDBOpenFGAClient:
                 break
             cursor = page.next_cursor
         return pages
+
+    def list_stores_by_ids_and_name_all(self, parameters: ListStoresByIdsAndNameParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("list_stores_by_ids_and_name_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.ids))
+        if not items:
+            raise ValueError("ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ListStoresByIdsAndNameFoundStores] = []
+        latest_page: TypedQueryResult[ListStoresByIdsAndNameResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("list_stores_by_ids_and_name_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ListStoresByIdsAndNameParams(registry_id=parameters.registry_id, ids=chunk, name=parameters.name, limit=parameters.limit, after=None)
+                page = self.list_stores_by_ids_and_name(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.stores)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ListStoresByIdsAndNameFound(stores=tuple(merged)), application_head=highest_head, next_cursor=None)
 
     def list_stores_by_name(self, parameters: ListStoresByNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByNameResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
@@ -2573,6 +2647,41 @@ class RiffDBOpenFGAClient:
             cursor = page.next_cursor
         return pages
 
+    def read_starting_with_user_and_objects_all(self, parameters: ReadStartingWithUserAndObjectsParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("read_starting_with_user_and_objects_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.object_ids))
+        if not items:
+            raise ValueError("object_ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ReadStartingWithUserAndObjectsFoundTuples] = []
+        latest_page: TypedQueryResult[ReadStartingWithUserAndObjectsResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("read_starting_with_user_and_objects_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ReadStartingWithUserAndObjectsParams(store_id=parameters.store_id, object_type=parameters.object_type, relation=parameters.relation, user=parameters.user, object_ids=chunk, limit=parameters.limit, after=None)
+                page = self.read_starting_with_user_and_objects(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.tuples)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ReadStartingWithUserAndObjectsFound(tuples=tuple(merged)), application_head=highest_head, next_cursor=None)
+
     def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
             raise ValueError("limit must be an integer from 1 through 50")
@@ -2614,6 +2723,41 @@ class RiffDBOpenFGAClient:
                 break
             cursor = page.next_cursor
         return pages
+
+    def read_starting_with_user_objects_condition_all(self, parameters: ReadStartingWithUserObjectsConditionParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("read_starting_with_user_objects_condition_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.object_ids))
+        if not items:
+            raise ValueError("object_ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ReadStartingWithUserObjectsConditionFoundTuples] = []
+        latest_page: TypedQueryResult[ReadStartingWithUserObjectsConditionResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("read_starting_with_user_objects_condition_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ReadStartingWithUserObjectsConditionParams(store_id=parameters.store_id, object_type=parameters.object_type, relation=parameters.relation, user=parameters.user, object_ids=chunk, condition=parameters.condition, limit=parameters.limit, after=None)
+                page = self.read_starting_with_user_objects_condition(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.tuples)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ReadStartingWithUserObjectsConditionFound(tuples=tuple(merged)), application_head=highest_head, next_cursor=None)
 
     def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
@@ -4044,6 +4188,41 @@ class AsyncRiffDBOpenFGAClient:
             cursor = page.next_cursor
         return pages
 
+    async def list_stores_by_ids_all(self, parameters: ListStoresByIdsParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("list_stores_by_ids_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.ids))
+        if not items:
+            raise ValueError("ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ListStoresByIdsFoundStores] = []
+        latest_page: TypedQueryResult[ListStoresByIdsResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), LIST_STORES_BY_IDS_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + LIST_STORES_BY_IDS_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("list_stores_by_ids_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ListStoresByIdsParams(registry_id=parameters.registry_id, ids=chunk, limit=parameters.limit, after=None)
+                page = await self.list_stores_by_ids(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.stores)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ListStoresByIdsFound(stores=tuple(merged)), application_head=highest_head, next_cursor=None)
+
     async def list_stores_by_ids_and_name(self, parameters: ListStoresByIdsAndNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
             raise ValueError("limit must be an integer from 1 through 50")
@@ -4085,6 +4264,41 @@ class AsyncRiffDBOpenFGAClient:
                 break
             cursor = page.next_cursor
         return pages
+
+    async def list_stores_by_ids_and_name_all(self, parameters: ListStoresByIdsAndNameParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByIdsAndNameFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("list_stores_by_ids_and_name_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.ids))
+        if not items:
+            raise ValueError("ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ListStoresByIdsAndNameFoundStores] = []
+        latest_page: TypedQueryResult[ListStoresByIdsAndNameResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("list_stores_by_ids_and_name_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ListStoresByIdsAndNameParams(registry_id=parameters.registry_id, ids=chunk, name=parameters.name, limit=parameters.limit, after=None)
+                page = await self.list_stores_by_ids_and_name(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.stores)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ListStoresByIdsAndNameFound(stores=tuple(merged)), application_head=highest_head, next_cursor=None)
 
     async def list_stores_by_name(self, parameters: ListStoresByNameParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ListStoresByNameResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
@@ -4464,6 +4678,41 @@ class AsyncRiffDBOpenFGAClient:
             cursor = page.next_cursor
         return pages
 
+    async def read_starting_with_user_and_objects_all(self, parameters: ReadStartingWithUserAndObjectsParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserAndObjectsFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("read_starting_with_user_and_objects_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.object_ids))
+        if not items:
+            raise ValueError("object_ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ReadStartingWithUserAndObjectsFoundTuples] = []
+        latest_page: TypedQueryResult[ReadStartingWithUserAndObjectsResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("read_starting_with_user_and_objects_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ReadStartingWithUserAndObjectsParams(store_id=parameters.store_id, object_type=parameters.object_type, relation=parameters.relation, user=parameters.user, object_ids=chunk, limit=parameters.limit, after=None)
+                page = await self.read_starting_with_user_and_objects(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.tuples)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ReadStartingWithUserAndObjectsFound(tuples=tuple(merged)), application_head=highest_head, next_cursor=None)
+
     async def read_starting_with_user_objects_condition(self, parameters: ReadStartingWithUserObjectsConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
             raise ValueError("limit must be an integer from 1 through 50")
@@ -4505,6 +4754,41 @@ class AsyncRiffDBOpenFGAClient:
                 break
             cursor = page.next_cursor
         return pages
+
+    async def read_starting_with_user_objects_condition_all(self, parameters: ReadStartingWithUserObjectsConditionParams, max_pages: int = 64, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserObjectsConditionFound]:
+        if isinstance(max_pages, bool) or not isinstance(max_pages, int) or max_pages < 1 or max_pages > 1024:
+            raise ValueError("max_pages must be an integer from 1 through 1024")
+        if options.cursor is not None or parameters.after is not None:
+            raise ValueError("read_starting_with_user_objects_condition_all does not accept an initial cursor")
+        items = tuple(dict.fromkeys(parameters.object_ids))
+        if not items:
+            raise ValueError("object_ids must contain at least 1 item")
+        pinned_head = options.read_after_commit if options.read_after_commit is not None else self._read_after_commit
+        highest_head = 0
+        merged: list[ReadStartingWithUserObjectsConditionFoundTuples] = []
+        latest_page: TypedQueryResult[ReadStartingWithUserObjectsConditionResult] | None = None
+        pages_remaining = max_pages
+        for offset in range(0, len(items), READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS):
+            chunk = items[offset:offset + READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS]
+            chunk_cursor: str | None = None
+            while True:
+                if pages_remaining < 1:
+                    raise ValueError("read_starting_with_user_objects_condition_all exceeded max_pages (1..=1024)")
+                pages_remaining -= 1
+                chunk_parameters = ReadStartingWithUserObjectsConditionParams(store_id=parameters.store_id, object_type=parameters.object_type, relation=parameters.relation, user=parameters.user, object_ids=chunk, condition=parameters.condition, limit=parameters.limit, after=None)
+                page = await self.read_starting_with_user_objects_condition(chunk_parameters, QueryOptions(cursor=chunk_cursor, read_after_commit=pinned_head, consistency=options.consistency))
+                found = page.value.unwrap_found()
+                merged.extend(found.tuples)
+                latest_page = page
+                if page.application_head > highest_head:
+                    highest_head = page.application_head
+                if pinned_head is None or page.application_head > pinned_head:
+                    pinned_head = page.application_head
+                if not page.next_cursor:
+                    break
+                chunk_cursor = page.next_cursor
+        assert latest_page is not None
+        return TypedQueryResult(identity=latest_page.identity, value=ReadStartingWithUserObjectsConditionFound(tuples=tuple(merged)), application_head=highest_head, next_cursor=None)
 
     async def read_starting_with_user_with_condition(self, parameters: ReadStartingWithUserWithConditionParams, options: QueryOptions = QueryOptions()) -> TypedQueryResult[ReadStartingWithUserWithConditionResult]:
         if parameters.limit is not None and (isinstance(parameters.limit, bool) or not isinstance(parameters.limit, int) or parameters.limit < 1 or parameters.limit > 50):
