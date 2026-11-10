@@ -407,7 +407,6 @@ export function listStoresAll(parameters: ListStoresAllParams): NamedQueryReques
 }
 
 export const LIST_STORES_BY_IDS_QUERY_PLAN_HASH = "be34f0cfb066973c4076ee5045e2850a378c531a89d118cc13464294997761b1" as const;
-export const LIST_STORES_BY_IDS_IDS_MAX_ITEMS = 200 as const;
 export interface ListStoresByIdsParams {
   readonly registry_id: string;
   readonly ids: ReadonlyArray<string>;
@@ -438,7 +437,6 @@ export function listStoresByIds(parameters: ListStoresByIdsParams): NamedQueryRe
 }
 
 export const LIST_STORES_BY_IDS_AND_NAME_QUERY_PLAN_HASH = "090794f2b8b5c85a0db615b2921c5b64e77c80edec0dec2ce457fbc398544bfa" as const;
-export const LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS = 200 as const;
 export interface ListStoresByIdsAndNameParams {
   readonly registry_id: string;
   readonly ids: ReadonlyArray<string>;
@@ -1780,10 +1778,10 @@ export class RiffDBOpenFGAClient {
 
   public static async connect(
     driver: { connect(config: { readonly socketPath: string; readonly identity: ContractDriverIdentity }): Promise<ApplicationTransport> } | ((config: { readonly socketPath: string; readonly identity: ContractDriverIdentity }) => Promise<ApplicationTransport>),
-    options: { readonly socketPath: string; readonly role: string; readonly database?: string; readonly commandAttemptBudget?: number },
+    options: { readonly socketPath: string; readonly role?: string; readonly database?: string; readonly commandAttemptBudget?: number },
   ): Promise<RiffDBOpenFGAClient> {
-    const identity = driverIdentity(options.role, options.database);
-    const transport = typeof driver === "function" ? await driver({ socketPath: options.socketPath, identity }) : await driver.connect({ socketPath: options.socketPath, identity });
+    const identity = driverIdentity(options.role ?? "", options.database);
+    const transport = "connect" in driver ? await driver.connect({ socketPath: options.socketPath, identity }) : await driver({ socketPath: options.socketPath, identity });
     return new RiffDBOpenFGAClient(transport, options.commandAttemptBudget ?? DEFAULT_COMMAND_ATTEMPT_BUDGET);
   }
 
@@ -1793,7 +1791,7 @@ export class RiffDBOpenFGAClient {
   ): Promise<RiffDBOpenFGAClient> {
     const { commandAttemptBudget, ...envOptions } = options;
     const connectInput = { ...envOptions, identity: CONTRACT_DRIVER_IDENTITY };
-    const transport = typeof driver === "function" ? await driver(connectInput) : await driver.connectFromEnv(connectInput);
+    const transport = "connectFromEnv" in driver ? await driver.connectFromEnv(connectInput) : await driver(connectInput);
     return new RiffDBOpenFGAClient(transport, commandAttemptBudget ?? DEFAULT_COMMAND_ATTEMPT_BUDGET);
   }
 
@@ -1956,36 +1954,6 @@ export class RiffDBOpenFGAClient {
     }
   }
 
-  public async listStoresByIdsAll(parameters: ListStoresByIdsParams, maxPages: number = 64, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByIdsFound>> {
-    if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > 1024) throw new RangeError("maxPages must be an integer from 1 through 1024");
-    if (options.cursor !== undefined || parameters.after != null) throw new Error("listStoresByIdsAll does not accept an initial cursor");
-    const items = Array.from(new Set(parameters.ids));
-    if (items.length === 0) throw new RangeError("ids must contain at least 1 item");
-    const merged: Array<ListStoresByIdsFound["stores"][number]> = [];
-    let latestIdentity: QueryResponseIdentity | undefined;
-    let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
-    let highestHead = 0n;
-    let pagesRemaining = maxPages;
-    for (let offset = 0; offset < items.length; offset += LIST_STORES_BY_IDS_IDS_MAX_ITEMS) {
-      const chunk = items.slice(offset, offset + LIST_STORES_BY_IDS_IDS_MAX_ITEMS);
-      let chunkCursor: string | undefined = undefined;
-      while (true) {
-        if (pagesRemaining < 1) throw new RangeError("listStoresByIdsAll exceeded maxPages (1..=1024)");
-        pagesRemaining -= 1;
-        const chunkOptions: QueryOptions = { ...options, ...(pinnedHead === undefined ? {} : { readAfterCommit: pinnedHead }), ...(chunkCursor === undefined ? {} : { cursor: chunkCursor }) };
-        const page = await this.listStoresByIds({ ...parameters, after: null, ids: chunk }, chunkOptions);
-        const found = unwrapListStoresByIdsFound(page);
-        merged.push(...found.stores);
-        latestIdentity = page.identity;
-        if (page.applicationHead > highestHead) highestHead = page.applicationHead;
-        if (pinnedHead === undefined || page.applicationHead > pinnedHead) pinnedHead = page.applicationHead;
-        if (page.nextCursor === undefined) break;
-        chunkCursor = page.nextCursor;
-      }
-    }
-    return { identity: latestIdentity!, value: { outcome: "Found", stores: merged }, applicationHead: highestHead };
-  }
-
   public async listStoresByIdsAndName(parameters: ListStoresByIdsAndNameParams, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByIdsAndNameResult>> {
     const effectiveOptions: QueryOptions = this.lastCommitSeq !== undefined && options.readAfterCommit === undefined ? { ...options, readAfterCommit: this.lastCommitSeq } : options;
     const { after: generatedCursor, ...routedParameters } = parameters;
@@ -2013,36 +1981,6 @@ export class RiffDBOpenFGAClient {
       currentParameters = restParameters as unknown as ListStoresByIdsAndNameParams;
       currentOptions = { ...currentOptions, cursor: page.nextCursor };
     }
-  }
-
-  public async listStoresByIdsAndNameAll(parameters: ListStoresByIdsAndNameParams, maxPages: number = 64, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByIdsAndNameFound>> {
-    if (!Number.isInteger(maxPages) || maxPages < 1 || maxPages > 1024) throw new RangeError("maxPages must be an integer from 1 through 1024");
-    if (options.cursor !== undefined || parameters.after != null) throw new Error("listStoresByIdsAndNameAll does not accept an initial cursor");
-    const items = Array.from(new Set(parameters.ids));
-    if (items.length === 0) throw new RangeError("ids must contain at least 1 item");
-    const merged: Array<ListStoresByIdsAndNameFound["stores"][number]> = [];
-    let latestIdentity: QueryResponseIdentity | undefined;
-    let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
-    let highestHead = 0n;
-    let pagesRemaining = maxPages;
-    for (let offset = 0; offset < items.length; offset += LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS) {
-      const chunk = items.slice(offset, offset + LIST_STORES_BY_IDS_AND_NAME_IDS_MAX_ITEMS);
-      let chunkCursor: string | undefined = undefined;
-      while (true) {
-        if (pagesRemaining < 1) throw new RangeError("listStoresByIdsAndNameAll exceeded maxPages (1..=1024)");
-        pagesRemaining -= 1;
-        const chunkOptions: QueryOptions = { ...options, ...(pinnedHead === undefined ? {} : { readAfterCommit: pinnedHead }), ...(chunkCursor === undefined ? {} : { cursor: chunkCursor }) };
-        const page = await this.listStoresByIdsAndName({ ...parameters, after: null, ids: chunk }, chunkOptions);
-        const found = unwrapListStoresByIdsAndNameFound(page);
-        merged.push(...found.stores);
-        latestIdentity = page.identity;
-        if (page.applicationHead > highestHead) highestHead = page.applicationHead;
-        if (pinnedHead === undefined || page.applicationHead > pinnedHead) pinnedHead = page.applicationHead;
-        if (page.nextCursor === undefined) break;
-        chunkCursor = page.nextCursor;
-      }
-    }
-    return { identity: latestIdentity!, value: { outcome: "Found", stores: merged }, applicationHead: highestHead };
   }
 
   public async listStoresByName(parameters: ListStoresByNameParams, options: QueryOptions = {}): Promise<TypedQueryResult<ListStoresByNameResult>> {
@@ -2311,6 +2249,8 @@ export class RiffDBOpenFGAClient {
     if (options.cursor !== undefined || parameters.after != null) throw new Error("readStartingWithUserAndObjectsAll does not accept an initial cursor");
     const items = Array.from(new Set(parameters.object_ids));
     if (items.length === 0) throw new RangeError("object_ids must contain at least 1 item");
+    if (items.length > maxPages * READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS) throw new RangeError("readStartingWithUserAndObjectsAll exceeded maxPages (1..=1024)");
+    items.sort((left, right) => Buffer.from(left, "utf8").compare(Buffer.from(right, "utf8")));
     const merged: Array<ReadStartingWithUserAndObjectsFound["tuples"][number]> = [];
     let latestIdentity: QueryResponseIdentity | undefined;
     let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
@@ -2370,6 +2310,8 @@ export class RiffDBOpenFGAClient {
     if (options.cursor !== undefined || parameters.after != null) throw new Error("readStartingWithUserObjectsConditionAll does not accept an initial cursor");
     const items = Array.from(new Set(parameters.object_ids));
     if (items.length === 0) throw new RangeError("object_ids must contain at least 1 item");
+    if (items.length > maxPages * READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS) throw new RangeError("readStartingWithUserObjectsConditionAll exceeded maxPages (1..=1024)");
+    items.sort((left, right) => Buffer.from(left, "utf8").compare(Buffer.from(right, "utf8")));
     const merged: Array<ReadStartingWithUserObjectsConditionFound["tuples"][number]> = [];
     let latestIdentity: QueryResponseIdentity | undefined;
     let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
