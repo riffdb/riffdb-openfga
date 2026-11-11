@@ -23,7 +23,7 @@ def _compact_tag(value: object, tag: str, keys: frozenset[str]) -> dict[str, obj
 CONTRACT_LINEAGE: Final[str] = "RiffDBOpenFGA"
 CONTRACT_VERSION: Final[int] = 1
 CONTRACT_BUNDLE_HASH: Final[str] = "b92b7c4fa3fbc9b598d91e58a472a896ea83367dd5354768052546ae2c71ec8c"
-QUERY_MODULE_HASH: Final[str] = "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3"
+QUERY_MODULE_HASH: Final[str] = "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da"
 
 COLLECTION_COUNT: Final[str] = "collection_count"
 INDIVIDUAL_VALUE_BYTES: Final[str] = "individual_value_bytes"
@@ -329,7 +329,7 @@ class LatestAuthorizationModelFound:
 
 LatestAuthorizationModelResult: TypeAlias = LatestAuthorizationModelFound
 
-LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "fa18bcb71c75e437e6a892d1b7fb8b26b29373529b8d2f051d16937e96a56c2c"
+LIST_AUTHORIZATION_MODELS_QUERY_PLAN_HASH: Final[str] = "5d6896244dae8fd06ff4cc10adf1fe1182a91f960d299566e6cc8d8e162c2267"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ListAuthorizationModelsParams:
@@ -477,7 +477,7 @@ class ListStoresByNameFound:
 
 ListStoresByNameResult: TypeAlias = ListStoresByNameFound
 
-READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "b97b4a18202c3c70872d7fc6b5b1087d09a3ee07e301312ebf18331ce7ac1994"
+READ_ALL_TUPLES_QUERY_PLAN_HASH: Final[str] = "1c2d6975fb999f2b7b985bb0706f1e530fe69b1224c35ad913d539b6e22ab501"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesParams:
@@ -508,7 +508,7 @@ class ReadAllTuplesFound:
 
 ReadAllTuplesResult: TypeAlias = ReadAllTuplesFound
 
-READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "05e35f50ea0e57e1cd8c0446330dc81f4867e5c15bd61caf063f4ad8900c04ec"
+READ_ALL_TUPLES_WITH_CONDITIONS_QUERY_PLAN_HASH: Final[str] = "44d304ee20578cc9207a1bfe5373cb6e5a80e774bb2f950e54ac1de36296e6c8"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadAllTuplesWithConditionsParams:
@@ -540,7 +540,7 @@ class ReadAllTuplesWithConditionsFound:
 
 ReadAllTuplesWithConditionsResult: TypeAlias = ReadAllTuplesWithConditionsFound
 
-READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "b291fde28e1840fa8db900cff533ff0df3a805582ee1c8e4cb48a0f85dfac647"
+READ_CHANGES_ASC_QUERY_PLAN_HASH: Final[str] = "c5cecb7cff182ae1dc34bcb1e9c7ade68b19b90ce6588f03c2d02dfe789e0084"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesAscParams:
@@ -576,7 +576,7 @@ class ReadChangesAscFound:
 
 ReadChangesAscResult: TypeAlias = ReadChangesAscFound
 
-READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "a0714fce21269347a9b52c537ce11176ba4f1d554e2625a2aef94b08d0aebb28"
+READ_CHANGES_BY_OBJECT_ASC_QUERY_PLAN_HASH: Final[str] = "8475b4b6f0a4241b2af97f5764d80f7b60e9caa70caf71136bb738abed5bde76"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectAscParams:
@@ -613,7 +613,7 @@ class ReadChangesByObjectAscFound:
 
 ReadChangesByObjectAscResult: TypeAlias = ReadChangesByObjectAscFound
 
-READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "202ae9ec5abcb7fd8f8324d1a1ba5c16911d530bcfa73ad91dab260b5dbc6a6e"
+READ_CHANGES_BY_OBJECT_DESC_QUERY_PLAN_HASH: Final[str] = "61845ef2fe108007518f2a8c008c18ae487f2d8e9ee816aa44a16dcfa308d534"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesByObjectDescParams:
@@ -649,7 +649,7 @@ class ReadChangesByObjectDescFound:
 
 ReadChangesByObjectDescResult: TypeAlias = ReadChangesByObjectDescFound
 
-READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "596030c4fd53fd95b47166797027e7837d0c79343de3e009fd1eae117a604d3b"
+READ_CHANGES_DESC_QUERY_PLAN_HASH: Final[str] = "6b91d33d2c53a1a3d6d142bfa9ea1dd82333c3260925965977a216f6c9da1205"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadChangesDescParams:
@@ -684,7 +684,7 @@ class ReadChangesDescFound:
 
 ReadChangesDescResult: TypeAlias = ReadChangesDescFound
 
-READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "7ffc415c740638d0472926f3c867652c45cf00ae3f4a87db3e730115c1fa4b2b"
+READ_STARTING_WITH_USER_QUERY_PLAN_HASH: Final[str] = "f859a91ed02f0816bf6ba6cf8ca284c4550fad284b5450d0176d3e01a3dabfc1"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserParams:
@@ -718,7 +718,7 @@ class ReadStartingWithUserFound:
 
 ReadStartingWithUserResult: TypeAlias = ReadStartingWithUserFound
 
-READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "d8b9f27d3a8ce4ff7b00cdc56d29c0d41528de31d18d5eb133ceda78095a14ba"
+READ_STARTING_WITH_USER_AND_OBJECTS_QUERY_PLAN_HASH: Final[str] = "45edbcfafc7216804a10d73eddf164bdd979f8c8162ccb468784539481bebbc1"
 READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS: Final[int] = 200
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -754,7 +754,7 @@ class ReadStartingWithUserAndObjectsFound:
 
 ReadStartingWithUserAndObjectsResult: TypeAlias = ReadStartingWithUserAndObjectsFound
 
-READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "1d3198fac0e66662bced1e381fb1815c008625c619c92ab40198a6e02a114fa6"
+READ_STARTING_WITH_USER_OBJECTS_CONDITION_QUERY_PLAN_HASH: Final[str] = "0f415e6248c5d3ece4484bd28e63ef56b6d2053f17ff80818e9d89affe27c017"
 READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS: Final[int] = 200
 
 @dataclass(frozen=True, slots=True, kw_only=True)
@@ -791,7 +791,7 @@ class ReadStartingWithUserObjectsConditionFound:
 
 ReadStartingWithUserObjectsConditionResult: TypeAlias = ReadStartingWithUserObjectsConditionFound
 
-READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "a45706b8df58ecdcbe443a57898c6d956e3c4c2bab9945c25f52ee864d359b16"
+READ_STARTING_WITH_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "4991ae8d86f04c5dbec1bc9723f6c4de7187cfc32a8b59547ba90b7891063d82"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadStartingWithUserWithConditionParams:
@@ -925,7 +925,7 @@ class ReadTupleExactWithConditionNotFound:
 
 ReadTupleExactWithConditionResult: TypeAlias = ReadTupleExactWithConditionFound | ReadTupleExactWithConditionNotFound
 
-READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "bd4cdca4bcbfd533fd15a4d2450bc0c255136655002f0dcbdb471b9e69b796fa"
+READ_TUPLES_BY_OBJECT_QUERY_PLAN_HASH: Final[str] = "9be5807d1f3bf7f84484f04a1b42fd729bfeb459edff23eb87fdfda3d6fb57f8"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectParams:
@@ -958,7 +958,7 @@ class ReadTuplesByObjectFound:
 
 ReadTuplesByObjectResult: TypeAlias = ReadTuplesByObjectFound
 
-READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "b11d80131b69ab242cd98aae9b063ed2575aa563076107a111bacddadd2fc9a6"
+READ_TUPLES_BY_OBJECT_RELATION_QUERY_PLAN_HASH: Final[str] = "11416741bab61c5a0845caf968559439df320004052932cbcac1c9b94fdb3870"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationParams:
@@ -992,7 +992,7 @@ class ReadTuplesByObjectRelationFound:
 
 ReadTuplesByObjectRelationResult: TypeAlias = ReadTuplesByObjectRelationFound
 
-READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "3647ffb676e6c8bc155d99b890d68c477060e868d0b475e4674c38e0be132c9c"
+READ_TUPLES_BY_OBJECT_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "735fbded2b7427680a4ebb9f3be494836949b4eaa585689fc92de9ba67539d3f"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectRelationWithConditionParams:
@@ -1027,7 +1027,7 @@ class ReadTuplesByObjectRelationWithConditionFound:
 
 ReadTuplesByObjectRelationWithConditionResult: TypeAlias = ReadTuplesByObjectRelationWithConditionFound
 
-READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "2d69e57f15394b40eadbb08a8778c0ba6d33f4aa97badc0b0332e903ab9ba60c"
+READ_TUPLES_BY_OBJECT_USER_QUERY_PLAN_HASH: Final[str] = "b722c3a4b70bc0467f50a07641f5458b784dcb6e8551975a61ad0926d2d9518f"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserParams:
@@ -1061,7 +1061,7 @@ class ReadTuplesByObjectUserFound:
 
 ReadTuplesByObjectUserResult: TypeAlias = ReadTuplesByObjectUserFound
 
-READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "1a8db2433ad3352093ea1a9afc05771fc87f17a4a1b02196ace77f7f3463ba19"
+READ_TUPLES_BY_OBJECT_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "3ecf7e3efe2ef54d405766e0b9424509cf6736c23f8df078765866e0dc3eac23"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectUserWithConditionParams:
@@ -1096,7 +1096,7 @@ class ReadTuplesByObjectUserWithConditionFound:
 
 ReadTuplesByObjectUserWithConditionResult: TypeAlias = ReadTuplesByObjectUserWithConditionFound
 
-READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "6b03b5f6ca5ee1233e724b69c9d0623611670c141d32d77fe6361b3eb5d1fe80"
+READ_TUPLES_BY_OBJECT_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "ef68215f1b998b143f11eaf79cbf89125091a7e4a1185652010e87955fd57216"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByObjectWithConditionParams:
@@ -1130,7 +1130,7 @@ class ReadTuplesByObjectWithConditionFound:
 
 ReadTuplesByObjectWithConditionResult: TypeAlias = ReadTuplesByObjectWithConditionFound
 
-READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "02592755d34b5ef322b3a6a0b7b44b5219e80ed4b816aa3432489467bab4f5de"
+READ_TUPLES_BY_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "149bb4b65caea69bfbe651b60a6f03a3c8f12be939a9662c0a77840cb0480003"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserParams:
@@ -1163,7 +1163,7 @@ class ReadTuplesByRelationUserFound:
 
 ReadTuplesByRelationUserResult: TypeAlias = ReadTuplesByRelationUserFound
 
-READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "fef8dfb5c300358e9cd35b9b2bd8175383fba135596328afee01697ec14848ef"
+READ_TUPLES_BY_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "8f55e82b9ec02b0a09136d14a6961ab5779fb9b66c2a81142eed32ae02e6fb29"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByRelationUserWithConditionParams:
@@ -1197,7 +1197,7 @@ class ReadTuplesByRelationUserWithConditionFound:
 
 ReadTuplesByRelationUserWithConditionResult: TypeAlias = ReadTuplesByRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "2071affa334571af693b0bcc29a2c1e99e2e0373b6a7533a86d01da8fe169360"
+READ_TUPLES_BY_TYPE_QUERY_PLAN_HASH: Final[str] = "da9f32b6d0568e407d80b6263b2e51961eaef8a244d5681faebdf19db01ad122"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeParams:
@@ -1229,7 +1229,7 @@ class ReadTuplesByTypeFound:
 
 ReadTuplesByTypeResult: TypeAlias = ReadTuplesByTypeFound
 
-READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "cfa2d691174a10596857a3232193a5105a2b8beb9028ce85cbe03b05ae91c02f"
+READ_TUPLES_BY_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "d300c94f63089f06947dce94ad5222107648ea6475b35059ecd5a548a9807928"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationParams:
@@ -1262,7 +1262,7 @@ class ReadTuplesByTypeRelationFound:
 
 ReadTuplesByTypeRelationResult: TypeAlias = ReadTuplesByTypeRelationFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "892e7aa97a2546c4599522f9082aa5944992d299f841a722847611a02a36002d"
+READ_TUPLES_BY_TYPE_RELATION_USER_QUERY_PLAN_HASH: Final[str] = "a4972ff94f55fc27dce223e87557d17f8ac30c77b0521a9524fa4187d66a75ac"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserParams:
@@ -1296,7 +1296,7 @@ class ReadTuplesByTypeRelationUserFound:
 
 ReadTuplesByTypeRelationUserResult: TypeAlias = ReadTuplesByTypeRelationUserFound
 
-READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "c46b51130f39fd656e31b8c027f7698143ae926a6352b089d80bac4850458b23"
+READ_TUPLES_BY_TYPE_RELATION_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "c22f038607fb815b5beeb495864df7b89fed26c7e193a21461c2815d3438086d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationUserWithConditionParams:
@@ -1331,7 +1331,7 @@ class ReadTuplesByTypeRelationUserWithConditionFound:
 
 ReadTuplesByTypeRelationUserWithConditionResult: TypeAlias = ReadTuplesByTypeRelationUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "1eb8c4d0300091b476eb9bcfbe186c137d31e9c0bff4a18304de5831939e6d23"
+READ_TUPLES_BY_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "fd556db41bd26ff8505b3205fd054e5a6b953cefe8f7e80b9d2c359fdf146927"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeRelationWithConditionParams:
@@ -1365,7 +1365,7 @@ class ReadTuplesByTypeRelationWithConditionFound:
 
 ReadTuplesByTypeRelationWithConditionResult: TypeAlias = ReadTuplesByTypeRelationWithConditionFound
 
-READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "3e7ff9d3f889a462dde19433f4dde61dde77a6f3862cd7174e199349c0e28bb4"
+READ_TUPLES_BY_TYPE_USER_QUERY_PLAN_HASH: Final[str] = "a0fa6d09a622e567aee66e2be50834eb62a719fbde088480d7a4c8ac5a97c8f3"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserParams:
@@ -1398,7 +1398,7 @@ class ReadTuplesByTypeUserFound:
 
 ReadTuplesByTypeUserResult: TypeAlias = ReadTuplesByTypeUserFound
 
-READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "3100d941b1f9de3ee6b9fad123acb0b1c70fc717b78983d797c2851d726b501e"
+READ_TUPLES_BY_TYPE_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "542005e9d181de7b96b5c7ea5c9e619fa3398d6fcb0103e095f2821779e1032d"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeUserWithConditionParams:
@@ -1432,7 +1432,7 @@ class ReadTuplesByTypeUserWithConditionFound:
 
 ReadTuplesByTypeUserWithConditionResult: TypeAlias = ReadTuplesByTypeUserWithConditionFound
 
-READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "f038a557ab431a32229a21910ed6fd92bdf987be513d54585f4e481d3974a14c"
+READ_TUPLES_BY_TYPE_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "fea07770fc031c5d55a36d8c1c730ec8f21bdf7f3c9ce48f0b9939967a89bc92"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByTypeWithConditionParams:
@@ -1465,7 +1465,7 @@ class ReadTuplesByTypeWithConditionFound:
 
 ReadTuplesByTypeWithConditionResult: TypeAlias = ReadTuplesByTypeWithConditionFound
 
-READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "22e7fa67f13e4e711b2a6416299d06033cb9b45fe3efd477d0db57e208216d0a"
+READ_TUPLES_BY_USER_QUERY_PLAN_HASH: Final[str] = "c51c3e12ce9384292451b6b93c1b577c191083f44f894159a1e53effbe31709c"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserParams:
@@ -1497,7 +1497,7 @@ class ReadTuplesByUserFound:
 
 ReadTuplesByUserResult: TypeAlias = ReadTuplesByUserFound
 
-READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "171b1055cf2b2871473e867ee2a6cf7c227b57fd4640ccbb9ac075f4b57a5baf"
+READ_TUPLES_BY_USER_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "94f9075d625b2e76e5a986e5633c3bcbb0022bcd04eaf84d07ebdc6a21b02eab"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadTuplesByUserWithConditionParams:
@@ -1530,7 +1530,7 @@ class ReadTuplesByUserWithConditionFound:
 
 ReadTuplesByUserWithConditionResult: TypeAlias = ReadTuplesByUserWithConditionFound
 
-READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "26c595726555d84ac17362415ce1873691733fcfb9eff0a15ccbe05872ecca45"
+READ_USERSET_BY_KIND_QUERY_PLAN_HASH: Final[str] = "6cf2edacd6f2103d18f83420a32a6ae957eb3761109e06c2d23ad50797d5c160"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindParams:
@@ -1565,7 +1565,7 @@ class ReadUsersetByKindFound:
 
 ReadUsersetByKindResult: TypeAlias = ReadUsersetByKindFound
 
-READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "b057ab213ab236e1d806aff47ae6ee7c3736cad3671700df2b71a3e052d17296"
+READ_USERSET_BY_KIND_TYPE_RELATION_QUERY_PLAN_HASH: Final[str] = "8828e1061179db3d275a5e9036bf384340fde8ffe0f106c51ed568d54bcd64fa"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindTypeRelationParams:
@@ -1602,7 +1602,7 @@ class ReadUsersetByKindTypeRelationFound:
 
 ReadUsersetByKindTypeRelationResult: TypeAlias = ReadUsersetByKindTypeRelationFound
 
-READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "3d580d9bc7b3fb6e03c9fc80e2d12816430c9f92a3a7c8c6d83d0a508ae705bd"
+READ_USERSET_BY_KIND_TYPE_RELATION_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "639f55dc37ab27869fae76586584a8938dc0c96f40aa4ad1279fbab0196beb31"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindTypeRelationWithConditionParams:
@@ -1640,7 +1640,7 @@ class ReadUsersetByKindTypeRelationWithConditionFound:
 
 ReadUsersetByKindTypeRelationWithConditionResult: TypeAlias = ReadUsersetByKindTypeRelationWithConditionFound
 
-READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "137b266c334bd7dad5181a81aa8a94cbf9d18a911ff9aa513ad0310d9014fc3f"
+READ_USERSET_BY_KIND_WITH_CONDITION_QUERY_PLAN_HASH: Final[str] = "3bdd7f2c44a34b83065765e1bda422c1609e66fa24e141d8f617c6f1e164fcf7"
 
 @dataclass(frozen=True, slots=True, kw_only=True)
 class ReadUsersetByKindWithConditionParams:

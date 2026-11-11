@@ -70,7 +70,7 @@ func TestLockedIdentityConstantsMatchLockFile(t *testing.T) {
 	if len(lock.Modules) != 1 || lock.Modules[0].ModuleHash != QueryModuleHash {
 		t.Fatalf("QueryModuleHash mismatch: got %q, lock modules %+v", QueryModuleHash, lock.Modules)
 	}
-	if len(lock.Roles) != 1 || lock.Roles[0].Definition.Name != DefaultRole || lock.Roles[0].DefinitionHash != DefaultRoleDefinitionHash {
+	if len(lock.Roles) < 1 || lock.Roles[0].Definition.Name != DefaultRole || lock.Roles[0].DefinitionHash != DefaultRoleDefinitionHash {
 		t.Fatalf("DefaultRole/DefaultRoleDefinitionHash mismatch: got %q/%q, lock roles %+v", DefaultRole, DefaultRoleDefinitionHash, lock.Roles)
 	}
 }

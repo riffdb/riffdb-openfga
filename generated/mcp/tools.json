@@ -1,5 +1,5 @@
 {
-  "application_manifest_hash": "3b79649361a51a04ff3d148ae949c6de39dd2a9ba2153757f4a69192939dc11c",
+  "application_manifest_hash": "df93e7643384c2aeb081dd48ef364e707fa481fb02dd77390e731ce7ae3fe5b2",
   "commands": [
     {
       "annotations": {
@@ -2524,7 +2524,7 @@
         },
         "title": "Query riffdb/openfga_get_assertion_set"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_get_assertion_set",
       "operation_name": "GetAssertionSet",
       "result_schema": {
@@ -2698,7 +2698,7 @@
         },
         "title": "Query riffdb/openfga_get_authorization_model"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_get_authorization_model",
       "operation_name": "GetAuthorizationModel",
       "result_schema": {
@@ -2875,7 +2875,7 @@
         },
         "title": "Query riffdb/openfga_get_store"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_get_store",
       "operation_name": "GetStore",
       "result_schema": {
@@ -3123,7 +3123,7 @@
         },
         "title": "Query riffdb/openfga_get_tuple_state"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_get_tuple_state",
       "operation_name": "GetTupleState",
       "result_schema": {
@@ -3327,7 +3327,7 @@
         },
         "title": "Query riffdb/openfga_latest_authorization_model"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_latest_authorization_model",
       "operation_name": "LatestAuthorizationModel",
       "result_schema": {
@@ -3545,7 +3545,7 @@
         },
         "title": "Query riffdb/openfga_list_authorization_models"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_list_authorization_models",
       "operation_name": "ListAuthorizationModels",
       "result_schema": {
@@ -3798,7 +3798,7 @@
         },
         "title": "Query riffdb/openfga_list_stores_all"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_list_stores_all",
       "operation_name": "ListStoresAll",
       "result_schema": {
@@ -4072,7 +4072,7 @@
         },
         "title": "Query riffdb/openfga_list_stores_by_ids"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_list_stores_by_ids",
       "operation_name": "ListStoresByIds",
       "result_schema": {
@@ -4354,7 +4354,7 @@
         },
         "title": "Query riffdb/openfga_list_stores_by_ids_and_name"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_list_stores_by_ids_and_name",
       "operation_name": "ListStoresByIdsAndName",
       "result_schema": {
@@ -4618,7 +4618,7 @@
         },
         "title": "Query riffdb/openfga_list_stores_by_name"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_list_stores_by_name",
       "operation_name": "ListStoresByName",
       "result_schema": {
@@ -4890,7 +4890,7 @@
         },
         "title": "Query riffdb/openfga_read_all_tuples"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_all_tuples",
       "operation_name": "ReadAllTuples",
       "result_schema": {
@@ -5186,7 +5186,7 @@
         },
         "title": "Query riffdb/openfga_read_all_tuples_with_conditions"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_all_tuples_with_conditions",
       "operation_name": "ReadAllTuplesWithConditions",
       "result_schema": {
@@ -5514,7 +5514,7 @@
         },
         "title": "Query riffdb/openfga_read_changes_asc"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_changes_asc",
       "operation_name": "ReadChangesAsc",
       "result_schema": {
@@ -5862,7 +5862,7 @@
         },
         "title": "Query riffdb/openfga_read_changes_by_object_asc"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_changes_by_object_asc",
       "operation_name": "ReadChangesByObjectAsc",
       "result_schema": {
@@ -6190,7 +6190,7 @@
         },
         "title": "Query riffdb/openfga_read_changes_by_object_desc"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_changes_by_object_desc",
       "operation_name": "ReadChangesByObjectDesc",
       "result_schema": {
@@ -6510,7 +6510,7 @@
         },
         "title": "Query riffdb/openfga_read_changes_desc"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_changes_desc",
       "operation_name": "ReadChangesDesc",
       "result_schema": {
@@ -6834,7 +6834,7 @@
         },
         "title": "Query riffdb/openfga_read_starting_with_user"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_starting_with_user",
       "operation_name": "ReadStartingWithUser",
       "result_schema": {
@@ -7164,7 +7164,7 @@
         },
         "title": "Query riffdb/openfga_read_starting_with_user_and_objects"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_starting_with_user_and_objects",
       "operation_name": "ReadStartingWithUserAndObjects",
       "result_schema": {
@@ -7502,7 +7502,7 @@
         },
         "title": "Query riffdb/openfga_read_starting_with_user_objects_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_starting_with_user_objects_condition",
       "operation_name": "ReadStartingWithUserObjectsCondition",
       "result_schema": {
@@ -7822,7 +7822,7 @@
         },
         "title": "Query riffdb/openfga_read_starting_with_user_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_starting_with_user_with_condition",
       "operation_name": "ReadStartingWithUserWithCondition",
       "result_schema": {
@@ -8081,7 +8081,7 @@
         },
         "title": "Query riffdb/openfga_read_tuple_exact"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuple_exact",
       "operation_name": "ReadTupleExact",
       "result_schema": {
@@ -8325,7 +8325,7 @@
         },
         "title": "Query riffdb/openfga_read_tuple_exact_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuple_exact_with_condition",
       "operation_name": "ReadTupleExactWithCondition",
       "result_schema": {
@@ -8606,7 +8606,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_object"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_object",
       "operation_name": "ReadTuplesByObject",
       "result_schema": {
@@ -8918,7 +8918,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_object_relation"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_object_relation",
       "operation_name": "ReadTuplesByObjectRelation",
       "result_schema": {
@@ -9238,7 +9238,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_object_relation_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_object_relation_with_condition",
       "operation_name": "ReadTuplesByObjectRelationWithCondition",
       "result_schema": {
@@ -9550,7 +9550,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_object_user"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_object_user",
       "operation_name": "ReadTuplesByObjectUser",
       "result_schema": {
@@ -9870,7 +9870,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_object_user_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_object_user_with_condition",
       "operation_name": "ReadTuplesByObjectUserWithCondition",
       "result_schema": {
@@ -10182,7 +10182,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_object_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_object_with_condition",
       "operation_name": "ReadTuplesByObjectWithCondition",
       "result_schema": {
@@ -10486,7 +10486,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_relation_user"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_relation_user",
       "operation_name": "ReadTuplesByRelationUser",
       "result_schema": {
@@ -10798,7 +10798,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_relation_user_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_relation_user_with_condition",
       "operation_name": "ReadTuplesByRelationUserWithCondition",
       "result_schema": {
@@ -11094,7 +11094,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type",
       "operation_name": "ReadTuplesByType",
       "result_schema": {
@@ -11398,7 +11398,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_relation"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_relation",
       "operation_name": "ReadTuplesByTypeRelation",
       "result_schema": {
@@ -11710,7 +11710,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_relation_user"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_relation_user",
       "operation_name": "ReadTuplesByTypeRelationUser",
       "result_schema": {
@@ -12030,7 +12030,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_relation_user_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_relation_user_with_condition",
       "operation_name": "ReadTuplesByTypeRelationUserWithCondition",
       "result_schema": {
@@ -12342,7 +12342,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_relation_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_relation_with_condition",
       "operation_name": "ReadTuplesByTypeRelationWithCondition",
       "result_schema": {
@@ -12646,7 +12646,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_user"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_user",
       "operation_name": "ReadTuplesByTypeUser",
       "result_schema": {
@@ -12958,7 +12958,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_user_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_user_with_condition",
       "operation_name": "ReadTuplesByTypeUserWithCondition",
       "result_schema": {
@@ -13262,7 +13262,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_type_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_type_with_condition",
       "operation_name": "ReadTuplesByTypeWithCondition",
       "result_schema": {
@@ -13558,7 +13558,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_user"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_user",
       "operation_name": "ReadTuplesByUser",
       "result_schema": {
@@ -13862,7 +13862,7 @@
         },
         "title": "Query riffdb/openfga_read_tuples_by_user_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_tuples_by_user_with_condition",
       "operation_name": "ReadTuplesByUserWithCondition",
       "result_schema": {
@@ -14182,7 +14182,7 @@
         },
         "title": "Query riffdb/openfga_read_userset_by_kind"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_userset_by_kind",
       "operation_name": "ReadUsersetByKind",
       "result_schema": {
@@ -14518,7 +14518,7 @@
         },
         "title": "Query riffdb/openfga_read_userset_by_kind_type_relation"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_userset_by_kind_type_relation",
       "operation_name": "ReadUsersetByKindTypeRelation",
       "result_schema": {
@@ -14862,7 +14862,7 @@
         },
         "title": "Query riffdb/openfga_read_userset_by_kind_type_relation_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_userset_by_kind_type_relation_with_condition",
       "operation_name": "ReadUsersetByKindTypeRelationWithCondition",
       "result_schema": {
@@ -15190,7 +15190,7 @@
         },
         "title": "Query riffdb/openfga_read_userset_by_kind_with_condition"
       },
-      "module_hash": "72993bd22227fd89861cafff86d73cd8affd96050cc89d50b7bbe7a83bbb49b3",
+      "module_hash": "f80626c18e9c3882fe3d08f0f69fef417795780519f25f3c2d8f928bdde132da",
       "name": "riffdb_openfga_read_userset_by_kind_with_condition",
       "operation_name": "ReadUsersetByKindWithCondition",
       "result_schema": {

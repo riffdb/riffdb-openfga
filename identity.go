@@ -14,12 +14,12 @@ import (
 const (
 	// ApplicationManifestHash is the exact manifest hash recorded in
 	// riffdb.application.lock.json for this compiled application.
-	ApplicationManifestHash = "3b79649361a51a04ff3d148ae949c6de39dd2a9ba2153757f4a69192939dc11c"
+	ApplicationManifestHash = "df93e7643384c2aeb081dd48ef364e707fa481fb02dd77390e731ce7ae3fe5b2"
 
 	// OperationCatalogHash is the exact operation catalog (MCP tools.json)
 	// content hash recorded in riffdb.application.lock.json for this
 	// compiled application.
-	OperationCatalogHash = "950b0670c6d7080352fbb7766b79184f352c96625401fdcdce6f40290fd03b30"
+	OperationCatalogHash = "c591ea9d777eac3ec224923d13daf6b7c5aa111d9bb2909bb1f62ee1dd4081ef"
 
 	// QueryModuleHash is the compiled RiffQL query module hash for this
 	// application.
@@ -40,7 +40,7 @@ const (
 
 	// DefaultRoleDefinitionHash is the exact role definition hash recorded in
 	// riffdb.application.lock.json for DefaultRole.
-	DefaultRoleDefinitionHash = "124f1a8b580fb7c08c44cbbba8e29dacac34355a35a8eb21dddb503acc6c232e"
+	DefaultRoleDefinitionHash = "13d7b88022aedc23727857be88d805eb2582e2e1dd49b51b95913c52f05ec014"
 
 	// DefaultDatabase is the default database name configured in riffdb.toml.
 	DefaultDatabase = "openfga-development"
