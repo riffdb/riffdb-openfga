@@ -358,5 +358,5 @@ modernc.org/sqlite v1.54.0 h1:JCxR4qwkJvOaqAoYcgDoO25Nc+ROg6EJ2LfBVzdrgog=
 modernc.org/sqlite v1.54.0/go.mod h1:4ntCLuNmnH8+GNqjka1wNg7KJd5/Hi5FYp8K+XQ7GZw=
 pgregory.net/rapid v1.2.0 h1:keKAYRcjm+e1F0oAuU5F5+YPAWcyxNNRK2wud503Gnk=
 pgregory.net/rapid v1.2.0/go.mod h1:PY5XlDGj0+V1FCq0o192FdRhpKHGTRIWBgqjDBTrq04=
-riffdb.dev/application v0.2.2 h1:g/weZIiys+/9YbAtP2vxadoz429wmMb8KrqvIHSb+k0=
-riffdb.dev/application v0.2.2/go.mod h1:t7pBMktU0wlrXMo2ayZFAUGeTGLZo5wQ45h4dgWBdvg=
+riffdb.dev/application v0.2.3 h1:BxdQ+j4cPfOxuQfpDYYzEuUzgTa/y9/eHEVCJzSVCIU=
+riffdb.dev/application v0.2.3/go.mod h1:t7pBMktU0wlrXMo2ayZFAUGeTGLZo5wQ45h4dgWBdvg=
