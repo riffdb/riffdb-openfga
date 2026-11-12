@@ -4,7 +4,7 @@
 
 Status: complete.
 
-- Pin OpenFGA `v1.18.3` and RiffDB Go runtime `v0.2.3`.
+- Pin OpenFGA `v1.18.3` and RiffDB Go runtime `v0.2.4`.
 - Lock the 21-method upstream interface with a reflection-based surface test.
 - Establish the package boundary, local registry workflow, and stop gates.
 

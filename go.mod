@@ -29,7 +29,7 @@ require (
 	go.uber.org/zap v1.28.0
 	golang.org/x/net v0.57.0
 	google.golang.org/protobuf v1.36.11
-	riffdb.dev/application v0.2.3
+	riffdb.dev/application v0.2.4
 )
 
 require (

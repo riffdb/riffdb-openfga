@@ -12,7 +12,7 @@ import (
 const (
 	// AdapterVersion is the release version of this riffdb-openfga module and
 	// standalone server binary.
-	AdapterVersion = "v0.3.3"
+	AdapterVersion = "v0.3.4"
 
 	// OpenFGAVersion is the exact upstream server version whose datastore
 	// contract this module targets.
@@ -20,7 +20,7 @@ const (
 
 	// RiffDBDriverVersion is the immutable RiffDB Go driver release used to
 	// generate and verify this adapter.
-	RiffDBDriverVersion = "v0.2.3"
+	RiffDBDriverVersion = "v0.2.4"
 
 	// MaxTuplesPerWrite matches OpenFGA's default atomic write bound. The
 	// compiled profile separately proves a bounded aggregate byte budget.
