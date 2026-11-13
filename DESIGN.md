@@ -84,10 +84,17 @@ Skipping one item and continuing is a conditional per-item block, which the
 contract language does not admit, so the adapter decides which items to send and
 the command validates the ones it receives.
 
-Idempotency keys are generated once per Go call and retained for all retry
-attempts. RiffDB owns concurrency validation and atomic commit. Application
-errors are mapped to OpenFGA's typed storage errors only after the command
-outcome is certain.
+Each `ApplyTupleMutations` invocation generates a command idempotency key and
+retains that exact key across SDK retry attempts when a transport or commit
+outcome is uncertain (`OutcomeUnknown` / transient unavailability). When the
+caller selects `OnDuplicateInsertIgnore` or `OnMissingDeleteIgnore` and a
+concurrent writer flips a tuple's state between the pre-read and the command,
+the first command returns the deterministic `TupleStateUnexpected` outcome (a
+known rejection with no state mutation); `applyPolicyWrite` then re-reads the
+remaining tuples and submits a new `ApplyTupleMutations` command with a fresh
+`request_id` for the reduced mutation set. RiffDB owns concurrency validation
+and atomic commit, and application errors are mapped to OpenFGA's typed storage
+errors only after the command outcome is certain.
 
 ## Queries
 

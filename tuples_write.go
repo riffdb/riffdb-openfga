@@ -204,7 +204,10 @@ func (datastore *Datastore) applyStrictWrite(
 // Ignoring a duplicate insert or a missing delete means skipping one item and
 // continuing, and a conditional per-item block is not a shape the contract
 // language admits. So the adapter decides which items to send, and the command
-// still validates the ones it receives.
+// still validates the ones it receives. If a concurrent writer flips the state
+// of an ignored item between observation and commit, ApplyTupleMutations
+// returns TupleStateUnexpected without committing any item in the batch, and
+// applyPolicyWrite re-observes state and retries the remaining items.
 func (datastore *Datastore) applyPolicyWrite(
 	ctx context.Context,
 	store string,
@@ -214,6 +217,57 @@ func (datastore *Datastore) applyPolicyWrite(
 	now time.Time,
 	insertedAt riffdb.Instant,
 ) error {
+	maxAttempts := len(deletes) + len(writes) + 1
+	if maxAttempts < 8 {
+		maxAttempts = 8
+	}
+	for attempt := 0; attempt < maxAttempts; attempt++ {
+		unexpected, err := datastore.applyPolicyWriteOnce(ctx, store, deletes, writes, writeOptions, now, insertedAt)
+		if err != nil {
+			return err
+		}
+		if unexpected == nil {
+			return nil
+		}
+		if !shouldRetryPolicyWrite(*unexpected, writeOptions) {
+			return unexpectedTupleError(*unexpected)
+		}
+	}
+	return storage.ErrTransactionalWriteFailed
+}
+
+func shouldRetryPolicyWrite(
+	unexpected generated.ApplyTupleMutationsTupleStateUnexpected,
+	writeOptions storage.TupleWriteOptions,
+) bool {
+	if unexpected.Operation == generated.TupleOperationDelete {
+		return writeOptions.OnMissingDelete == storage.OnMissingDeleteIgnore
+	}
+	return writeOptions.OnDuplicateInsert == storage.OnDuplicateInsertIgnore
+}
+
+func unexpectedTupleError(outcome generated.ApplyTupleMutationsTupleStateUnexpected) error {
+	key := &openfgav1.TupleKey{
+		Object:   tuple.BuildObject(outcome.ObjectType, outcome.ObjectId),
+		Relation: outcome.Relation,
+		User:     outcome.User,
+	}
+	operation := openfgav1.TupleOperation_TUPLE_OPERATION_WRITE
+	if outcome.Operation == generated.TupleOperationDelete {
+		operation = openfgav1.TupleOperation_TUPLE_OPERATION_DELETE
+	}
+	return storage.InvalidWriteInputError(key, operation)
+}
+
+func (datastore *Datastore) applyPolicyWriteOnce(
+	ctx context.Context,
+	store string,
+	deletes storage.Deletes,
+	writes storage.Writes,
+	writeOptions storage.TupleWriteOptions,
+	now time.Time,
+	insertedAt riffdb.Instant,
+) (*generated.ApplyTupleMutationsTupleStateUnexpected, error) {
 	states := make(map[string]persistedTupleState, len(deletes)+len(writes))
 	operations := make(map[string]generated.TupleOperation, len(deletes)+len(writes))
 	load := func(parts persistedTupleState) (persistedTupleState, error) {
@@ -234,12 +288,12 @@ func (datastore *Datastore) applyPolicyWrite(
 	}
 	for _, key := range deletes {
 		if _, err := load(tupleParts(store, key)); err != nil {
-			return err
+			return nil, err
 		}
 	}
 	for _, key := range writes {
 		if _, err := load(tupleParts(store, key)); err != nil {
-			return err
+			return nil, err
 		}
 	}
 
@@ -249,7 +303,7 @@ func (datastore *Datastore) applyPolicyWrite(
 		value := states[identity]
 		if !value.active {
 			if writeOptions.OnMissingDelete == storage.OnMissingDeleteError {
-				return storage.InvalidWriteInputError(key, openfgav1.TupleOperation_TUPLE_OPERATION_DELETE)
+				return nil, storage.InvalidWriteInputError(key, openfgav1.TupleOperation_TUPLE_OPERATION_DELETE)
 			}
 			continue
 		}
@@ -263,18 +317,18 @@ func (datastore *Datastore) applyPolicyWrite(
 		value := states[identity]
 		conditionKey, conditionContext, err := encodeCondition(key.GetCondition())
 		if err != nil {
-			return err
+			return nil, err
 		}
 		if value.active {
 			if writeOptions.OnDuplicateInsert == storage.OnDuplicateInsertError {
-				return storage.InvalidWriteInputError(key, openfgav1.TupleOperation_TUPLE_OPERATION_WRITE)
+				return nil, storage.InvalidWriteInputError(key, openfgav1.TupleOperation_TUPLE_OPERATION_WRITE)
 			}
 			storedCondition, err := stateCondition(value)
 			if err != nil {
-				return err
+				return nil, err
 			}
 			if !proto.Equal(storedCondition, key.GetCondition()) {
-				return storage.TupleConditionConflictError(key)
+				return nil, storage.TupleConditionConflictError(key)
 			}
 			continue
 		}
@@ -305,7 +359,7 @@ func (datastore *Datastore) applyPolicyWrite(
 		identity := tupleIdentity(parts.objectType, parts.objectID, parts.relation, parts.user)
 		if operations[identity] == generated.TupleOperationDelete {
 			if err := appendMutation(parts, generated.TupleOperationDelete, false, "", nil); err != nil {
-				return err
+				return nil, err
 			}
 		}
 	}
@@ -315,11 +369,11 @@ func (datastore *Datastore) applyPolicyWrite(
 		desired := states[identity]
 		if operations[identity] == generated.TupleOperationWrite {
 			if err := appendMutation(parts, generated.TupleOperationWrite, true, desired.conditionKey, desired.conditionContext); err != nil {
-				return err
+				return nil, err
 			}
 		}
 	}
-	return datastore.applyTupleMutations(ctx, mutations)
+	return datastore.applyTupleMutationsOutcome(ctx, mutations)
 }
 
 func tupleMutation(
@@ -341,34 +395,39 @@ func tupleMutation(
 }
 
 func (datastore *Datastore) applyTupleMutations(ctx context.Context, mutations []generated.TupleMutationInput) error {
+	unexpected, err := datastore.applyTupleMutationsOutcome(ctx, mutations)
+	if err != nil {
+		return err
+	}
+	if unexpected != nil {
+		return unexpectedTupleError(*unexpected)
+	}
+	return nil
+}
+
+func (datastore *Datastore) applyTupleMutationsOutcome(
+	ctx context.Context,
+	mutations []generated.TupleMutationInput,
+) (*generated.ApplyTupleMutationsTupleStateUnexpected, error) {
 	if len(mutations) == 0 {
-		return nil
+		return nil, nil
 	}
 	result, err := datastore.commandClient().ApplyTupleMutations(ctx, generated.ApplyTupleMutationsInput{Mutations: mutations, RequestId: uuid.NewString()})
 	if err != nil {
-		return mapError(ctx, err)
+		return nil, mapError(ctx, err)
 	}
 	switch outcome := result.Outcome.(type) {
 	case generated.ApplyTupleMutationsTupleMutationsApplied:
-		return nil
+		return nil, nil
 	case generated.ApplyTupleMutationsTupleStateUnexpected:
 		// The command observed a state the mutation cannot be applied to: an
 		// already-active target for a write, or an inactive one for a delete.
 		// Under the erroring policies that is the invalid-input answer, and it
 		// names the offending tuple rather than reporting a generic conflict.
-		key := &openfgav1.TupleKey{
-			Object:   tuple.BuildObject(outcome.ObjectType, outcome.ObjectId),
-			Relation: outcome.Relation,
-			User:     outcome.User,
-		}
-		operation := openfgav1.TupleOperation_TUPLE_OPERATION_WRITE
-		if outcome.Operation == generated.TupleOperationDelete {
-			operation = openfgav1.TupleOperation_TUPLE_OPERATION_DELETE
-		}
-		return storage.InvalidWriteInputError(key, operation)
+		return &outcome, nil
 	case generated.ApplyTupleMutationsTupleChangeAlreadyExists:
-		return storage.ErrTransactionalWriteFailed
+		return nil, storage.ErrTransactionalWriteFailed
 	default:
-		return errors.New("riffdb-openfga: unknown ApplyTupleMutations outcome")
+		return nil, errors.New("riffdb-openfga: unknown ApplyTupleMutations outcome")
 	}
 }

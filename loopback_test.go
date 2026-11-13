@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"os"
+	"sync"
 	"testing"
 	"time"
 
 	openfgav1 "github.com/openfga/api/proto/openfga/v1"
+	"github.com/openfga/openfga/pkg/storage"
 	storagetest "github.com/openfga/openfga/pkg/storage/test"
 	"github.com/openfga/openfga/pkg/tuple"
 	generated "github.com/riffdb/riffdb-openfga/generated/go"
@@ -72,6 +74,39 @@ func TestLoopbackConformance(t *testing.T) {
 		}
 		if projected.GetTupleKey().GetCondition().GetContext() == nil {
 			t.Fatal("empty condition context presence was lost during projection")
+		}
+	})
+	t.Run("RiffDBConcurrentOnDuplicateInsertIgnore", func(t *testing.T) {
+		key := &openfgav1.TupleKey{
+			Object:   "document:concurrent-ignore",
+			Relation: "viewer",
+			User:     "user:anne",
+		}
+		const workers = 6
+		start := make(chan struct{})
+		errs := make(chan error, workers)
+		var wg sync.WaitGroup
+		for range workers {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				<-start
+				errs <- datastore.Write(
+					context.Background(),
+					"concurrent-ignore-store",
+					nil,
+					[]*openfgav1.TupleKey{key},
+					storage.WithOnDuplicateInsert(storage.OnDuplicateInsertIgnore),
+				)
+			}()
+		}
+		close(start)
+		wg.Wait()
+		close(errs)
+		for err := range errs {
+			if err != nil {
+				t.Fatalf("concurrent OnDuplicateInsertIgnore write failed: %v", err)
+			}
 		}
 	})
 	storagetest.RunAllTests(t, datastore)

@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"sync"
 	"testing"
 	"time"
 
@@ -167,6 +168,45 @@ func TestLoopbackConformanceServerEndToEnd(t *testing.T) {
 		string(writeReqJSON),
 		http.StatusOK,
 	)
+
+	// 3b. Six concurrent HTTP writes of the same tuple with on_duplicate=ignore must all return 200 OK.
+	const duplicateWorkers = 6
+	startDup := make(chan struct{})
+	var dupWG sync.WaitGroup
+	dupStatuses := make([]int, duplicateWorkers)
+	dupBodies := make([]string, duplicateWorkers)
+	for i := range duplicateWorkers {
+		dupWG.Add(1)
+		go func(idx int) {
+			defer dupWG.Done()
+			<-startDup
+			req, reqErr := http.NewRequest(
+				http.MethodPost,
+				fmt.Sprintf("http://%s/stores/%s/write", httpAddr, storeID),
+				bytes.NewBufferString(`{"writes":{"tuple_keys":[{"user":"user:bob","relation":"viewer","object":"document:concurrent-http"}],"on_duplicate":"ignore"}}`),
+			)
+			if reqErr != nil {
+				dupBodies[idx] = reqErr.Error()
+				return
+			}
+			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Authorization", "Bearer "+presharedKey)
+			resp, respErr := http.DefaultClient.Do(req)
+			if respErr != nil {
+				dupBodies[idx] = respErr.Error()
+				return
+			}
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			_ = resp.Body.Close()
+			dupStatuses[idx] = resp.StatusCode
+			dupBodies[idx] = string(bodyBytes)
+		}(i)
+	}
+	close(startDup)
+	dupWG.Wait()
+	for i := range duplicateWorkers {
+		require.Equal(t, http.StatusOK, dupStatuses[i], "worker %d body: %s", i, dupBodies[i])
+	}
 
 	// Invoke Check over the gRPC wire protocol on grpcAddr.
 	checkReq := &openfgav1.CheckRequest{
