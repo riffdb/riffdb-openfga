@@ -2261,7 +2261,7 @@ export class RiffDBOpenFGAClient {
     const items = Array.from(new Set(parameters.object_ids));
     if (items.length === 0) throw new RangeError("object_ids must contain at least 1 item");
     if (items.length > maxPages * READ_STARTING_WITH_USER_AND_OBJECTS_OBJECT_IDS_MAX_ITEMS) throw new RangeError("readStartingWithUserAndObjectsAll exceeded maxPages (1..=1024)");
-    items.sort((left, right) => Buffer.from(left, "utf8").compare(Buffer.from(right, "utf8")));
+    items.sort((left, right) => { const enc = new TextEncoder(); const lb = enc.encode(left); const rb = enc.encode(right); const n = Math.min(lb.length, rb.length); for (let i = 0; i < n; i++) { const d = (lb[i] ?? 0) - (rb[i] ?? 0); if (d !== 0) return d; } return lb.length - rb.length; });
     const merged: Array<ReadStartingWithUserAndObjectsFound["tuples"][number]> = [];
     let latestIdentity: QueryResponseIdentity | undefined;
     let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;
@@ -2322,7 +2322,7 @@ export class RiffDBOpenFGAClient {
     const items = Array.from(new Set(parameters.object_ids));
     if (items.length === 0) throw new RangeError("object_ids must contain at least 1 item");
     if (items.length > maxPages * READ_STARTING_WITH_USER_OBJECTS_CONDITION_OBJECT_IDS_MAX_ITEMS) throw new RangeError("readStartingWithUserObjectsConditionAll exceeded maxPages (1..=1024)");
-    items.sort((left, right) => Buffer.from(left, "utf8").compare(Buffer.from(right, "utf8")));
+    items.sort((left, right) => { const enc = new TextEncoder(); const lb = enc.encode(left); const rb = enc.encode(right); const n = Math.min(lb.length, rb.length); for (let i = 0; i < n; i++) { const d = (lb[i] ?? 0) - (rb[i] ?? 0); if (d !== 0) return d; } return lb.length - rb.length; });
     const merged: Array<ReadStartingWithUserObjectsConditionFound["tuples"][number]> = [];
     let latestIdentity: QueryResponseIdentity | undefined;
     let pinnedHead: bigint | undefined = options.readAfterCommit ?? this.lastCommitSeq;

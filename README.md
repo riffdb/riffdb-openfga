@@ -3,7 +3,7 @@
 A standalone Go implementation of OpenFGA's datastore interface backed by a
 compiled RiffDB application.
 
-Status: v0.3.4. The complete pinned OpenFGA datastore interface is implemented
+Status: v0.3.5. The complete pinned OpenFGA datastore interface is implemented
 and the official `storage/test.RunAllTests` suite passes against a real RiffDB
 loopback service. Prebuilt `openfga-riffdb` standalone server binaries and a
 multi-stage container image (`Dockerfile`) are included.
@@ -97,7 +97,7 @@ while each RiffDB query uses a finite internal page bound.
 
 ## Local development
 
-RiffDB's Go runtime is pinned to the `v0.2.4` release. With the matching RiffDB
+RiffDB's Go runtime is pinned to the `v0.2.5` release. With the matching RiffDB
 CLI available as `riffdb`:
 
 ```bash
@@ -106,7 +106,7 @@ make check
 make conformance
 ```
 
-`make bootstrap` fetches `riffdb.dev/application@v0.2.4` from the signed RiffDB
+`make bootstrap` fetches `riffdb.dev/application@v0.2.5` from the signed RiffDB
 GitHub release into `.cache/go-proxy` and resolves public dependencies through
 the public Go proxy. `make conformance` launches the compiled application and runs the
 official OpenFGA datastore suite through the real Go driver transport. No
